@@ -2,24 +2,46 @@
 
 import boto3
 
+# Creating a boto3 object for the client to interact with
+# the ec2 service in aws
 ec2 = boto3.client('ec2', region_name='us-east-1')
 
-#def describe_resources():
-#  resources = ec2.describe_vpcs(
-#      Filters=[
-#	  {
-#	      'Name': 'tag:Name',
-#	      'Values': [
-#		  'boto3_vpc1',
-#	      ]
-#	  },
-#      ]
-#  )
-#  for item in resources['Vpcs'][0]['Tags']:
-#    print(item['Value'])
-#
+# This is a function to describe resources
+def describe_resources():
+  resources = ec2.describe_vpcs(
+      Filters=[
+	  {
+	      'Name': 'tag:Name',
+	      'Values': [
+		  'boto3_vpc1',
+	      ]
+	  },
+      ]
+  )
+  for item in resources['Vpcs'][0]['Tags']:
+    print(item['Value'])
+
 #describe_resources()
 
+# This is a function to describe the resources ids
+def describe_ids():
+  resources = ec2.describe_vpcs(
+      Filters=[
+	  {
+	      'Name': 'tag:Name',
+	      'Values': [
+		  'boto3_vpc1',
+	      ]
+	  },
+      ]
+  )
+  for item in resources['Vpcs']:
+      return item['VpcId']
+         
+
+#describe_ids()
+
+# This is a function to create resources
 def create_resources():
   resources = ec2.create_vpc(
       CidrBlock='10.100.0.0/20',
@@ -47,5 +69,29 @@ def create_resources():
   )
   print(resources)
 
-create_resources()
+#create_resources()
 
+# This function modifies reources attributes
+def modify_resources(resource):
+resources = ec2.modify_vpc_attribute(
+    EnableDnsHostnames={
+        'Value': True #True|False
+    },
+    EnableDnsSupport={
+        'Value': True #True|False
+    },
+    VpcId=resource,
+    EnableNetworkAddressUsageMetrics={
+        'Value': True #True|False
+    }
+)
+#modify_resources(describe_ids())
+
+# This is a function to delete resources
+def delete_resources(resource):
+  resources = ec2.delete_vpc(
+      VpcId=resource,
+      #DryRun=True|False
+  )
+
+#delete_resources(describe_ids())
