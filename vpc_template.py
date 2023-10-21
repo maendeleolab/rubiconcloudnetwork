@@ -4,21 +4,21 @@ import boto3
 
 ec2 = boto3.client('ec2', region_name='us-east-1')
 
-def describe_resources():
-  resources = ec2.describe_vpcs(
-      Filters=[
-	  {
-	      'Name': 'tag:Name',
-	      'Values': [
-		  'boto3_vpc1',
-	      ]
-	  },
-      ]
-  )
-  for item in resources['Vpcs'][0]['Tags']:
-    print(item['Value'])
-
-describe_resources()
+#def describe_resources():
+#  resources = ec2.describe_vpcs(
+#      Filters=[
+#	  {
+#	      'Name': 'tag:Name',
+#	      'Values': [
+#		  'boto3_vpc1',
+#	      ]
+#	  },
+#      ]
+#  )
+#  for item in resources['Vpcs'][0]['Tags']:
+#    print(item['Value'])
+#
+#describe_resources()
 
 def create_resources():
   resources = ec2.create_vpc(
@@ -45,6 +45,7 @@ def create_resources():
 	  },
       ]
   )
-
   print(resources)
+
+create_resources()
 
