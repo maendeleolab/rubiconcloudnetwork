@@ -13,7 +13,7 @@ Create a folder, access the folder then create your virtual environment and acti
 # Create folder
 mkdir project
 cd project
-# Creates a virtual environment names "labs"
+# Create a virtual environment named "labs"
 python3 -m ven labs
 # Activate it
 source labs/bin/activate
@@ -21,7 +21,9 @@ source labs/bin/activate
 
 Clone the project.
 ```
-https://github.com/maendeleolab/rubiconcloudnetwork.git
+git clone https://github.com/maendeleolab/rubiconcloudnetwork.git
+# Access your folder
+cd rubiconcloudnetwork
 ```
 
 Install prerequisites
