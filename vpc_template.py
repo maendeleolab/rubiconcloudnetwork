@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import boto3
+import boto3, sys
 
 # Creating a boto3 object for the client to interact with
 # the ec2 service in aws
@@ -43,6 +43,11 @@ def describe_ids():
 
 # This is a function to create resources
 def create_resources():
+   # results = describe_resources()
+   # if results == 'boto3_vpc1':
+   #     print('resource already exists...')
+   #     sys.exit()
+   # else:
   resources = ec2.create_vpc(
       CidrBlock='10.100.0.0/20',
       #AmazonProvidedIpv6CidrBlock=True|False,
@@ -56,35 +61,35 @@ def create_resources():
       InstanceTenancy='default',
       #Ipv6CidrBlockNetworkBorderGroup='string',
       TagSpecifications=[
-	  {
-	      'ResourceType': 'vpc',
-	      'Tags': [
-		  {
-		      'Key': 'Name',
-		      'Value': 'boto3_vpc1'
-		  },
-	      ]
-	  },
+          {
+              'ResourceType': 'vpc',
+              'Tags': [
+                  {
+                      'Key': 'Name',
+                      'Value': 'boto3_vpc1'
+                  },
+              ]
+          },
       ]
   )
   print(resources)
 
 #create_resources()
 
-# This function modifies reources attributes
+# This function modifies resources attributes
 def modify_resources(resource):
-resources = ec2.modify_vpc_attribute(
-    EnableDnsHostnames={
-        'Value': True #True|False
-    },
-    EnableDnsSupport={
-        'Value': True #True|False
-    },
-    VpcId=resource,
-    EnableNetworkAddressUsageMetrics={
-        'Value': True #True|False
-    }
-)
+  resources = ec2.modify_vpc_attribute(
+      EnableDnsHostnames={
+          'Value': True #True|False
+      },
+      EnableDnsSupport={
+          'Value': True #True|False
+      },
+      VpcId=resource,
+      EnableNetworkAddressUsageMetrics={
+          'Value': True #True|False
+      }
+  )
 #modify_resources(describe_ids())
 
 # This is a function to delete resources
