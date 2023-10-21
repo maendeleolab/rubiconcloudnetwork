@@ -17,8 +17,6 @@ cd project
 python3 -m ven labs
 # Activate it
 source labs/bin/activate
-# Access the labs folder
-cd labs
 ```
 
 Clone the project.
