@@ -2,7 +2,7 @@
 
 ## [Description](#Description)
 
-We are building modular scripts to build, monitor and manage cloud network infrastructures.
+We are building modular scripts to build, monitor and manage cloud network infrastructures.<br>
 Check out our project board [here](https://github.com/users/maendeleolab/projects/3/views/1?pane=info)
 
 ## [Prerequisites](#Prerequisites)
@@ -26,7 +26,7 @@ git clone https://github.com/maendeleolab/rubiconcloudnetwork.git
 cd rubiconcloudnetwork
 ```
 
-Install prerequisites
+Install the prerequisites
 ```
 pip install -r prerequisites.txt
 ```
