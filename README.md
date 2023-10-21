@@ -7,7 +7,7 @@ Check out our project board [here](https://github.com/users/maendeleolab/project
 
 ## [Prerequisites](#Prerequisites)
 
-**Must have AWS CLI installed and configured on your system.**
+**Note: Must have AWS CLI installed and configured on your system.**<br>
 Create a folder, access the folder then create your virtual environment and activate it.
 ```
 # Create folder
