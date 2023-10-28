@@ -8,19 +8,22 @@ ec2 = boto3.client('ec2', region_name='us-east-1')
 
 # This is a function to describe resources
 def describe_resources(name):
-  resources = ec2.describe_vpcs(
-      Filters=[
-	  {
-	      'Name': 'tag:Name',
-	      'Values': [
-		  name,
-	      ]
-	  },
-      ]
-  )
-  for item in resources['Vpcs'][0]['Tags']:
-    return item['Value']
-    #print(resources)
+  try:
+    resources = ec2.describe_vpcs(
+        Filters=[
+            {
+                'Name': 'tag:Name',
+                'Values': [
+                    name,
+                ]
+            },
+        ]
+    )
+    for item in resources['Vpcs'][0]['Tags']:
+      return item['Value']
+      #print(resources)
+  except Exception as err:
+      print(f'Error found: {err}...')
 
 def describe_some():
   resources = ec2.describe_vpcs(
@@ -52,7 +55,7 @@ def create_resources(name, cidr):
   if results == name:
     print('resource already exists...')
     pass
-  else:
+  elif results != name:
     resources = ec2.create_vpc(
         CidrBlock=cidr,
         #AmazonProvidedIpv6CidrBlock=True|False,
