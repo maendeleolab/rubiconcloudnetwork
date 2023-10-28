@@ -4,7 +4,7 @@ import boto3, sys
 
 # Creating a boto3 object for the client to interact with
 # the ec2 service in aws
-ec2 = boto3.client('ec2', region_name='us-east-1')
+ec2 = boto3.client('ec2', region_name='eu-west-1')
 
 # This is a function to describe resources
 def describe_resources(name):
@@ -22,16 +22,20 @@ def describe_resources(name):
   #print(item['Value'])
   print(resources)
 
+def describe_some():
+  resources = ec2.describe_vpcs(
+  )
+  print(resources)
 #describe_resources()
 
 # This is a function to describe the resources ids
-def describe_ids():
+def describe_ids(name):
   resources = ec2.describe_vpcs(
       Filters=[
 	  {
 	      'Name': 'tag:Name',
 	      'Values': [
-		  'boto3_vpc1',
+		  name,
 	      ]
 	  },
       ]
