@@ -7,19 +7,20 @@ import boto3, sys
 ec2 = boto3.client('ec2', region_name='us-east-1')
 
 # This is a function to describe resources
-def describe_resources():
+def describe_resources(name):
   resources = ec2.describe_vpcs(
       Filters=[
 	  {
 	      'Name': 'tag:Name',
 	      'Values': [
-		  'boto3_vpc1',
+		  name,
 	      ]
 	  },
       ]
   )
-  for item in resources['Vpcs'][0]['Tags']:
-    print(item['Value'])
+  #for item in resources['Vpcs'][0]['Tags']:
+  #print(item['Value'])
+  print(resources)
 
 #describe_resources()
 
