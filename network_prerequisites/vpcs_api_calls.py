@@ -2,12 +2,14 @@
 
 import boto3, sys
 
-# Creating a boto3 object for the client to interact with
-# the ec2 service in aws
-ec2 = boto3.client('ec2', region_name='us-east-1')
+# client_session(profile_name, service, region)
+# ec2 = client_session('default', 'ec2', 'us-east-1')
+# ec2 is used to return the "profile_name" (IAM role for the account),
+# the service name (in this scenario ec2) and region id.
+# This permits us to use this file code for any account and region.
 
 # This is a function to describe resources tag names
-def describe_resources(name):
+def describe_vpc_resources(name, ec2):
   try:
     resources = ec2.describe_vpcs(
         Filters=[
@@ -24,38 +26,39 @@ def describe_resources(name):
 
   except Exception as err:
       print(f'Resource {name} does not exist. Error found: {err}...')
+#describe_vpc_resources(name, ec2)
 
 # This is a function to describe all the resources
-def describe_some():
+def describe_some(ec2):
   resources = ec2.describe_vpcs(
   )
   return resources
-  #describe_some()
+#describe_some(ec2)
 
 # This is a function to describe the resources ids
-def describe_ids(name):
+def describe_vpc_ids(resource_name, ec2):
   try:
     resources = ec2.describe_vpcs(
         Filters=[
             {
                 'Name': 'tag:Name',
                 'Values': [
-                    name,
+                    resource_name,
                 ]
             },
         ]
     )
     for item in resources['Vpcs']:
-        return item['VpcId']
+       return item['VpcId']
   except Exception as err:
     print(f'Unable to describe vpc. See error {err}...')
          
-#describe_ids()
+#describe_vpc_ids(resource_name, ec2)
 
 # This is a function to create resources
-def create_resources(name, cidr):
+def create_vpc_resources(name, cidr, ec2):
   try:
-    results = describe_resources(name)
+    results = describe_vpc_resources(name, ec2)
     if results == name:
       print(f'{name} already exists...')
       pass
@@ -88,10 +91,10 @@ def create_resources(name, cidr):
   except Exception as err:
     print(f'Found error: {err}...')
 
-#create_resources()
+#create_vpc_resources(name, cidr, ec2)
 
 # This function modifies resources attributes
-def modify_resources(resource, value):
+def modify_vpc_resources(resource_id, value, ec2):
   try:
     resources = ec2.modify_vpc_attribute(
         EnableDnsHostnames={
@@ -100,7 +103,7 @@ def modify_resources(resource, value):
         EnableDnsSupport={
             'Value': value #True|False
         },
-        VpcId=resource,
+        VpcId=resource_id,
         EnableNetworkAddressUsageMetrics={
             'Value': value #True|False
         }
@@ -108,10 +111,10 @@ def modify_resources(resource, value):
   except Exception as err:
     print(f'Error found: {resource}...')
 
-#modify_resources(describe_ids())
+#modify_vpc_resources(describe_ids(name), value, ec2)
 
 # This is a function to delete resources
-def delete_resources(resource):
+def delete_vpc_resources(resource, ec2):
   try:
     resources = ec2.delete_vpc(
         VpcId=resource,
@@ -120,5 +123,4 @@ def delete_resources(resource):
   except Exception as err:
     print(f'Error found: {err}...')
 
-
-#delete_resources(describe_ids())
+#delete_vpc_resources(describe_ids(), ec2)
