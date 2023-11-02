@@ -36,7 +36,7 @@ def describe_some(ec2):
 #describe_some(ec2)
 
 # This is a function to describe the resources ids
-def describe_vpc_ids(resource_name, ec2):
+def get_vpc_ids(resource_name, ec2):
   try:
     resources = ec2.describe_vpcs(
         Filters=[
@@ -53,7 +53,7 @@ def describe_vpc_ids(resource_name, ec2):
   except Exception as err:
     print(f'Unable to describe vpc. See error {err}...')
          
-#describe_vpc_ids(resource_name, ec2)
+#get_vpc_ids(resource_name, ec2)
 
 # This is a function to create resources
 def create_vpc_resources(name, cidr, ec2):
@@ -88,10 +88,26 @@ def create_vpc_resources(name, cidr, ec2):
           ]
       )
       return resources
+      print(f'Created Vpc Id:{resources["Vpc"]["VpcId"]}')
   except Exception as err:
-    print(f'Found error: {err}...')
+    print(f'Error found: {err}...')
 
 #create_vpc_resources(name, cidr, ec2)
+
+# The function adds an additional cidr to the vpc
+def add_vpc_cidr_block(resource_id, cidr, ec2):
+  try:
+    if cidr == None:
+      pass
+    else:
+      resources = ec2.associate_vpc_cidr_block(
+	  #AmazonProvidedIpv6CidrBlock=True|False,
+	  CidrBlock=cidr,
+	  VpcId=resource_id
+      )
+      print(f'Cidr: {cidr} is associated to VpcId: {resource_id}...')
+  except Exception as err:
+    print(f'Error found: {err}...')
 
 # The functions modify resources attributes
 def modify_dns_hostnames(resource_id, value, ec2):
@@ -102,6 +118,7 @@ def modify_dns_hostnames(resource_id, value, ec2):
             'Value': value #True|False
         }
     )
+    print(f'Vpc Id: {resource_id} DNS Hostnames Attribute Modified...')
   except Exception as err:
     print(f'Error found: {err}...')
 
@@ -115,6 +132,7 @@ def modify_dns_support(resource_id, value, ec2):
             'Value': value #True|False
         }
     )
+    print(f'Vpc Id: {resource_id} DNS Support Attribute Modified...')
   except Exception as err:
     print(f'Error found: {err}...')
 
@@ -128,6 +146,7 @@ def modify_network_address_usage_metrics(resource_id, value, ec2):
             'Value': value #True|False
         }
     )
+    print(f'Vpc Id: {resource_id} Network Address Usage Metrics Attribute Modified...')
   except Exception as err:
     print(f'Error found: {err}...')
 
@@ -140,6 +159,7 @@ def delete_vpc_resources(resource, ec2):
         VpcId=resource,
         #DryRun=True|False
     )
+    print(f'Deleting Vpc Id: {resource}...')
   except Exception as err:
     print(f'Error found: {err}...')
 
