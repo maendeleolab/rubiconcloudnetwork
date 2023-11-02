@@ -6,7 +6,7 @@ import boto3, sys
 # ec2 = client_session('default', 'ec2', 'us-east-1')
 # ec2 is used to return the "profile_name" (IAM role for the account),
 # the service name (in this scenario ec2) and region id.
-# This permits us to use this file code for any account and region.
+# This permits us to reuse the functions for any account and region.
 
 # This is a function to describe resources tag names
 def describe_vpc_resources(name, ec2):
@@ -93,25 +93,45 @@ def create_vpc_resources(name, cidr, ec2):
 
 #create_vpc_resources(name, cidr, ec2)
 
-# This function modifies resources attributes
-def modify_vpc_resources(resource_id, value, ec2):
+# The functions modify resources attributes
+def modify_dns_hostnames(resource_id, value, ec2):
   try:
     resources = ec2.modify_vpc_attribute(
+        VpcId=resource_id,
         EnableDnsHostnames={
             'Value': value #True|False
-        },
+        }
+    )
+  except Exception as err:
+    print(f'Error found: {err}...')
+
+#modify_dns_hostnames(describe_ids(name), value, ec2)
+
+def modify_dns_support(resource_id, value, ec2):
+  try:
+    resources = ec2.modify_vpc_attribute(
+        VpcId=resource_id,
         EnableDnsSupport={
             'Value': value #True|False
-        },
+        }
+    )
+  except Exception as err:
+    print(f'Error found: {err}...')
+
+#modify_dns_support(describe_ids(name), value, ec2)
+
+def modify_network_address_usage_metrics(resource_id, value, ec2):
+  try:
+    resources = ec2.modify_vpc_attribute(
         VpcId=resource_id,
         EnableNetworkAddressUsageMetrics={
             'Value': value #True|False
         }
     )
   except Exception as err:
-    print(f'Error found: {resource}...')
+    print(f'Error found: {err}...')
 
-#modify_vpc_resources(describe_ids(name), value, ec2)
+#modify_network_address_usage_metrics(describe_ids(name), value, ec2)
 
 # This is a function to delete resources
 def delete_vpc_resources(resource, ec2):
