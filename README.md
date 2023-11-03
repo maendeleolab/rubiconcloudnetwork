@@ -40,10 +40,6 @@ pip install -r prerequisites.txt
 ├── aws_org
 │   └── template.py
 ├── network_prerequisites
-│   ├── __pycache__
-│   │   ├── account_profiles.cpython-38.pyc
-│   │   ├── subnets_api_calls.cpython-38.pyc
-│   │   └── vpcs_api_calls.cpython-38.pyc
 │   ├── account_profiles.py
 │   ├── delete_resources.py
 │   ├── network_access_lists_api_calls.py
