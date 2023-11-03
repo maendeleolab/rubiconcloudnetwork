@@ -23,7 +23,7 @@ def describe_subnet_resources(subnet_name, ec2):
       print(f'Error found: {err}...')
 
 # This function returns the subnet id
-def get_subnet_ids(subnet_name, ec2):
+def get_subnet_id(subnet_name, ec2):
   try:
     resources = ec2.describe_subnets(
         Filters=[

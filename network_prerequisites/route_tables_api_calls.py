@@ -69,6 +69,36 @@ def create_vpc_route_table(vpc_id, table_name, ec2):
   except Exception as err:
     print(f'Found error: {err}...')
 
+# This creates a subnet association to a route table
+def create_subnet_association_to_route_table(table_id, subnet_id, ec2):
+  try:
+    if subnet_id == None:
+      pass
+    else:
+      resources = ec2.associate_route_table(
+          #DryRun=True|False,
+          RouteTableId=table_id,
+          SubnetId=subnet_id,
+      )
+      print(f'{subnet_id} is associated to {table_id}...')
+  except Exception as err:
+    print(f'Error found: {err}...')
+
+# This creates a gateway route table association
+def create_gateway_association_to_route_table(table_id, gateway_id, ec2):
+  try:
+    if gateway_id == None:
+      pass
+    else:
+      resources = ec2.associate_route_table(
+          #DryRun=True|False,
+          RouteTableId=table_id,
+          GatewayId=gateway_id
+      )
+      print(f'{gateway_id} is associated to {table_id}...')
+  except Exception as err:
+    print(f'Error found: {err}...')
+
 # This deletes the route table
 def delete_vpc_route_table(table_id, ec2):
   try:

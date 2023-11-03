@@ -37,7 +37,7 @@ def describe_some(ec2):
 #describe_some(ec2)
 
 # This is a function to describe the resources ids
-def get_vpc_ids(resource_name, ec2):
+def get_vpc_id(resource_name, ec2):
   try:
     resources = ec2.describe_vpcs(
         Filters=[
