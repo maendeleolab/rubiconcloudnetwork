@@ -9,6 +9,7 @@ import boto3, sys
 # This permits us to reuse the functions for any account and region.
 
 # This is a function to describe resources tag names
+# The main objective is to access the vlaue of the tag key "Name"
 def describe_vpc_resources(name, ec2):
   try:
     resources = ec2.describe_vpcs(
@@ -49,7 +50,8 @@ def get_vpc_ids(resource_name, ec2):
         ]
     )
     for item in resources['Vpcs']:
-       return item['VpcId']
+      print(f'{resource_name}:{item["VpcId"]}...')
+      return item['VpcId']
   except Exception as err:
     print(f'Unable to describe vpc. See error {err}...')
          
@@ -155,11 +157,14 @@ def modify_network_address_usage_metrics(resource_id, value, ec2):
 # This is a function to delete resources
 def delete_vpc_resources(resource, ec2):
   try:
-    resources = ec2.delete_vpc(
-        VpcId=resource,
-        #DryRun=True|False
-    )
-    print(f'Deleting Vpc Id: {resource}...')
+    if resource == None:
+      pass
+    else:
+      print(f'Delete vpc...')
+      resources = ec2.delete_vpc(
+          VpcId=resource,
+          #DryRun=True|False
+      )
   except Exception as err:
     print(f'Error found: {err}...')
 

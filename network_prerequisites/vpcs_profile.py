@@ -41,4 +41,4 @@ deploy_subnet(vpc1+'_private_1a_sec', az1, '10.11.8.0/24', get_vpc_ids(vpc1, ec2
 # Secondary cidr private subnet in Az2
 deploy_subnet(vpc1+'_private_1b_sec', az2, '10.11.9.0/24', get_vpc_ids(vpc1, ec2), ec2)
 
-
+print(get_subnet_ids(vpc1+'_public_1a_pri', ec2))
