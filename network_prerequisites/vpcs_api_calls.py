@@ -50,7 +50,6 @@ def get_vpc_ids(resource_name, ec2):
         ]
     )
     for item in resources['Vpcs']:
-      print(f'{resource_name}:{item["VpcId"]}...')
       return item['VpcId']
   except Exception as err:
     print(f'Unable to describe vpc. See error {err}...')
@@ -62,7 +61,7 @@ def create_vpc_resources(name, cidr, ec2):
   try:
     results = describe_vpc_resources(name, ec2)
     if results == name:
-      print(f'{name} already exists...')
+      print(f'Vpc: {name} already exists...')
       pass
     elif results != name:
       resources = ec2.create_vpc(
@@ -89,8 +88,8 @@ def create_vpc_resources(name, cidr, ec2):
               },
           ]
       )
+      print(f'Created vpc id: {resources["Vpc"]["VpcId"]}...')
       return resources
-      print(f'Created Vpc Id:{resources["Vpc"]["VpcId"]}')
   except Exception as err:
     print(f'Error found: {err}...')
 

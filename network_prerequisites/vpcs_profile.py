@@ -2,6 +2,7 @@
 
 from vpcs_api_calls import *
 from subnets_api_calls import *
+from route_tables_api_calls import *
 from account_profiles import assume_profile_creds, client_session
 
 # The client_session function explicitly define the profile_name,
@@ -40,5 +41,11 @@ deploy_subnet(vpc1+'_private_1b_pri', az2, '10.10.9.0/24', get_vpc_ids(vpc1, ec2
 deploy_subnet(vpc1+'_private_1a_sec', az1, '10.11.8.0/24', get_vpc_ids(vpc1, ec2), ec2)
 # Secondary cidr private subnet in Az2
 deploy_subnet(vpc1+'_private_1b_sec', az2, '10.11.9.0/24', get_vpc_ids(vpc1, ec2), ec2)
+# Create private vpc route tables for primary and secondary cidrs
+create_vpc_route_table(get_vpc_ids(vpc1, ec2), vpc1+'_private_rt_pri', ec2)
+create_vpc_route_table(get_vpc_ids(vpc1, ec2), vpc1+'_private_rt_sec', ec2)
+# Create public vpc route table for primary and secondary cidrs
+create_vpc_route_table(get_vpc_ids(vpc1, ec2), vpc1+'_public_rt_pri', ec2)
+create_vpc_route_table(get_vpc_ids(vpc1, ec2), vpc1+'_public_rt_sec', ec2)
 
-print(get_subnet_ids(vpc1+'_public_1a_pri', ec2))
+
