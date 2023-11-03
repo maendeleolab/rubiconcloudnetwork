@@ -60,11 +60,11 @@ pip install -r prerequisites.txt
 
 Access the network_prerequisites folder to test the available scripts.<br>
 Only two scripts are currently available.<br>
-1 - vpcs_profile.py (Deploys a VPC with its prerequisites. Cidr, subnets, route tables and etc...)
+1 - vpcs_profile.py (Deploys a VPC with its prerequisites. Cidr, subnets, route tables and etc...)<br>
 2 - delete_resources.py (Deletes all the resources created with the script above.
 
 ## [Heads_up!](#Heads_up!)
-Updates are done daily. Remember to always perform a "git pull" to get the latest updates. 
+Updates are done daily. Remember to always perform a "git pull" to get the latest updates.<br> 
 Happy rubiconcloudnetworking! 
 
 
