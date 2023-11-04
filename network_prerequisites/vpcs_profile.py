@@ -3,6 +3,7 @@
 from vpcs_api_calls import *
 from subnets_api_calls import *
 from route_tables_api_calls import *
+from internet_gateways_api_calls import *
 from account_profiles import assume_profile_creds, client_session
 
 # The client_session function explicitly define the profile_name,
@@ -57,6 +58,7 @@ create_subnet_association_to_route_table(get_vpc_route_table_id(vpc1+'_private_r
 create_subnet_association_to_route_table(get_vpc_route_table_id(vpc1+'_private_rt_pri', ec2), get_subnet_id(vpc1+'_private_1b_pri', ec2), ec2)
 create_subnet_association_to_route_table(get_vpc_route_table_id(vpc1+'_private_rt_sec', ec2), get_subnet_id(vpc1+'_private_1a_sec', ec2), ec2)
 create_subnet_association_to_route_table(get_vpc_route_table_id(vpc1+'_private_rt_sec', ec2), get_subnet_id(vpc1+'_private_1b_sec', ec2), ec2)
-
+# Create internet gateway for the vpc
+create_igw(vpc1, ec2)
 
 

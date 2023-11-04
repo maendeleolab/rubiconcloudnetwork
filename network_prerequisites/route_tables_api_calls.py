@@ -20,6 +20,26 @@ def describe_vpc_route_table(table_name, ec2):
   except Exception as err:
     print(f'Error found: {err}...')
 
+# This returns the route table associations state
+def get_route_table_association_state(table_name, ec2):
+  try:
+    resources = ec2.describe_route_tables(
+        Filters=[
+            {
+              'Name': 'tag:Name',
+                'Values': [
+                    table_name,
+                ]
+            }
+        ]
+        #DryRun=True|False,
+    )
+    for item in resources['RouteTables'][0]['Associations']:
+      print(f'Route table: {table_name} is {item["AssociationSate"]["State"]}')
+      return item['AssociationSate']['State']
+  except Exception as err:
+    print(f'Error found: {err}...')
+
 # This returns the route table id
 def get_vpc_route_table_id(table_name, ec2):
   try:
@@ -38,7 +58,7 @@ def get_vpc_route_table_id(table_name, ec2):
           #DryRun=True|False,
       )
       for item in resources['RouteTables']:
-        print(f'{table_name}:{item["RouteTableId"]}')
+        print(f'{table_name}: {item["RouteTableId"]}')
         return item['RouteTableId']
   except Exception as err:
     print(f'Error found: {err}...')
@@ -70,7 +90,7 @@ def create_vpc_route_table(vpc_id, table_name, ec2):
     print(f'Found error: {err}...')
 
 # This creates a subnet association to a route table
-def create_subnet_association_to_route_table(table_id, subnet_id, ec2):
+def create_subnet_association_to_route_table(table_id,subnet_id, ec2):
   try:
     if subnet_id == None:
       pass
