@@ -29,7 +29,7 @@ cd rubiconcloudnetwork
 
 Install the prerequisites
 ```
-pip install -r prerequisites.txt
+pip install -r requirements.txt
 ```
 
 ## [Folders_structure](#Folders_structure)
