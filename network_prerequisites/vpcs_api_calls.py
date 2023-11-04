@@ -64,6 +64,7 @@ def create_vpc_resources(name, cidr, ec2):
       print(f'Vpc: {name} already exists...')
       pass
     elif results != name:
+      print(f'Creating {name}...')
       resources = ec2.create_vpc(
           CidrBlock=cidr,
           #AmazonProvidedIpv6CidrBlock=True|False,

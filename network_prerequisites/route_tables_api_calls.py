@@ -71,6 +71,7 @@ def create_vpc_route_table(vpc_id, table_name, ec2):
       print(f'Route Table: {table_name} already exists...')
       pass
     else:
+      print(f'Creating {table_name}...')
       resources = ec2.create_route_table(
           #DryRun=True|False,
           VpcId=vpc_id,
