@@ -3,7 +3,7 @@
 from vpcs_api_calls import *
 from subnets_api_calls import *
 from route_tables_api_calls import *
-from internet_gateway_api_calls import *
+from internet_gateways_api_calls import *
 from account_profiles import assume_profile_creds, client_session
 
 # The client_session function explicitly define the profile_name,
@@ -14,7 +14,7 @@ ec2 = client_session('default', 'ec2', 'us-east-1')
 
 vpc1 = 'boto3_vpc1'
 
-delete_igw(get_igw_id(vpc1, ec2) ec2)
+delete_igw(get_igw_id(vpc1, ec2), ec2)
 delete_subnet_resources(get_subnet_id(vpc1+'_public_1a_pri', ec2), ec2)
 delete_subnet_resources(get_subnet_id(vpc1+'_public_1b_pri', ec2), ec2)
 delete_subnet_resources(get_subnet_id(vpc1+'_public_1a_sec', ec2), ec2)
