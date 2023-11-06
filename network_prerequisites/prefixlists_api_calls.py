@@ -3,23 +3,19 @@
 # This function returns the prefix list name
 def get_prefixlist_name(prefixlist, ec2):
   try:
-    if prefixlist == None:
-      pass
-      print(f"Prefix-list {prefixlist} doesn't exist...")
-  else:
     resources = ec2.describe_managed_prefix_lists(
-	#DryRun=True|False,
-	Filters=[
-	    {
-		'Name': 'tag:Name',
-		'Values': [
-		    prefixlist,
-		]
-	    },
-	],
+        #DryRun=True|False,
+        Filters=[
+            {
+                'Name': 'tag:Name',
+                'Values': [
+                    prefixlist,
+                ]
+            },
+        ],
     )
-    print(f'Prefix-list name: {resources['PrefixLists']['PrefixListName']}')
-    return resources['PrefixLists']['PrefixListName']
+    print(f'Prefix-list name: {resources["PrefixLists"][0]["PrefixListName"]}')
+    return resources['PrefixLists'][0]['PrefixListName']
   except Exception as err:
     print(f'Error found: {err}...')
 
@@ -43,12 +39,21 @@ def get_prefixlist_id(prefixlist_id, ec2):
     if prefixlist_id == None:
       pass
       print(f"Prefix-list {prefixlist_id} doesn't exist...")
-  else:
-    resources = ec2.describe_managed_prefix_lists(
-	#DryRun=True|False,
-    )
-    print(f'Prefix-list name: {resources['PrefixLists']['PrefixListId']}')
-    return resources['PrefixLists']['PrefixListId']
+    else:
+      resources = ec2.describe_managed_prefix_lists(
+	Filters=[
+		    {
+			'Name': 'tag:Name',
+			'Values': [
+			    prefixlist_id,
+			]
+		    },
+		]
+      #DryRun=True|False,
+      )
+      for item in resources["PrefixLists"]:
+        print(f'Prefix-list name: {item["PrefixListId"]}')
+        return item['PrefixListId']
   except Exception as err:
     print(f'Error found: {err}...')
 
@@ -56,7 +61,7 @@ def get_prefixlist_id(prefixlist_id, ec2):
 def create_prefixlist(name, cidr_entry, max_entries, ec2):
   try:
     if name == get_prefixlist_name(name, ec2):
-      print(f"Prefix-list {name} doesn't exist...")
+      print(f"Prefix-list {name} exists...")
       pass
     else:
       print(f'Creating prefix-list {name}...')
