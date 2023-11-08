@@ -146,33 +146,41 @@ def create_prefixlist(name, cidr_entry, max_entries, ec2):
     print(f'Error found: {err}...')
 
 # This function adds new entries to the prefix list
-def add_entries_to_prefixlist(prefixlist, state, version, cidr_entry, description, ec2):
+def add_entries_to_prefixlist(
+                      prefixlist_name,
+                      prefixlist_id, 
+                      state, 
+                      cidr_entry, 
+                      description, 
+                      ec2):
   try:
+    #print(f'version: {version}...')
+    #if get_prefixlist_name == prefixlist:
+    #  print(f"Prefix-list {prefixlist} does'nt exist...")
+    #  pass
+    #elif verify_if_cidr_entry_exists(prefixlist, cidr_entry, ec2) == cidr_entry:
+    #  print(f'Cidr {cidr_entry} already exists...')
+    #  pass
     while True:
-      if get_prefixlist_name == prefixlist:
-        print(f"Prefix-list {prefixlist} does'nt exist...")
-        break
-      elif verify_if_cidr_entry_exists(prefixlist, cidr_entry, ec2) == cidr_entry:
-        print(f'Cidr {cidr_entry} already exists...')
-        break
-      elif state == 'create-complete' or state == 'modify-complete':
-        print(f'Adding Cidr {cidr_entry} to prefix-list {prefixlist}...')
+      if state == 'create-complete' or state == 'modify-complete':
         resources = ec2.modify_managed_prefix_list(
-            #DryRun=True|False,
-            PrefixListId=prefixlist,
-            CurrentVersion=version,
-            #PrefixListName='string',
-            AddEntries=[
-            {
-                'Cidr': cidr_entry,
-                'Description': description
-            },
-            ],
+        #DryRun=True|False,
+        PrefixListId=prefixlist_id,
+        CurrentVersion=get_prefixlist_version(prefixlist_name, ec2),
+        #PrefixListName='string',
+        AddEntries=[
+         {
+          'Cidr': cidr_entry,
+          'Description': description
+         },
+         ],
         )
+        print(f'Adding Cidr {cidr_entry} to prefix-list {prefixlist_name}...')
         break
       else:
-        print(f'prefix-list {prefixlist} state: {get_prefixlist_state(prefixlist, ec2)}')
-        sleep(5)
+        sleep(2)
+      state = get_prefixlist_state(prefixlist_name, ec2)
+      print(f'Prefix-list {prefixlist_name} state {state}...')
   except Exception as err:
     print(f'Error found: {err}...')
 
