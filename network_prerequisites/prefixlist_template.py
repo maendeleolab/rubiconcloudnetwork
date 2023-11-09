@@ -10,6 +10,7 @@ ec2 = client_session('default', 'ec2', 'us-east-1')
 
 prefixlist = 'privaterfc1918'
 
+
 # Create managed prefix-lists 
 #create_prefixlist(name, cidr_entry, max_entries, ec2):
 create_prefixlist(prefixlist, '10.0.0.0/8', 50, ec2)
@@ -33,5 +34,12 @@ add_entries_to_prefixlist(prefixlist,
                           'privaterfc1918', 
                           ec2
                           )
-#def remove_entries_from_prefixlist(prefixlist, cidr_entry, ec2):
-#def update_max_entries_of_prefixlist(prefixlist, max_entries, ec2):
+remove_entries_from_prefixlist(prefixlist, 
+                          get_prefixlist_id(prefixlist, ec2), 
+                          '10.0.0.0/8', # cidr_entry to remove
+                          ec2
+                          )
+update_max_entries_of_prefixlist(get_prefixlist_id(prefixlist,ec2),
+                         100, # max_entries 
+                         ec2
+                         )

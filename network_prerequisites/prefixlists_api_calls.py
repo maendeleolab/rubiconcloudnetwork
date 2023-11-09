@@ -154,13 +154,9 @@ def add_entries_to_prefixlist(
                       description, 
                       ec2):
   try:
-    #print(f'version: {version}...')
-    #if get_prefixlist_name == prefixlist:
-    #  print(f"Prefix-list {prefixlist} does'nt exist...")
-    #  pass
-    #elif verify_if_cidr_entry_exists(prefixlist, cidr_entry, ec2) == cidr_entry:
-    #  print(f'Cidr {cidr_entry} already exists...')
-    #  pass
+    if verify_if_cidr_entry_exists(prefixlist_id, cidr_entry, ec2) == cidr_entry:
+      print(f'Cidr {cidr_entry} already exists...')
+      pass
     while True:
       if state == 'create-complete' or state == 'modify-complete':
         resources = ec2.modify_managed_prefix_list(
@@ -185,40 +181,45 @@ def add_entries_to_prefixlist(
     print(f'Error found: {err}...')
 
 # This function removes entries from the prefix list
-def remove_entries_from_prefixlist(prefixlist, cidr_entry, ec2):
-  resources = ec2.modify_managed_prefix_list(
-      #DryRun=True|False,
-      PrefixListId=prefixlist,
-      #CurrentVersion=123,
-      #PrefixListName='string',
-      RemoveEntries=[
-	  {
-	      'Cidr': cidr_entry
-	  },
-      ],
-  )
+def remove_entries_from_prefixlist(prefixlist_name, prefixlist_id, cidr_entry, ec2):
+	try:
+		resources = ec2.modify_managed_prefix_list(
+		#DryRun=True|False,
+		PrefixListId=prefixlist_id,
+		CurrentVersion=get_prefixlist_version(prefixlist_name, ec2),
+		#PrefixListName='string',
+		RemoveEntries=[
+				{
+					'Cidr': cidr_entry
+				},
+			],
+		)
+	except Exception as err:
+		print(f'Error found: {err}...')
 
 # This function removes entries from the prefix list
-def update_max_entries_of_prefixlist(prefixlist, max_entries, ec2):
-  resources = ec2.modify_managed_prefix_list(
-      #DryRun=True|False,
-      PrefixListId=prefixlist,
-      #CurrentVersion=123,
-      #PrefixListName='string',
-      MaxEntries=max_entries
-  )
-
+def update_max_entries_of_prefixlist(prefixlist_id, max_entries, ec2):
+	try:
+		resources = ec2.modify_managed_prefix_list(
+		#DryRun=True|False,
+		PrefixListId=prefixlist_id,
+		#CurrentVersion=get_prefixlist_version(prefixlist_name, ec2),
+		#PrefixListName='string',
+		MaxEntries=max_entries
+		)
+	except Exception as err:
+		print(f'Error found: {err}...')
 # This function deletes prefix lists
 def delete_prefixlist(prefixlist_id, ec2):
   try:
     if prefixlist_id == None:
       pass
     else:
-      print(f'Delete {prefixlist_id}...')
       resources = ec2.delete_managed_prefix_list(
-	  #DryRun=True|False,
-	  PrefixListId=prefixlist_id
+	    #DryRun=True|False,
+	    PrefixListId=prefixlist_id
       )
+      print(f'Delete {prefixlist_id}...')
   except Exception as err:
     print(f'Error found: {err}...')
 
