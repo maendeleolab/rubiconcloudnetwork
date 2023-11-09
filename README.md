@@ -57,7 +57,7 @@ pip install -r requirements.txt
 Access the network_prerequisites folder to test the available scripts.<br>
 Only two scripts are currently available.<br>
 1 - vpc_template.py (Deploys a VPC with its prerequisites. Cidr, subnets, route tables and etc...)<br>
-2 - delete_resources.py (Deletes all the resources created with the script above.
+2 - delete_resources.py (Deletes all the resources created with the script above.<br>
 Check the [wiki page](https://github.com/maendeleolab/rubiconcloudnetwork/wiki).
 
 ## [Heads_up!](#Heads_up!)
