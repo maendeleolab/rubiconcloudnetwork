@@ -15,7 +15,7 @@ Create a folder, access the folder then create your virtual environment and acti
 mkdir project
 cd project
 # Create a virtual environment named "labs"
-python3 -m ven labs
+python3 -m venv labs
 # Activate it
 source labs/bin/activate
 ```
