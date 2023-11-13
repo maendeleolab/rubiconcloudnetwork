@@ -36,10 +36,12 @@ add_entries_to_prefixlist(prefixlist,
                           )
 remove_entries_from_prefixlist(prefixlist, 
                           get_prefixlist_id(prefixlist, ec2), 
-                          '10.0.0.0/8', # cidr_entry to remove
+                          '192.168.0.0/16', # cidr_entry to remove
                           ec2
                           )
-update_max_entries_of_prefixlist(get_prefixlist_id(prefixlist,ec2),
-                         100, # max_entries 
+update_max_entries_of_prefixlist(prefixlist, 
+                         get_prefixlist_id(prefixlist,ec2),
+                         get_prefixlist_state(prefixlist, ec2),
+                         45, # max_entries 
                          ec2
                          )

@@ -198,15 +198,23 @@ def remove_entries_from_prefixlist(prefixlist_name, prefixlist_id, cidr_entry, e
 		print(f'Error found: {err}...')
 
 # This function removes entries from the prefix list
-def update_max_entries_of_prefixlist(prefixlist_id, max_entries, ec2):
+def update_max_entries_of_prefixlist(prefixlist_name, prefixlist_id, state, max_entries, ec2):
 	try:
-		resources = ec2.modify_managed_prefix_list(
-		#DryRun=True|False,
-		PrefixListId=prefixlist_id,
-		#CurrentVersion=get_prefixlist_version(prefixlist_name, ec2),
-		#PrefixListName='string',
-		MaxEntries=max_entries
-		)
+		while True:
+			if state == 'create-complete' or state == 'modify-complete':
+				resources = ec2.modify_managed_prefix_list(
+				#DryRun=True|False,
+				PrefixListId=prefixlist_id,
+				#CurrentVersion=get_prefixlist_version(prefixlist_name, ec2),
+				#PrefixListName='string',
+				MaxEntries=max_entries
+				)
+				print(f'Modifying max entries for {prefixlist_name}...')
+				break
+			else:
+				sleep(2)
+			state = get_prefixlist_state(prefixlist_name, ec2)
+			print(f'Prefix-list {prefixlist_name} state {state}...')
 	except Exception as err:
 		print(f'Error found: {err}...')
 # This function deletes prefix lists

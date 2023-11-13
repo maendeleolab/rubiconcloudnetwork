@@ -20,7 +20,7 @@ def get_igw_name(igw_name, ec2):
         #DryRun=True|False,
       )
       for item in resources['InternetGateways'][0]['Tags']:
-        print(f'Resource name: {item["Value"]}')
+        print(f'Resource name: {item["Value"]}...')
         return item['Value']
   except Exception as err:
     print(f'Error found: {err}...')
@@ -44,7 +44,7 @@ def get_igw_id(igw_name, ec2):
         #DryRun=True|False,
       )
       for item in resources['InternetGateways']:
-        print(f'{igw_name}: {item["InternetGatewayId"]}')
+        print(f'{igw_name}: {item["InternetGatewayId"]}...')
         return item['InternetGatewayId']
   except Exception as err:
     print(f'Error found: {err}...')
@@ -57,18 +57,13 @@ def get_igw_attachment_state(igw_name, ec2):
       pass
     else:
       resources = ec2.describe_internet_gateways(
-        Filters=[
-          {
-            'Name': 'tag:Name',
-              'Values': [
-                  igw_name,
-              ]
-          },
-        ],
         #DryRun=True|False,
+        InternetGatewayIds=[
+        igw_name,
+         ],
       )
       for item in resources['InternetGateways'][0]['Attachments']:
-        print(f'Internet gateway state: {item["State"]}')
+        print(f'Internet gateway: {igw_name}, state: {item["State"]}...')
         return item['State']
   except Exception as err:
     print(f'Error found: {err}...')
@@ -94,9 +89,21 @@ def create_igw(igw, ec2):
           ],
           #DryRun=True|False
       )
-      print(f'{igw}: {resources["InternetGateway"]["InternetGatewayId"]}')
+      print(f'{igw}: {resources["InternetGateway"]["InternetGatewayId"]}...')
   except Exception as err:
     print(f'Error found: {err}...')
+
+# This function attaches the internet gateway to a vpc
+def create_igw_attachment(igw_name, vpc_id, ec2):
+	try:
+		resources = ec2.attach_internet_gateway(
+				#DryRun=True|False,
+				InternetGatewayId=get_igw_id(igw_name, ec2),
+				VpcId=vpc_id
+		)
+		print(f'Attaching igw: {igw_name} to vpc id: {vpc_id}...')
+	except Exception as err:
+		print(f'Error found: {err}...')
 
 # This function deletes the internet gateway
 def delete_igw(igw_id, ec2):
