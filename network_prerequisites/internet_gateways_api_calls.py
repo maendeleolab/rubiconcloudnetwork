@@ -105,6 +105,18 @@ def create_igw_attachment(igw_name, vpc_id, ec2):
 	except Exception as err:
 		print(f'Error found: {err}...')
 
+# This function detaches the internet gateway to a vpc
+def detach_igw(igw_name, vpc_id, ec2):
+	try:
+		resources = ec2.detach_internet_gateway(
+				#DryRun=True|False,
+				InternetGatewayId=get_igw_id(igw_name, ec2),
+				VpcId=vpc_id
+		)
+		print(f'Detaching igw: {igw_name} from vpc id: {vpc_id}...')
+	except Exception as err:
+		print(f'Error found: {err}...')
+
 # This function deletes the internet gateway
 def delete_igw(igw_id, ec2):
   try:

@@ -34,14 +34,16 @@ add_entries_to_prefixlist(prefixlist,
                           'privaterfc1918', 
                           ec2
                           )
-remove_entries_from_prefixlist(prefixlist, 
-                          get_prefixlist_id(prefixlist, ec2), 
-                          '192.168.0.0/16', # cidr_entry to remove
-                          ec2
-                          )
-update_max_entries_of_prefixlist(prefixlist, 
-                         get_prefixlist_id(prefixlist,ec2),
-                         get_prefixlist_state(prefixlist, ec2),
-                         45, # max_entries 
-                         ec2
-                         )
+
+# Place holder
+#remove_entries_from_prefixlist(prefixlist, 
+#                          get_prefixlist_id(prefixlist, ec2), 
+#                          '192.168.0.0/16', # cidr_entry to remove
+#                          ec2
+#                          )
+#update_max_entries_of_prefixlist(prefixlist, 
+#                         get_prefixlist_id(prefixlist,ec2),
+#                         get_prefixlist_state(prefixlist, ec2),
+#                         45, # max_entries 
+#                         ec2
+#                         )

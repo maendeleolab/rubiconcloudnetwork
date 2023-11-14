@@ -216,7 +216,7 @@ def associate_acl_to_subnet(default_acl, acl_name, ec2):
 				NetworkAclId=get_acl_id(acl_name, ec2)
 				#NetworkAclId=item['NetworkAclId']
 		)
-		print(f'associating {acl_name}...')
+		print(f'acl {acl_name}...')
 	except Exception as err:
 		print(f'Error found: {err}...')
 
