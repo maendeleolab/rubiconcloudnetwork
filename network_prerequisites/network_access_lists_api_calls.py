@@ -17,11 +17,11 @@ def tag_default_acl(ec2):
 				Tags=[
 						{
 								'Key': 'Name',
-								'Value': 'default'
+								'Value': 'default-'+item["NetworkAclId"]
 						},
 					]
 				)
-				print('Adding tag: "Name":"default"...')
+				print(f'Adding tag: "Name":"default-"{item["NetworkAclId"]}...')
 	except Exception as err:
 		print(f'Error found: {err}...')
 
@@ -185,14 +185,36 @@ def add_icmp_to_vpc_acl(acl_name,
 	except Exception as err:
 		print(f'Error found: {err}...')
 
+# This function finds the default acl name. This is a hack to overcome
+# the lack of a direct api to associate subnets to an acl. The only api
+# available is the "replace_network_acl_association". The objective is
+# to use this function to find the default acl and replace it with the 
+# new acl. We use the vpc id match to find the default acl name for the
+# vpc that we want assign a new acl to.
+def find_default_acl_name(new_acl_vpc_id, ec2):
+	try:
+		resources = ec2.describe_network_acls(
+		)
+		for acl in resources['NetworkAcls']:
+			for tag in acl['Tags']:
+				if acl['VpcId'] == new_acl_vpc_id and 'default' in tag['Value']:
+					return tag['Value']
+	except Exception as err:
+		print(f'Error found: {err}...')
 
-# This function associates acl to a subnet
+# This function replaces existing acl association id and replaces it 
+# with new acl
 def associate_acl_to_subnet(default_acl, acl_name, ec2):
 	try:
+		resources = ec2.describe_network_acls(
+		)
+		#for item in resources['NetworkAcls']:
+			#if item['VpcId'] == new_acl_vpc_id:
 		resources = ec2.replace_network_acl_association(
 				AssociationId=get_acl_association_id(default_acl, ec2),
 				#DryRun=True|False,
 				NetworkAclId=get_acl_id(acl_name, ec2)
+				#NetworkAclId=item['NetworkAclId']
 		)
 		print(f'associating {acl_name}...')
 	except Exception as err:
@@ -206,9 +228,9 @@ def remove_entry_from_vpc_acl(acl_name, in_or_out, rule_number, ec2):
 				#DryRun=True|False,
 				Egress=in_or_out, #True|False,
 				NetworkAclId=get_acl_id(acl_name, ec2),
-				RuleNumber=rule_number
+				RuleNumber=int(rule_number)
 		)
-		print(f'Removing rule_number {rule_number} from acl_name...')
+		print(f'Removing rule_number {rule_number} from {acl_name}...')
 	except Exception as err:
 		print(f'Error found: {err}...')
 
