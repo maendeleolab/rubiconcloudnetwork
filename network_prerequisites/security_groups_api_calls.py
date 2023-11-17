@@ -2,6 +2,30 @@
 
 
 # This function gets the security-group id
+def get_sg_id(sg_name, ec2):
+paginator = client.get_paginator('describe_security_groups')
+response_iterator = paginator.paginate(
+    Filters=[
+        {
+            'Name': 'string',
+            'Values': [
+                'string',
+            ]
+        },
+    ],
+    GroupIds=[
+        'string',
+    ],
+    GroupNames=[
+        'string',
+    ],
+    DryRun=True|False,
+    PaginationConfig={
+        'MaxItems': 123,
+        'PageSize': 123,
+        'StartingToken': 'string'
+    }
+)
 
 # This function gets the name of the security-group
 
