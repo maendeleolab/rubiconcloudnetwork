@@ -59,7 +59,7 @@ print('Adding subnets to new acl...\n\n')
 subnets_list = ec2.describe_subnets()
 for id in subnets_list['Subnets']:
 	if id['VpcId'] == get_vpc_id(vpc1, ec2):
-		print(f'Associating subnet: {id['SubnetId']} to acl...')
+		print(f'Associating subnet: {id["SubnetId"]} to acl...')
 		associate_acl_to_subnet(find_default_acl_name(get_vpc_id(vpc1, ec2), ec2),
 																									vpc1, 
 																									ec2
