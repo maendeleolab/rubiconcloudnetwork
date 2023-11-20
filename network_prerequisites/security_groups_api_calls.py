@@ -17,7 +17,7 @@ def get_sg_id(sg_name, ec2):
 				#NextToken='string',
 				#MaxResults=123
 		)
-		print(f'Security-group ID: {resources["SecurityGroups"]["GroupId"]')
+		print(f'Security-group ID: {resources["SecurityGroups"]["GroupId"]}')
 		return resources["SecurityGroups"]["GroupId"]
 
 	except Exception as err:
@@ -40,7 +40,7 @@ def get_sg_name(sg_name, ec2):
 				#NextToken='string',
 				#MaxResults=123
 		)
-		print(f'Security-group name: {resources["SecurityGroups"]["GroupName"]')
+		print(f'Security-group name: {resources["SecurityGroups"]["GroupName"]}')
 		return resources["SecurityGroups"]["GroupName"]
 
 	except Exception as err:
@@ -98,11 +98,9 @@ def add_egress_sg(sg_group_id,
                 'ToPort': to_port,
                     },
                 ]
-            },
-        ],
     )
     print(f'Adding egress rule to security-group: {sg_group_id}...')
-    print(f'{get_prefixlist_id(prefixlist_id)} -> {protocol_number}:{ToPort}')
+    print(f'{prefixlist_id} -> {protocol_number}:{ToPort}')
   except Exception as err:
     print(f'Error found: {err}...')
 
@@ -133,8 +131,6 @@ def add_ingress_sg(sg_group_id,
                 'ToPort': to_port,
                     },
                 ]
-            },
-        ],
     )
     print(f'Adding ingress rule to security-group: {sg_group_id}...')
   except Exception as err:
@@ -167,8 +163,6 @@ def remove_egress_sg(sg_group_id,
                 'ToPort': to_port,
                     },
                 ]
-            },
-        ],
     )
     print(f'Adding egress rule to security-group: {sg_group_id}...')
   except Exception as err:
@@ -201,8 +195,6 @@ def remove_ingress_sg(sg_group_id,
                 'ToPort': to_port,
                     },
                 ]
-            },
-        ],
     )
     print(f'Adding egress rule to security-group: {sg_group_id}...')
   except Exception as err:
