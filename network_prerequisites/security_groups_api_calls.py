@@ -17,8 +17,9 @@ def get_sg_id(sg_name, ec2):
 				#NextToken='string',
 				#MaxResults=123
 		)
-		print(f'Security-group ID: {resources["SecurityGroups"]["GroupId"]}')
-		return resources["SecurityGroups"]["GroupId"]
+		for item in resources["SecurityGroups"]:
+			print(f'Security-group ID: {item["GroupId"]}')
+			return item["GroupId"]
 
 	except Exception as err:
 		print(f'Error found: {err}...')
@@ -87,7 +88,7 @@ def add_egress_sg(sg_group_id,
         GroupId=sg_group_id,
         IpPermissions=[
             {
-                'FromPort': from_port,
+                'FromPort': int(from_port),
                 'IpProtocol': protocol_number,
                 'PrefixListIds': [
                     {
@@ -95,18 +96,18 @@ def add_egress_sg(sg_group_id,
                         'PrefixListId': prefixlist_id
                     },
                 ],
-                'ToPort': to_port,
+                'ToPort': int(to_port),
                     },
                 ]
     )
     print(f'Adding egress rule to security-group: {sg_group_id}...')
-    print(f'{prefixlist_id} -> {protocol_number}:{ToPort}')
+    print(f'Protocol:{protocol_number} -> to dst {prefixlist_id}:{to_port}')
   except Exception as err:
     print(f'Error found: {err}...')
 
 
 # This function adds ingress entries to a security-group
-def add_ingress_sg(sg_group_id, 
+def add_ingress_sg(sg_group_id,
                   from_port, 
                   protocol_number, 
                   description, 
@@ -120,7 +121,7 @@ def add_ingress_sg(sg_group_id,
         GroupId=sg_group_id,
         IpPermissions=[
             {
-                'FromPort': from_port,
+                'FromPort': int(from_port),
                 'IpProtocol': protocol_number,
                 'PrefixListIds': [
                     {
@@ -128,11 +129,12 @@ def add_ingress_sg(sg_group_id,
                         'PrefixListId': prefixlist_id
                     },
                 ],
-                'ToPort': to_port,
+                'ToPort': int(to_port),
                     },
                 ]
     )
     print(f'Adding ingress rule to security-group: {sg_group_id}...')
+    print(f'from src {prefixlist_id} -> protocol:{protocol_number}:{to_port}')
   except Exception as err:
     print(f'Error found: {err}...')
 
@@ -212,4 +214,5 @@ def delete_sg(sg_id, ec2):
 		print(f'Deleting {sg_id}...')
 	except Exception as err:
 		print(f'Error found: {err}...')
+
 
