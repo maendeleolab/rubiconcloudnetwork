@@ -6,6 +6,7 @@ from route_tables_api_calls import *
 from internet_gateways_api_calls import *
 from prefixlists_api_calls import *
 from network_access_lists_api_calls import *
+from security_groups_api_calls import *
 from account_profiles import assume_profile_creds, client_session
 
 # The client_session function explicitly define the profile_name,
@@ -16,6 +17,7 @@ ec2 = client_session('default', 'ec2', 'us-east-1')
 
 vpc1 = 'boto3_vpc1'
 
+delete_sg(get_sg_id('boto3_vpc1_private', ec2), ec2)
 delete_prefixlist(get_prefixlist_id('privaterfc1918', ec2), ec2)
 detach_igw(vpc1, get_vpc_id(vpc1, ec2), ec2)
 delete_igw(get_igw_id(vpc1, ec2), ec2)

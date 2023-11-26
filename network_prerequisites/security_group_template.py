@@ -17,21 +17,13 @@ vpc1 = 'boto3_vpc1'
 # Create security group
 create_sg('boto3_vpc1_private', get_vpc_id(vpc1, ec2), ec2)
 # Add ingress rule
+# Note: Egress is allowed to any by default
 add_ingress_sg(get_sg_id('boto3_vpc1_private', ec2), #sg_name (this argument gets the id of sg)
                '-1', #from_port,
                '-1', #protocol_number,
                'allow all', #description,
                 get_prefixlist_id('privaterfc1918', ec2), #prefixlist_id,
                 '-1', #to_port,
-                ec2
-               )
-# Add egress rule
-add_egress_sg(get_sg_id('boto3_vpc1_private', ec2), #sg_name (this argument gets the id of sg)
-               '443', #from_port,
-               '6', #protocol_number,
-               'allow https', #description,
-                get_prefixlist_id('privaterfc1918', ec2), #prefixlist_id,
-                '443', #to_port,
                 ec2
                )
 

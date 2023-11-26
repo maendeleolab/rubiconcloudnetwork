@@ -154,7 +154,7 @@ def remove_egress_sg(sg_group_id,
         GroupId=sg_group_id,
         IpPermissions=[
             {
-                'FromPort': from_port,
+                'FromPort': int(from_port),
                 'IpProtocol': protocol_number,
                 'PrefixListIds': [
                     {
@@ -162,11 +162,11 @@ def remove_egress_sg(sg_group_id,
                         'PrefixListId': prefixlist_id
                     },
                 ],
-                'ToPort': to_port,
+                'ToPort': int(to_port),
                     },
                 ]
     )
-    print(f'Adding egress rule to security-group: {sg_group_id}...')
+    print(f'Removing egress rule to security-group: {sg_group_id}...')
   except Exception as err:
     print(f'Error found: {err}...')
 
@@ -186,7 +186,7 @@ def remove_ingress_sg(sg_group_id,
         GroupId=sg_group_id,
         IpPermissions=[
             {
-                'FromPort': from_port,
+                'FromPort': int(from_port),
                 'IpProtocol': protocol_number,
                 'PrefixListIds': [
                     {
@@ -194,11 +194,11 @@ def remove_ingress_sg(sg_group_id,
                         'PrefixListId': prefixlist_id
                     },
                 ],
-                'ToPort': to_port,
+                'ToPort': int(to_port),
                     },
                 ]
     )
-    print(f'Adding egress rule to security-group: {sg_group_id}...')
+    print(f'Removing ingress rule to security-group: {sg_group_id}...')
   except Exception as err:
     print(f'Error found: {err}...')
 
