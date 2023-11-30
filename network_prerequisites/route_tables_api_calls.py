@@ -120,6 +120,140 @@ def create_gateway_association_to_route_table(table_id, gateway_id, ec2):
   except Exception as err:
     print(f'Error found: {err}...')
 
+# This function creates a vpc route table entry for
+# internet gateway or virtual private gateway
+def vpc_route_enry_to_gateway(route_table_id, dst_ipv4cidr, gateway_id, ec2):
+	try:
+		resources = ec2.create_route(
+				DestinationCidrBlock=dst_ipv4cidr,
+				#DestinationIpv6CidrBlock=dst_ipv6cidr,
+				#DryRun=True|False,
+				GatewayId=gateway_id,
+				RouteTableId=route_table_id,
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+# This function creates a vpc route table entry using prefixlist
+def vpc_route_entry_for_prefixlist(route_table_id, dst_ipv4cidr, prefixlist_id, ec2):
+	try:
+		resources = ec2.create_route(
+				DestinationCidrBlock=dst_ipv4cidr,
+				#DestinationIpv6CidrBlock=dst_ipv6cidr,
+				DestinationPrefixListId=prefixlist_id,
+				#DryRun=True|False,
+				RouteTableId=route_table_id,
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+# This function creates a vpc route table entry for vpc endpoint
+def vpc_route_entry_for_endpoint(route_table_id, dst_ipv4cidr, endpoint_id, ec2):
+	try:
+		resources = ec2.create_route(
+				DestinationCidrBlock=dst_ipv4cidr,
+				#DestinationIpv6CidrBlock=dst_ipv6cidr,
+				#DryRun=True|False,
+				VpcEndpointId=endpoint_id,
+				RouteTableId=route_table_id,
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+# This function creates a vpc route table entry to nat gateway
+def vpc_route_entry_to_nat_id(route_table_id, dst_ipv4cidr, nat_id, ec2):
+	try:
+		resources = ec2.create_route(
+				DestinationCidrBlock=dst_ipv4cidr,
+				#DestinationIpv6CidrBlock=dst_ipv6cidr,
+				#DryRun=True|False,
+				NatGatewayId=nat_id,
+				RouteTableId=route_table_id,
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+# This function creates a vpc route table entry to transit gateway
+def vpc_route_entry_to_tgw(route_table_id, dst_ipv4cidr, tgw_id, ec2):
+	try:
+		resources = ec2.create_route(
+				DestinationCidrBlock=dst_ipv4cidr,
+				#DestinationIpv6CidrBlock=dst_ipv6cidr,
+				#DryRun=True|False,
+				TransitGatewayId=tgw_id,
+				RouteTableId=route_table_id,
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+# This function creates a vpc route table entry to network interface
+def vpc_route_entry_to_interface(route_table_id, dst_ipv4cidr, interface_id, ec2):
+	try:
+		resources = ec2.create_route(
+				DestinationCidrBlock=dst_ipv4cidr,
+				#DestinationIpv6CidrBlock=dst_ipv6cidr,
+				#DryRun=True|False,
+				NetworkInterfaceId=interface_id,
+				RouteTableId=route_table_id,
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+# This function creates a vpc route table entry for vpc peering
+def vpc_route_entry_for_vpc_peering(route_table_id, 
+                                   dst_ipv4cidr,
+                                   vpc_peering_id, 
+                                   ec2):
+	try:
+		resources = ec2.create_route(
+				DestinationCidrBlock=dst_ipv4cidr,
+				#DestinationIpv6CidrBlock=dst_ipv6cidr,
+				#DryRun=True|False,
+				RouteTableId=route_table_id,
+				VpcPeeringConnectionId=vpc_peering_id,
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+# This function creates a vpc route table entry to core network (cloudwan)
+def vpc_route_entry_to_core_network(route_table_id, 
+                                    dst_ipv4cidr,
+                                    corenetworkarn, 
+                                    ec2):
+	try:
+		resources = ec2.create_route(
+				DestinationCidrBlock=dst_ipv4cidr,
+				#DestinationIpv6CidrBlock=dst_ipv6cidr,
+				#DryRun=True|False,
+				#EgressOnlyInternetGatewayId='string',
+				#LocalGatewayId='string',
+				#CarrierGatewayId='string',
+				RouteTableId=route_table_id,
+				CoreNetworkArn=corenetworkarn
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
 # This deletes the route table
 def delete_vpc_route_table(table_id, ec2):
   try:
