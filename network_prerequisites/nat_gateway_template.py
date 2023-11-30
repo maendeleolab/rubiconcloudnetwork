@@ -28,9 +28,9 @@ create_private_nat('boto3_private_nat1', # name of private nat resource
                    '1', # number_of_secondary_ips, 
                    ec2 # client session
 )
-#create_private_nat('boto3_private_nat2', # name of private nat resource
-#                   get_subnet_id('boto3_vpc1_private_1b_pri', ec2), # subnet id
-#                   '1', # number_of_secondary_ips, 
-#                   ec2 # client session
-#)
+create_private_nat('boto3_private_nat2', # name of private nat resource
+                   get_subnet_id('boto3_vpc1_private_1b_pri', ec2), # subnet id
+                   '1', # number_of_secondary_ips, 
+                   ec2 # client session
+)
 
