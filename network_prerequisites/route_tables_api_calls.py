@@ -20,6 +20,8 @@ def describe_vpc_route_table(table_name, ec2):
   except Exception as err:
     print(f'Error found: {err}...')
 
+
+
 # This returns the route table associations state
 def get_route_table_association_state(table_name, ec2):
   try:
@@ -39,6 +41,8 @@ def get_route_table_association_state(table_name, ec2):
       return item['AssociationSate']['State']
   except Exception as err:
     print(f'Error found: {err}...')
+
+
 
 # This returns the route table id
 def get_vpc_route_table_id(table_name, ec2):
@@ -62,6 +66,8 @@ def get_vpc_route_table_id(table_name, ec2):
         return item['RouteTableId']
   except Exception as err:
     print(f'Error found: {err}...')
+
+
 
 # This creates a vpc route table
 def create_vpc_route_table(vpc_id, table_name, ec2):
@@ -90,6 +96,8 @@ def create_vpc_route_table(vpc_id, table_name, ec2):
   except Exception as err:
     print(f'Found error: {err}...')
 
+
+
 # This creates a subnet association to a route table
 def create_subnet_association_to_route_table(table_id,subnet_id, ec2):
   try:
@@ -104,6 +112,8 @@ def create_subnet_association_to_route_table(table_id,subnet_id, ec2):
       print(f'{subnet_id} is associated to {table_id}...')
   except Exception as err:
     print(f'Error found: {err}...')
+
+
 
 # This creates a gateway route table association
 def create_gateway_association_to_route_table(table_id, gateway_id, ec2):
@@ -120,6 +130,8 @@ def create_gateway_association_to_route_table(table_id, gateway_id, ec2):
   except Exception as err:
     print(f'Error found: {err}...')
 
+
+
 # This function creates a vpc route table entry for
 # internet gateway or virtual private gateway
 def vpc_route_enry_to_gateway(route_table_id, dst_ipv4cidr, gateway_id, ec2):
@@ -134,6 +146,8 @@ def vpc_route_enry_to_gateway(route_table_id, dst_ipv4cidr, gateway_id, ec2):
 		print(resources)
 	except Exception as err:
 		print(f'Error found: {err}...')
+
+
 
 # This function creates a vpc route table entry using prefixlist
 def vpc_route_entry_for_prefixlist(route_table_id, dst_ipv4cidr, prefixlist_id, ec2):
@@ -253,6 +267,8 @@ def vpc_route_entry_to_core_network(route_table_id,
 		print(resources)
 	except Exception as err:
 		print(f'Error found: {err}...')
+
+
 
 # This deletes the route table
 def delete_vpc_route_table(table_id, ec2):
