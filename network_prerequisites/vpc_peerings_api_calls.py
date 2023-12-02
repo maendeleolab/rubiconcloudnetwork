@@ -67,34 +67,42 @@ def get_vpc_peering_connection_status(name, ec2):
 		print(f'Error found: {err}...')
 
 
-response = client.accept_vpc_peering_connection(
-    DryRun=True|False,
-    VpcPeeringConnectionId='string'
-)
+
+def accept_vpc_peering(name, ec2):
+	try:
+		resources = ec2.accept_vpc_peering_connection(
+				#DryRun=True|False,
+				VpcPeeringConnectionId=get_vpc_peering_connection_name(name, ec2)
+		)
+		print(f'Peering connection: {name} accepted...')
+		return get_vpc_peering_connection_status(name, ec2)
+	except Exception as err:
+		print(f'Error found: {err}...')
 
 
+def delete_vpc_peering(name, ec2):
+	try:
+		resources = ec2.delete_vpc_peering_connection(
+				#DryRun=True|False,
+				VpcPeeringConnectionId=get_vpc_peering_connection_name(name, ec2)
+		)
+	except Exception as err:
+		print(f'Error found: {err}...')
 
-response = client.delete_vpc_peering_connection(
-    DryRun=True|False,
-    VpcPeeringConnectionId='string'
-)
 
-
-
-response = client.modify_vpc_peering_connection_options(
-    AccepterPeeringConnectionOptions={
-        'AllowDnsResolutionFromRemoteVpc': True|False,
-        'AllowEgressFromLocalClassicLinkToRemoteVpc': True|False,
-        'AllowEgressFromLocalVpcToRemoteClassicLink': True|False
-    },
-    DryRun=True|False,
-    RequesterPeeringConnectionOptions={
-        'AllowDnsResolutionFromRemoteVpc': True|False,
-        'AllowEgressFromLocalClassicLinkToRemoteVpc': True|False,
-        'AllowEgressFromLocalVpcToRemoteClassicLink': True|False
-    },
-    VpcPeeringConnectionId='string'
-)
-
+def modify_vpc_peering(name, accepter_dns=None, requester_dns=None, ec2):
+	try:
+		response = client.modify_vpc_peering_connection_options(
+				AccepterPeeringConnectionOptions={
+						'AllowDnsResolutionFromRemoteVpc': accepter_dns, #True|False,
+				},
+				#DryRun=True|False,
+				RequesterPeeringConnectionOptions={
+						'AllowDnsResolutionFromRemoteVpc': requester_dns, #True|False,
+				},
+				VpcPeeringConnectionId=get_vpc_peering_connection_name(name, ec2)
+		)
+	except Exception as err:
+		print(f'Error found: {err}...')
 
 
