@@ -35,20 +35,46 @@ pip install -r requirements.txt
 ## [Folders_structure](#Folders_structure)
 
 ```
+.
 ├── LICENSE
 ├── README.md
+├── __pycache__
+│   ├── account_profiles.cpython-38.pyc
+│   ├── elastic_ips_api_calls.cpython-38.pyc
+│   ├── internet_gateways_api_calls.cpython-38.pyc
+│   ├── nat_gateways_api_calls.cpython-38.pyc
+│   ├── network_access_list_template.cpython-38.pyc
+│   ├── network_access_lists_api_calls.cpython-38.pyc
+│   ├── prefixlists_api_calls.cpython-38.pyc
+│   ├── route_tables_api_calls.cpython-38.pyc
+│   ├── security_groups_api_calls.cpython-38.pyc
+│   ├── subnets_api_calls.cpython-38.pyc
+│   └── vpcs_api_calls.cpython-38.pyc
 ├── aws_org
 │   └── template.py
-├── network_prerequisites
-│   ├── account_profiles.py
-│   ├── delete_resources.py
-│   ├── network_access_lists_api_calls.py
-│   ├── prefix_lists_api_calls.py
-│   ├── route_tables_api_calls.py
-│   ├── security_groups_api_calls.py
-│   ├── subnets_api_calls.py
-│   ├── vpcs_api_calls.py
-│   └── vpc_template.py
+├── infrastructure
+│   ├── __init__.py
+│   ├── network_resources
+│   │   ├── __init__.py
+│   │   ├── account_profiles.py
+│   │   ├── delete_resources.py
+│   │   ├── elastic_ip_template.py
+│   │   ├── elastic_ips_api_calls.py
+│   │   ├── internet_gateways_api_calls.py
+│   │   ├── nat_gateway_template.py
+│   │   ├── nat_gateways_api_calls.py
+│   │   ├── network_access_list_template.py
+│   │   ├── network_access_lists_api_calls.py
+│   │   ├── prefixlist_template.py
+│   │   ├── prefixlists_api_calls.py
+│   │   ├── route_tables_api_calls.py
+│   │   ├── security_group_template.py
+│   │   ├── security_groups_api_calls.py
+│   │   ├── subnets_api_calls.py
+│   │   ├── vpc_peerings_api_calls.py
+│   │   ├── vpc_template.py
+│   │   └── vpcs_api_calls.py
+│   └── vpc_peering_lab.py
 └── requirements.txt
 ```
 
