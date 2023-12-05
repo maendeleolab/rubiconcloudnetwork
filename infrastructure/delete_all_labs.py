@@ -13,8 +13,8 @@ client_session
 
 
 delete_all(
-					 'boto3_vpc1', #vpc_name,
-           ec2=client_session('default', 'ec2', 'us-east-1')
-				 )
+					'boto3_vpc1', #vpc_name,
+					ec2=client_session('default', 'ec2', 'us-east-1')
+)
 
 
