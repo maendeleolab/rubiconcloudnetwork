@@ -2,6 +2,7 @@
 
 #from network_resources import vpcs_api_calls
 from network_resources.vpc_template import deploy_vpc
+from network_resources.vpc_peering_template import same_account_vpc_peering
 from network_resources.account_profiles import assume_profile_creds,\
 client_session
 
@@ -9,6 +10,13 @@ client_session
 # the service and region to use. This permits us to be granular.
 # client_session(profile_name, service, region)
 #ec2 = client_session('default', 'ec2', 'us-east-1')
+# We are using sts to get the account id of the user making the call
+# this useful to not expose the account id in the code. I am getting
+# away with this b/c the vpc peering is in the same account.
+# If the peer vpc is in another account, we will have to statically
+# define it in the code.
+#sts = client_session('default', 'sts', 'us-east-1')
+
 
 
 # vpc1
@@ -48,4 +56,15 @@ deploy_vpc(
            ec2=client_session('default', 'ec2', 'us-east-1')
 				 )
 
+# vpc peering connection
+# This function is only vpc peering connections created
+# from inside the same account.
+# It creates the connection, it accepts it and modifies the dns
+same_account_vpc_peering('boto3_vpc1_and_vpc2_peering',
+					'boto3_vpc1', #requester_vpc
+					'boto3_vpc2', #accepter_vpc,
+					'us-east-1', #accepter_region
+					ec2 = client_session('default', 'ec2','us-east-1'), #client session
+					sts = client_session('default', 'sts', 'us-east-1') #accepter account
+				)
 

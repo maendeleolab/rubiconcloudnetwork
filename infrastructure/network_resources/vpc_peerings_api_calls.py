@@ -112,38 +112,42 @@ def create_vpc_peering(
 def accept_vpc_peering(name, ec2):
 	try:
 		while True:
-			if get_vpc_peering_connection_status(name, ec2) != 'pending-acceptance':
+			if get_vpc_peering_connection_status(name, ec2) == 'pending-acceptance':
+				resources = ec2.accept_vpc_peering_connection(
+						#DryRun=True|False,
+						VpcPeeringConnectionId=get_vpc_peering_connection_id(name, ec2)
+				)
+				print(f'{name} status: {get_vpc_peering_connection_status(name, ec2)}')
+				return get_vpc_peering_connection_status(name, ec2)
+				break
+			elif get_vpc_peering_connection_status(name, ec2) == 'active':
+				break
+			else:
 				sleep(2)
 				print(f'Status: {get_vpc_peering_connection_status(name, ec2)}...')
-			else:
-					resources = ec2.accept_vpc_peering_connection(
-							#DryRun=True|False,
-							VpcPeeringConnectionId=get_vpc_peering_connection_id(name, ec2)
-					)
-					print(f'{name} status: {get_vpc_peering_connection_status(name, ec2)}')
-					return get_vpc_peering_connection_status(name, ec2)
-					break
 			get_vpc_peering_connection_status(name, ec2)
 	except Exception as err:
 		print(f'Error found: {err}...')
 
 
 # This function deletes the vpc peering connection
-def delete_vpc_peering(name, ec2):
+def delete_vpc_peering(vpc_peering_name, ec2):
 	try:
 		resources = ec2.delete_vpc_peering_connection(
 				#DryRun=True|False,
-				VpcPeeringConnectionId=get_vpc_peering_connection_name(name, ec2)
+				VpcPeeringConnectionId=get_vpc_peering_connection_id(vpc_peering_name, ec2)
 		)
+		print(f'Deleting Vpc peering connection: {name}...')
+		print(f'Status: {get_vpc_peering_connection_status(name, ec2)}')
 	except Exception as err:
 		print(f'Error found: {err}...')
 
 
 
 # This function modifies the vpc peering connection
-def modify_vpc_peering(ec2, name, accepter_dns=None, requester_dns=None):
+def modify_vpc_peering(ec2, vpc_peering_name, accepter_dns=False, requester_dns=False):
 	try:
-		response = client.modify_vpc_peering_connection_options(
+		response = ec2.modify_vpc_peering_connection_options(
 				AccepterPeeringConnectionOptions={
 						'AllowDnsResolutionFromRemoteVpc': accepter_dns, #True|False,
 				},
@@ -151,7 +155,7 @@ def modify_vpc_peering(ec2, name, accepter_dns=None, requester_dns=None):
 				RequesterPeeringConnectionOptions={
 						'AllowDnsResolutionFromRemoteVpc': requester_dns, #True|False,
 				},
-				VpcPeeringConnectionId=get_vpc_peering_connection_name(name, ec2)
+				VpcPeeringConnectionId=get_vpc_peering_connection_id(vpc_peering_name, ec2)
 		)
 	except Exception as err:
 		print(f'Error found: {err}...')

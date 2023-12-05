@@ -9,6 +9,7 @@ from network_resources.network_access_lists_api_calls import *
 from network_resources.security_groups_api_calls import *
 from network_resources.elastic_ips_api_calls import *
 from network_resources.nat_gateways_api_calls import *
+from network_resources.vpc_peerings_api_calls import *
 from network_resources.account_profiles import assume_profile_creds, client_session
 
 # The client_session function explicitly define the profile_name,
@@ -22,6 +23,7 @@ def delete_all(
                vpc_name,
                ec2 = client_session('default', 'ec2', 'us-east-1')
   ):
+  delete_vpc_peering('boto3_vpc1_and_vpc2_peering', ec2)
 	delete_nat(vpc_name+'_public_nat1', ec2)
 	delete_nat(vpc_name+'_public_nat2', ec2)
 	delete_nat(vpc_name+'_private_nat1', ec2)
