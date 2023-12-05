@@ -9,7 +9,7 @@ from network_resources.account_profiles import assume_profile_creds, client_sess
 # The client_session function explicitly define the profile_name,
 # the service and region to use. This permits us to be granular.
 # client_session(profile_name, service, region)
-ec2 = client_session('default', 'ec2', 'us-east-1')
+#ec2 = client_session('default', 'ec2', 'us-east-1')
 
 
 def deploy_vpc(
@@ -26,7 +26,8 @@ def deploy_vpc(
                az2_pri_cidr_private_subnet,
                az1_sec_cidr_private_subnet,
                az2_sec_cidr_private_subnet,
-             ):
+               ec2=client_session('default', 'ec2', 'us-east-1')
+  ):
 	# Create vpc
 	create_vpc_resources(vpc_name,pri_vpc_cidr, ec2)
 	# Modify dns attributes

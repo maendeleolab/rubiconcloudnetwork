@@ -11,7 +11,7 @@ client_session
 #ec2 = client_session('default', 'ec2', 'us-east-1')
 
 
-
+# vpc1
 deploy_vpc(
 					 'boto3_vpc1', #vpc_name,
 					 '10.10.0.0/20', #primary_vpc_cidr,
@@ -26,6 +26,26 @@ deploy_vpc(
 					 '10.10.9.0/24', #az2_pri_cidr_private_subnet,
 					 '10.11.8.0/24', #az1_sec_cidr_private_subnet,
 					 '10.11.8.0/24', #az2_sec_cidr_private_subnet,
+           ec2=client_session('default', 'ec2', 'us-east-1')
+				 )
+
+
+# vpc2
+deploy_vpc(
+					 'boto3_vpc2', #vpc_name,
+					 '10.20.0.0/20', #primary_vpc_cidr,
+					 '10.21.0.0/20', #secondary_cidr,
+					 'us-east-1a', #az1,
+					 'us-east-1b', #az2,
+					 '10.20.1.0/24', #az1_pri_cidr_public_subnet,
+					 '10.20.2.0/24', #az2_pri_cidr_public_subnet,
+					 '10.21.1.0/24', #az1_sec_cidr_public_subnet,
+					 '10.21.2.0/24', #az2_sec_cidr_public_subnet,
+					 '10.20.8.0/24', #az1_pri_cidr_private_subnet,
+					 '10.20.9.0/24', #az2_pri_cidr_private_subnet,
+					 '10.21.8.0/24', #az1_sec_cidr_private_subnet,
+					 '10.21.8.0/24', #az2_sec_cidr_private_subnet,
+           ec2=client_session('default', 'ec2', 'us-east-1')
 				 )
 
 
