@@ -56,13 +56,15 @@ deploy_vpc(
            ec2=client_session('default', 'ec2', 'us-east-1')
 				 )
 
-# vpc peering connection
 # This function is only vpc peering connections created
 # from inside the same account.
-# It creates the connection, it accepts it and modifies the dns
+# It creates the connection, it accepts it and modifies the dns.
+# It creates routes for the requester and requester vpc route table
 same_account_vpc_peering('boto3_vpc1_and_vpc2_peering',
 					'boto3_vpc1', #requester_vpc
+          '10.20.0.0/20', #requester_dst_ipv4cidr
 					'boto3_vpc2', #accepter_vpc,
+          '10.10.0.0/20', #accepter_dst_ipv4cidr
 					'us-east-1', #accepter_region
 					ec2 = client_session('default', 'ec2','us-east-1'), #client session
 					sts = client_session('default', 'sts', 'us-east-1') #accepter account

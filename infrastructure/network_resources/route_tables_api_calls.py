@@ -46,26 +46,22 @@ def get_route_table_association_state(table_name, ec2):
 
 # This returns the route table id
 def get_vpc_route_table_id(table_name, ec2):
-  try:
-    if table_name == None:
-      pass
-    else:
-      resources = ec2.describe_route_tables(
-          Filters=[
-              {
-                'Name': 'tag:Name',
-                  'Values': [
-                      table_name,
-                  ]
-              }
-          ]
-          #DryRun=True|False,
-      )
-      for item in resources['RouteTables']:
-        print(f'{table_name}: {item["RouteTableId"]}')
-        return item['RouteTableId']
-  except Exception as err:
-    print(f'Error found: {err}...')
+	try:
+		resources = ec2.describe_route_tables(
+			Filters=[
+					{
+						'Name': 'tag:Name',
+							'Values': [
+									table_name,
+							]
+					}
+			]
+		#DryRun=True|False,
+		)
+		print(f'Updated route table: {resources["RouteTables"][0]["RouteTableId"]}')
+		return resources['RouteTables'][0]['RouteTableId']
+	except Exception as err:
+		print(f'Error found: {err}...')
 
 
 
@@ -134,14 +130,14 @@ def create_gateway_association_to_route_table(table_id, gateway_id, ec2):
 
 # This function creates a vpc route table entry for
 # internet gateway or virtual private gateway
-def vpc_route_enry_to_gateway(route_table_id, dst_ipv4cidr, gateway_id, ec2):
+def vpc_route_enry_to_gateway(route_table_name, dst_ipv4cidr, gateway_id, ec2):
 	try:
 		resources = ec2.create_route(
 				DestinationCidrBlock=dst_ipv4cidr,
 				#DestinationIpv6CidrBlock=dst_ipv6cidr,
 				#DryRun=True|False,
 				GatewayId=gateway_id,
-				RouteTableId=route_table_id,
+				RouteTableId=get_vpc_route_table_id(route_table_name, ec2),
 		)
 		print(resources)
 	except Exception as err:
