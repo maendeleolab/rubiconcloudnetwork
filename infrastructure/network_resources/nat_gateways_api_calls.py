@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from network_resources.elastic_ips_api_calls import *
-from network_resources.subnets_api_calls import *
+#from network_resources.elastic_ips_api_calls import *
+#from network_resources.subnets_api_calls import *
 from time import sleep
 
 # This function returns the name

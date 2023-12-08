@@ -130,14 +130,14 @@ def create_gateway_association_to_route_table(table_id, gateway_id, ec2):
 
 # This function creates a vpc route table entry for
 # internet gateway or virtual private gateway
-def vpc_route_enry_to_gateway(route_table_name, dst_ipv4cidr, gateway_id, ec2):
+def vpc_route_entry_to_gateway(route_table_id, dst_ipv4cidr, gateway_id, ec2):
 	try:
 		resources = ec2.create_route(
 				DestinationCidrBlock=dst_ipv4cidr,
 				#DestinationIpv6CidrBlock=dst_ipv6cidr,
 				#DryRun=True|False,
 				GatewayId=gateway_id,
-				RouteTableId=get_vpc_route_table_id(route_table_name, ec2),
+				RouteTableId=route_table_id,
 		)
 		print(resources)
 	except Exception as err:
