@@ -2,8 +2,8 @@
 
 ## [Description](#Description)
 
-We are building modular scripts to build, monitor and manage cloud network infrastructures.<br>
-Check out our project board [here](https://github.com/users/maendeleolab/projects/3/views/1?pane=info)
+The objective of this project is to build modular scripts to deploy, monitor and manage cloud network infrastructures.<br>
+Check out my project board [here](https://github.com/users/maendeleolab/projects/3/views/1?pane=info)
 
 ## [Prerequisites](#Prerequisites)
 
