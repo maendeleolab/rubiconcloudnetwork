@@ -32,7 +32,7 @@ deploy_vpc(
     '10.10.8.0/24',  # az1_pri_cidr_private_subnet,
     '10.10.9.0/24',  # az2_pri_cidr_private_subnet,
     '10.11.8.0/24',  # az1_sec_cidr_private_subnet,
-    '10.11.8.0/24',  # az2_sec_cidr_private_subnet,
+    '10.11.9.0/24',  # az2_sec_cidr_private_subnet,
     ec2=client_session('default', 'ec2', 'us-east-1')
 )
 
@@ -51,7 +51,7 @@ deploy_vpc(
     '10.20.8.0/24',  # az1_pri_cidr_private_subnet,
     '10.20.9.0/24',  # az2_pri_cidr_private_subnet,
     '10.21.8.0/24',  # az1_sec_cidr_private_subnet,
-    '10.21.8.0/24',  # az2_sec_cidr_private_subnet,
+    '10.21.9.0/24',  # az2_sec_cidr_private_subnet,
     ec2=client_session('default', 'ec2', 'us-east-1')
 )
 

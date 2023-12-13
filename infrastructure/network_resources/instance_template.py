@@ -18,19 +18,19 @@ from account_profiles import assume_profile_creds, client_session
 ec2 = client_session('default', 'ec2', 'us-east-1')
 
 
-#deploy_instances(
-#  'test', #instance_name,
-#  'ami-0fc5d935ebf8bc3bc', #image,
-#  't2.micro', #instance_type,
-#  'test-KeyPair', # key_name,
-#  '1', # max_count,
-#  '1', # min_count,
-#  True, # monitoring (boolean True or False),
-#  'sg-0b9aaa57d3008be2d', # security_group_ids,
-#  'subnet-0979ba7d8194fa1c2', # subnet_id,
-#  True, # associate public ip
-#  #user_data,
-#  ec2
-#  )
+deploy_instances(
+  'test', #instance_name,
+  'ami-0fc5d935ebf8bc3bc', #image,
+  't2.micro', #instance_type,
+  'test-KeyPair', # key_name,
+  '1', # max_count,
+  '1', # min_count,
+  True, # monitoring (boolean True or False),
+  'sg-0b9aaa57d3008be2d', # security_group_ids,
+  'subnet-0979ba7d8194fa1c2', # subnet_id,
+  True, # associate public ip
+  #user_data,
+  ec2
+  )
 
-get_instance_name('test', ec2)
+#get_instance_name('test', ec2)

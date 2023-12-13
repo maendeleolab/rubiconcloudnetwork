@@ -15,7 +15,7 @@ from network_resources.account_profiles import assume_profile_creds, client_sess
 # vpc_name = 'boto3_vpc1'
 
 
-def deploy_nat_gateways(vpc_name,
+def deploy_public_nat_gateways(vpc_name,
                         ec2=client_session('default', 'ec2', 'us-east-1')
                         ):
     # public nat
@@ -33,6 +33,24 @@ def deploy_nat_gateways(vpc_name,
                           vpc_name+'_public_nat2', ec2),  # elastic ip
                       ec2  # client session
                       )
+    # Create route entry in private route tables pointing to public nat
+    vpc_route_entry_to_nat_id(
+        get_vpc_route_table_id(vpc_name+'_private_rt_pri_az1', ec2),
+        '0.0.0.0/0',  # dst_ipv4cidr,
+        get_nat_id(vpc_name+'_public_nat1', ec2),  # nat_id,
+        ec2
+    )
+    vpc_route_entry_to_nat_id(
+        get_vpc_route_table_id(vpc_name+'_private_rt_pri_az2', ec2),
+        '0.0.0.0/0',  # dst_ipv4cidr,
+        get_nat_id(vpc_name+'_public_nat2', ec2),  # nat_id,
+        ec2
+    )
+
+
+def deploy_private_nat_gateways(vpc_name,
+                        ec2=client_session('default', 'ec2', 'us-east-1')
+                        ):
 
     # private nat
     create_private_nat(vpc_name+'_private_nat1',  # name of private nat resource
@@ -47,7 +65,6 @@ def deploy_nat_gateways(vpc_name,
                        '1',  # number_of_secondary_ips,
                        ec2  # client session
                        )
-
     # Create private nat
     vpc_route_entry_to_nat_id(
         get_vpc_route_table_id(vpc_name+'_private_rt_pri_az1', ec2),
