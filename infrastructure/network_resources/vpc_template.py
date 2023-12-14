@@ -1,15 +1,24 @@
 #!/usr/bin/env python3
 
+
 from network_resources.vpcs_api_calls import *
 from network_resources.subnets_api_calls import *
 from network_resources.route_tables_api_calls import *
 from network_resources.internet_gateways_api_calls import *
+from network_resources.prefixlists_api_calls import *
+from network_resources.prefixlist_template import deploy_prefixlist
+from network_resources.security_group_template import deploy_privaterfc1918_sg
 from network_resources.account_profiles import assume_profile_creds, client_session
+
 
 # The client_session function explicitly define the profile_name,
 # the service and region to use. This permits us to be granular.
 # client_session(profile_name, service, region)
 # ec2 = client_session('default', 'ec2', 'us-east-1')
+
+
+# prefixlist entries
+privaterfc1918 = ['172.16.0.0/12', '192.168.0.0/16']
 
 
 def deploy_vpc(
@@ -196,6 +205,16 @@ def deploy_vpc(
         get_subnet_id(vpc_name+'_private_1b_sec', ec2),
         ec2
     )
+    # Create prefixlist
+    deploy_prefixlist('privaterfc1918',  # prefixlist_name,
+                      '10.0.0.0/8',  # first_cidr,
+                      '50',  # max_entries,
+                      # list(cidrs_list),
+                      privaterfc1918,
+                      ec2
+                      )
+    # Create privaterfc1918 security group
+    deploy_privaterfc1918_sg(vpc_name+'_private', vpc_name, ec2)
     # Create internet gateway for the vpc
     create_igw(vpc_name, ec2)
     create_igw_attachment(vpc_name, get_vpc_id(vpc_name, ec2), ec2)

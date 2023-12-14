@@ -137,7 +137,7 @@ def create_prefixlist(name, cidr_entry, max_entries, ec2):
                         'Description': name
                     },
                 ],
-                MaxEntries=max_entries,
+                MaxEntries=int(max_entries),
                 TagSpecifications=[
                     {
                         'ResourceType': 'prefix-list',
@@ -224,7 +224,7 @@ def update_max_entries_of_prefixlist(prefixlist_name, prefixlist_id, state, max_
                     PrefixListId=prefixlist_id,
                     # CurrentVersion=get_prefixlist_version(prefixlist_name, ec2),
                     # PrefixListName='string',
-                    MaxEntries=max_entries
+                    MaxEntries=int(max_entries)
                 )
                 print(f'Modifying max entries for {prefixlist_name}...')
                 break

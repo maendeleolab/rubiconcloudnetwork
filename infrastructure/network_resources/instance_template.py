@@ -26,9 +26,9 @@ deploy_instances(
   '1', # max_count,
   '1', # min_count,
   True, # monitoring (boolean True or False),
-  'sg-0b9aaa57d3008be2d', # security_group_ids,
-  'subnet-0979ba7d8194fa1c2', # subnet_id,
-  True, # associate public ip
+  get_sg_id('boto3_vpc1_private_1b_pri', ec2), # security_group_ids,
+  get_subnet_id('boto3_vpc1_private_1b_pri', ec2), # subnet_id,
+  True, # associate public ip is boolean True or False
   #user_data,
   ec2
   )
