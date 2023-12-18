@@ -2,6 +2,8 @@
 import json
 import boto3
 
+
+
 def create_iam_role(role_name, policy, iam):
     try:
         resources = iam.create_role(
@@ -21,6 +23,7 @@ def create_iam_role(role_name, policy, iam):
         print(resources)
     except Exception as err:
         print(f'Error found: {err}...')
+
 
 
 def create_role(role_name, allowed_services, iam):
@@ -55,6 +58,7 @@ def create_role(role_name, allowed_services, iam):
         return role
 
 
+
 def attach_policy(role_name, policy_arn, iam):
 	try:
 		resources = iam.attach_role_policy(
@@ -70,8 +74,8 @@ def attach_policy(role_name, policy_arn, iam):
 def create_profile(profile_name, iam):
 	try:
 		resources = iam.create_instance_profile(
-				InstanceProfileName='string',
-				Path='string',
+				InstanceProfileName=profile_name,
+				#Path='string',
 				Tags=[
 						{
 								'Key': 'Name',
@@ -79,7 +83,88 @@ def create_profile(profile_name, iam):
 						},
 				]
 		)
+		print(resources)
 	except Exception as err:
 		print(err)
+
+
+
+def get_profile_arn(profile_name, iam):
+	try:
+		resources = iam.get_instance_profile(
+				InstanceProfileName=profile_name
+		)
+		print(f'Profile: {profile_name}, arn: {resources["InstanceProfile"]["Arn"]}')
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+def get_profile_data(profile_name, iam):
+	try:
+		resources = iam.get_instance_profile(
+				InstanceProfileName=profile_name
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+def adding_role_to_profile(profile_name, role_name, iam):
+	try:
+		resources = iam.add_role_to_instance_profile(
+				InstanceProfileName=profile_name,
+				RoleName=role_name
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+def remove_role_from_profile(profile_name, role_name, iam):
+	try:
+		resources = iam.remove_role_from_instance_profile(
+				InstanceProfileName=profile_name,
+				RoleName=role_name
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+def delete_profile(profile_name, iam):
+	try:
+		resources = iam.delete_instance_profile(
+				InstanceProfileName=profile_name
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+def detach_policy_from_role(role_name, policy_arn, iam):
+	try:
+		resources = iam.detach_role_policy(
+				RoleName=role_name,
+				PolicyArn=policy_arn
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
+
+
+
+def remove_role(role_name, iam):
+	try:
+		resources = iam.delete_role(
+				RoleName=role_name
+		)
+		print(resources)
+	except Exception as err:
+		print(f'Error found: {err}...')
 
 
