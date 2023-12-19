@@ -30,6 +30,8 @@ deploy_instances(
   get_sg_id('boto3_vpc1_private', ec2), # security_group_ids,
   get_subnet_id('boto3_vpc1_private_1b_pri', ec2), # subnet_id,
   True, # associate public ip is boolean True or False
+	get_profile_arn('ssm-instance-profile', iam), # profile arn
+	'ssm-instance-profile', # profile name
   #user_data,
   ec2
   )

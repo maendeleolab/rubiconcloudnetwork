@@ -64,6 +64,8 @@ def deploy_instances(
 	security_group_ids,
 	subnet_id,
 	associate_public_ip,
+	profile_arn,
+	profile_name,
 	#user_data,
 	ec2
 	):
@@ -103,10 +105,10 @@ def deploy_instances(
 					#UserData=user_data,
 					#AdditionalInfo='string',
 					#DryRun=True|False,
-					#IamInstanceProfile={
-					#    'Arn': 'string',
-					#    'Name': 'string'
-					#},
+					IamInstanceProfile={
+					    'Arn': profile_arn,
+					    'Name': profile_name
+					},
 					TagSpecifications=[
 							{
 									'ResourceType':'instance',

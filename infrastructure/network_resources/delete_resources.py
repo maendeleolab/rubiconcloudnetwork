@@ -17,13 +17,16 @@ from network_resources.account_profiles import assume_profile_creds, client_sess
 # client_session(profile_name, service, region)
 # ec2 = client_session('default', 'ec2', 'us-east-1')
 
-# vpc_name = 'boto3_vpc_name'
-
+AmazonSSMManagedInstanceCore='arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore'
 
 def delete_all(
     vpc_name,
     ec2=client_session('default', 'ec2', 'us-east-1')
 		):
+		remove_role_from_profile('ssm-instance-profile', 'ssm_role_for_connect', iam)
+		delete_profile('ssm-instance-profile', iam)
+		detach_policy_from_role('ssm_role_for_connect', AmazonSSMManagedInstanceCore, iam)
+		remove_role('ssm_role_for_connect', iam)
     delete_vpc_peering('boto3_vpc1_and_vpc2_peering', ec2)
     delete_nat(vpc_name+'_public_nat1', ec2)
     delete_nat(vpc_name+'_public_nat2', ec2)
