@@ -95,6 +95,7 @@ def get_profile_arn(profile_name, iam):
 				InstanceProfileName=profile_name
 		)
 		print(f'Profile: {profile_name}, arn: {resources["InstanceProfile"]["Arn"]}')
+		return resources["InstanceProfile"]["Arn"]
 	except Exception as err:
 		print(f'Error found: {err}...')
 

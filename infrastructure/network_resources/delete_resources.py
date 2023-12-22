@@ -10,6 +10,7 @@ from network_resources.security_groups_api_calls import *
 from network_resources.elastic_ips_api_calls import *
 from network_resources.nat_gateways_api_calls import *
 from network_resources.vpc_peerings_api_calls import *
+from network_resources.iam_api_calls import *
 from network_resources.account_profiles import assume_profile_creds, client_session
 
 # The client_session function explicitly define the profile_name,

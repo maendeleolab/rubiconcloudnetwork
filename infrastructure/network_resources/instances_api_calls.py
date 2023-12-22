@@ -20,7 +20,7 @@ def get_instance_id(name, ec2):
 				print(f'Id: {resources["Reservations"][0]["Instances"][0]["InstanceId"]}')
 				return resources["Reservations"][0]["Instances"][0]["InstanceId"]
 	except Exception as err:
-		print(f'Error found: {err}...')
+		print(f'Error found in get_instance_id: {err}...')
 
 
 def get_instance_name(name, ec2):
@@ -51,7 +51,7 @@ def get_instance_name(name, ec2):
 				print('='*80)
 				return tag['Value']
 	except Exception as err:
-		print(f'Error found: {err}...')
+		print(f'Error found get_instance_name: {err}...')
 
 def deploy_instances(
 	instance_name,
@@ -64,7 +64,7 @@ def deploy_instances(
 	security_group_ids,
 	subnet_id,
 	associate_public_ip,
-	profile_arn,
+	#profile_arn,
 	profile_name,
 	#user_data,
 	ec2
@@ -106,7 +106,7 @@ def deploy_instances(
 					#AdditionalInfo='string',
 					#DryRun=True|False,
 					IamInstanceProfile={
-					    'Arn': profile_arn,
+					    #'Arn': profile_arn,
 					    'Name': profile_name
 					},
 					TagSpecifications=[
@@ -135,6 +135,6 @@ def deploy_instances(
 			print(f'Private ip:{resources["Reservations"][0]["Instances"][0]["PrivateIpAddress"]}')
 			print('='*80)
 	except Exception as err:
-		print(f'Error found: {err}...')
+		print(f'Error found in deploy_instances: {err}...')
 
 
