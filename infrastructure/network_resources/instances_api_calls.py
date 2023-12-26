@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+from time import sleep
 
 def get_instance_id(name, ec2):
 	try:
@@ -23,6 +23,29 @@ def get_instance_id(name, ec2):
 		print(f'Error found in get_instance_id: {err}...')
 
 
+
+def get_instance_state(name, ec2):
+	try:
+		resources = ec2.describe_instances(
+			Filters=[
+						{
+								'Name': 'tag:Name',
+								'Values': [
+										name,
+								]
+						},
+				],
+				#DryRun=True|False,
+				#MaxResults=123,
+				#NextToken='string'
+		)
+		print(f'State:{resources["Reservations"][0]["Instances"][0]["State"]["Name"]}')
+		return resources["Reservations"][0]["Instances"][0]["State"]["Name"]
+	except Exception as err:
+		print(f'Error found in get_instance_state: {err}...')
+
+
+
 def get_instance_name(name, ec2):
 	try:
 		resources = ec2.describe_instances(
@@ -44,14 +67,14 @@ def get_instance_name(name, ec2):
 				print(f'Id: {resources["Reservations"][0]["Instances"][0]["InstanceId"]}')
 				print(f'Type: {resources["Reservations"][0]["Instances"][0]["InstanceType"]}')
 				print(f'Image: {resources["Reservations"][0]["Instances"][0]["ImageId"]}')
-				print(f'Public dns:{resources["Reservations"][0]["Instances"][0]["PublicDnsName"]}')
-				print(f'Public ip:{resources["Reservations"][0]["Instances"][0]["PublicIpAddress"]}')
+				#print(f'Public dns:{resources["Reservations"][0]["Instances"][0]["PublicDnsName"]}')
+				#print(f'Public ip:{resources["Reservations"][0]["Instances"][0]["PublicIpAddress"]}')
 				print(f'Private dns:{resources["Reservations"][0]["Instances"][0]["PrivateDnsName"]}')
 				print(f'Private ip:{resources["Reservations"][0]["Instances"][0]["PrivateIpAddress"]}')
 				print('='*80)
 				return tag['Value']
 	except Exception as err:
-		print(f'Error found get_instance_name: {err}...')
+		print(f'Error found in get_instance_name: {err}...')
 
 def deploy_instances(
 	instance_name,
@@ -124,16 +147,12 @@ def deploy_instances(
 							'AutoRecovery': 'default'
 					},
 			)
-			print('='*80)
-			print(f'Name: {tag["Value"]}')
-			print(f'Id: {resources["Reservations"][0]["Instances"][0]["InstanceId"]}')
-			print(f'Type: {resources["Reservations"][0]["Instances"][0]["InstanceType"]}')
-			print(f'Image: {resources["Reservations"][0]["Instances"][0]["ImageId"]}')
-			print(f'Public dns:{resources["Reservations"][0]["Instances"][0]["PublicDnsName"]}')
-			print(f'Public ip:{resources["Reservations"][0]["Instances"][0]["PublicIpAddress"]}')
-			print(f'Private dns:{resources["Reservations"][0]["Instances"][0]["PrivateDnsName"]}')
-			print(f'Private ip:{resources["Reservations"][0]["Instances"][0]["PrivateIpAddress"]}')
-			print('='*80)
+			while True:
+				if get_instance_state(instance_name, ec2) != 'running':
+					sleep(2)
+				elif get_instance_state(instance_name, ec2) == 'running':
+					break
+				get_instance_state(instance_name, ec2)
 	except Exception as err:
 		print(f'Error found in deploy_instances: {err}...')
 
