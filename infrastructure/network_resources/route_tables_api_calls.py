@@ -254,6 +254,18 @@ def vpc_route_entry_to_core_network(route_table_id,
         print(f'Error found: {err}...')
 
 
+def delete_vpc_route_entry(cidr_entry, route_table_name, ec2):
+	try:
+		resources = ec2.delete_route(
+				DestinationCidrBlock=cidr_entry,
+				#DestinationIpv6CidrBlock='string',
+				#DestinationPrefixListId='string',
+				#DryRun=True|False,
+				RouteTableId=get_vpc_route_table_id(route_table_name, ec2)
+		)
+	except Exception as err:
+		print(f'Error found in delete_vpc_route_entry: {err}...')
+
 # This deletes the route table
 def delete_vpc_route_table(table_id, ec2):
     try:
