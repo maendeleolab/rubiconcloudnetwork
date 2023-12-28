@@ -3,7 +3,6 @@ import json
 import boto3
 
 
-
 def create_iam_role(role_name, policy, iam):
     try:
         resources = iam.create_role(
@@ -22,8 +21,7 @@ def create_iam_role(role_name, policy, iam):
         )
         print(resources)
     except Exception as err:
-        print(f'Error found: {err}...')
-
+        print(f'Error found in "create_iam_role": {err}...')
 
 
 def create_role(role_name, allowed_services, iam):
@@ -53,10 +51,9 @@ def create_role(role_name, allowed_services, iam):
         )
         print(role)
     except Exception as err:
-        print(err)
+        print(f'Error found in "create_role": {err}..')
     else:
         return role
-
 
 
 def attach_policy(role_name, policy_arn, iam):
@@ -67,8 +64,7 @@ def attach_policy(role_name, policy_arn, iam):
 		)
 		print(resources)
 	except Exception as err:
-		print(err)
-
+		print(f'Error found in "attach_policy": {err}...')
 
 
 def create_profile(profile_name, iam):
@@ -85,8 +81,7 @@ def create_profile(profile_name, iam):
 		)
 		print(resources)
 	except Exception as err:
-		print(err)
-
+		print(f'Error found in "create_profile": {err}..')
 
 
 def get_profile_arn(profile_name, iam):
@@ -94,11 +89,9 @@ def get_profile_arn(profile_name, iam):
 		resources = iam.get_instance_profile(
 				InstanceProfileName=profile_name
 		)
-		print(f'Profile: {profile_name}, arn: {resources["InstanceProfile"]["Arn"]}')
 		return resources["InstanceProfile"]["Arn"]
 	except Exception as err:
-		print(f'Error found: {err}...')
-
+		print(f'Error found in "get_profile_arn": {err}...')
 
 
 def get_profile_data(profile_name, iam):
@@ -108,8 +101,7 @@ def get_profile_data(profile_name, iam):
 		)
 		print(resources)
 	except Exception as err:
-		print(f'Error found: {err}...')
-
+		print(f'Error found in "get_profile_data": {err}...')
 
 
 def adding_role_to_profile(profile_name, role_name, iam):
@@ -120,8 +112,7 @@ def adding_role_to_profile(profile_name, role_name, iam):
 		)
 		print(resources)
 	except Exception as err:
-		print(f'Error found: {err}...')
-
+		print(f'Error found in "adding_role_to_profile": {err}...')
 
 
 def remove_role_from_profile(profile_name, role_name, iam):
@@ -132,8 +123,7 @@ def remove_role_from_profile(profile_name, role_name, iam):
 		)
 		print(resources)
 	except Exception as err:
-		print(f'Error found: {err}...')
-
+		print(f'Error found in "remove_role_from_profile": {err}...')
 
 
 def delete_profile(profile_name, iam):
@@ -143,8 +133,7 @@ def delete_profile(profile_name, iam):
 		)
 		print(resources)
 	except Exception as err:
-		print(f'Error found: {err}...')
-
+		print(f'Error found in "delete_profile": {err}...')
 
 
 def detach_policy_from_role(role_name, policy_arn, iam):
@@ -155,8 +144,7 @@ def detach_policy_from_role(role_name, policy_arn, iam):
 		)
 		print(resources)
 	except Exception as err:
-		print(f'Error found: {err}...')
-
+		print(f'Error found in "detach_policy_from_role": {err}...')
 
 
 def remove_role(role_name, iam):
@@ -166,6 +154,6 @@ def remove_role(role_name, iam):
 		)
 		print(resources)
 	except Exception as err:
-		print(f'Error found: {err}...')
+		print(f'Error found in "remove_role": {err}...')
 
 

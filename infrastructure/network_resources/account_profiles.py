@@ -11,7 +11,7 @@ def assume_profile_creds(profile_name):
         return boto3.Session(profile_name=profile_name)
 
     except Exception as err:
-        print(f'Error found: {err}...')
+        print(f'Error found in "assume_profile_creds": {err}...')
 
 
 def client_session(profile_name, service, region):
@@ -21,4 +21,4 @@ def client_session(profile_name, service, region):
         return assume_profile_creds(profile_name).client(service, region_name=region)
 
     except Exception as err:
-        print(f'Error found: {err}...')
+        print(f'Error found in "client_session": {err}...')
