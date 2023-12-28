@@ -42,7 +42,6 @@ def get_nat_state(name, ec2):
             ],
         )
         for item in resources['NatGateways']:
-            print(f'Nat: {item["State"]}')
             return item["State"]
     except Exception as err:
         print(f'Error found in "get_nat_state": {err}...')
