@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-# from network_resources import vpcs_api_calls
-from network_resources.instances_api_calls import *
-from network_resources.endpoints_api_calls import *
-from network_resources.account_profiles import assume_profile_creds, \
+# from resources import vpcs_api_calls
+from resources.instances_api_calls import *
+from resources.endpoints_api_calls import *
+from resources.account_profiles import assume_profile_creds, \
     client_session
 
 # The client_session function explicitly define the profile_name,

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 
-from network_resources.vpcs_api_calls import *
-from network_resources.subnets_api_calls import *
-from network_resources.route_tables_api_calls import *
-from network_resources.internet_gateways_api_calls import *
-from network_resources.prefixlists_api_calls import *
-from network_resources.prefixlist_template import deploy_prefixlist
-from network_resources.security_group_template import deploy_privaterfc1918_sg
-from network_resources.account_profiles import assume_profile_creds, client_session
+from resources.vpcs_api_calls import *
+from resources.subnets_api_calls import *
+from resources.route_tables_api_calls import *
+from resources.internet_gateways_api_calls import *
+from resources.prefixlists_api_calls import *
+from resources.prefixlist_template import deploy_prefixlist
+from resources.security_group_template import deploy_privaterfc1918_sg
+from resources.account_profiles import assume_profile_creds, client_session
 
 
 # The client_session function explicitly define the profile_name,

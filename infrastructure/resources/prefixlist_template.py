@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from network_resources.prefixlists_api_calls import *
-from network_resources.account_profiles import assume_profile_creds, client_session
+from resources.prefixlists_api_calls import *
+from resources.account_profiles import assume_profile_creds, client_session
 # The client_session function explicitly define the profile_name,
 # the service and region to use. This permits us to be granular.
 # client_session(profile_name, service, region)

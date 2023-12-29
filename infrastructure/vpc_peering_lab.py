@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
 
-# from network_resources import vpcs_api_calls
-from network_resources.vpc_template import deploy_vpc
-from network_resources.vpc_peering_template import same_account_vpc_peering
-from network_resources.nat_gateway_template import deploy_public_nat_gateways
-from network_resources.elastic_ip_template import assign_public_ipv4
-from network_resources.endpoint_template import connect_endpoint
-from network_resources.instance_template import lab_instance
-from network_resources.vpcs_api_calls import *
-from network_resources.subnets_api_calls import *
-from network_resources.route_tables_api_calls import *
-from network_resources.internet_gateways_api_calls import *
-from network_resources.iam_api_calls import *
-from network_resources.endpoints_api_calls import *
-from network_resources.account_profiles import assume_profile_creds, \
+# from resources import vpcs_api_calls
+from resources.vpc_template import deploy_vpc
+from resources.vpc_peering_template import same_account_vpc_peering
+from resources.nat_gateway_template import deploy_public_nat_gateways
+from resources.elastic_ip_template import assign_public_ipv4
+from resources.endpoint_template import connect_endpoint
+from resources.instance_template import lab_instance
+from resources.vpcs_api_calls import *
+from resources.subnets_api_calls import *
+from resources.route_tables_api_calls import *
+from resources.internet_gateways_api_calls import *
+from resources.iam_api_calls import *
+from resources.endpoints_api_calls import *
+from resources.account_profiles import assume_profile_creds, \
     client_session
+
+
+from resources.visibility import *
 
 # The client_session function explicitly define the profile_name,
 # the service and region to use. This permits us to be granular.
@@ -29,6 +32,7 @@ from network_resources.account_profiles import assume_profile_creds, \
 
 ec2=client_session('default', 'ec2', 'us-east-1')
 
+logger.debug('vpc section')
 # vpc1
 deploy_vpc(
     'boto3_vpc1',  # vpc_name,
@@ -66,6 +70,7 @@ deploy_vpc(
     ec2
 )
 
+logger.debug('vpc peering section')
 # This function is only vpc peering connections created
 # from inside the same account.
 # It creates the connection, it accepts it and modifies the dns.
@@ -84,6 +89,7 @@ same_account_vpc_peering('boto3_vpc1_and_vpc2_peering',
                          )
 
 
+logger.debug('vpc eip assignment')
 # Adding NAT gateways 
 # Deploys ipv4 elastic ips
 # 2 elastic ips are created in each vpc
@@ -104,6 +110,7 @@ deploy_public_nat_gateways('boto3_vpc2',
 
 
 
+logger.debug('connect endpoint section')
 # Add instance connect endpoint
 # This is allow users to access instance from the browser in the console
 connect_endpoint(
@@ -122,6 +129,7 @@ connect_endpoint(
 )
 
 
+logger.debug('deploy instances section')
 # Create instances
 lab_instance(
 		'boto3_vpc1', #name,

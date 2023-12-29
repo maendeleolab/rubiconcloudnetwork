@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
 
-# from network_resources.vpcs_api_calls import *
-# from network_resources.account_profiles import assume_profile_creds, client_session
-from network_resources.vpcs_api_calls import *
-from network_resources.vpc_peerings_api_calls import *
-from network_resources.sts_api_calls import *
-from network_resources.route_tables_api_calls import *
-from network_resources.account_profiles import assume_profile_creds, client_session
+# from resources.vpcs_api_calls import *
+# from resources.account_profiles import assume_profile_creds, client_session
+from resources.vpcs_api_calls import *
+from resources.vpc_peerings_api_calls import *
+from resources.sts_api_calls import *
+from resources.route_tables_api_calls import *
+from resources.account_profiles import assume_profile_creds, client_session
 
 
 # The client_session function explicitly define the profile_name,
