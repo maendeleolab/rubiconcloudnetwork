@@ -42,7 +42,7 @@ pip install -r requirements.txt
 │   └── template.py
 ├── infrastructure
 │   ├── __init__.py
-│   ├── network_resources
+│   ├── resources
 │   │   ├── __init__.py
 │   │   ├── account_profiles.py
 │   │   ├── delete_resources.py
