@@ -38,18 +38,6 @@ pip install -r requirements.txt
 .
 ├── LICENSE
 ├── README.md
-├── __pycache__
-│   ├── account_profiles.cpython-38.pyc
-│   ├── elastic_ips_api_calls.cpython-38.pyc
-│   ├── internet_gateways_api_calls.cpython-38.pyc
-│   ├── nat_gateways_api_calls.cpython-38.pyc
-│   ├── network_access_list_template.cpython-38.pyc
-│   ├── network_access_lists_api_calls.cpython-38.pyc
-│   ├── prefixlists_api_calls.cpython-38.pyc
-│   ├── route_tables_api_calls.cpython-38.pyc
-│   ├── security_groups_api_calls.cpython-38.pyc
-│   ├── subnets_api_calls.cpython-38.pyc
-│   └── vpcs_api_calls.cpython-38.pyc
 ├── aws_org
 │   └── template.py
 ├── infrastructure
@@ -74,7 +62,9 @@ pip install -r requirements.txt
 │   │   ├── vpc_peerings_api_calls.py
 │   │   ├── vpc_template.py
 │   │   └── vpcs_api_calls.py
-│   └── vpc_peering_lab.py
+│   |
+|   └── vpc_peering_lab.py
+|   |___ More labs ............
 └── requirements.txt
 ```
 
