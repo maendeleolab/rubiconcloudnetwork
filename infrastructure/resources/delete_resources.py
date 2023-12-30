@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
-from network_resources.vpcs_api_calls import *
-from network_resources.subnets_api_calls import *
-from network_resources.route_tables_api_calls import *
-from network_resources.internet_gateways_api_calls import *
-from network_resources.prefixlists_api_calls import *
-from network_resources.network_access_lists_api_calls import *
-from network_resources.security_groups_api_calls import *
-from network_resources.elastic_ips_api_calls import *
-from network_resources.nat_gateways_api_calls import *
-from network_resources.vpc_peerings_api_calls import *
-from network_resources.endpoints_api_calls import *
-from network_resources.iam_api_calls import *
-from network_resources.account_profiles import assume_profile_creds, client_session
+from resources.vpcs_api_calls import *
+from resources.subnets_api_calls import *
+from resources.route_tables_api_calls import *
+from resources.internet_gateways_api_calls import *
+from resources.prefixlists_api_calls import *
+from resources.network_access_lists_api_calls import *
+from resources.security_groups_api_calls import *
+from resources.elastic_ips_api_calls import *
+from resources.nat_gateways_api_calls import *
+from resources.vpc_peerings_api_calls import *
+from resources.endpoints_api_calls import *
+from resources.iam_api_calls import *
+from resources.account_profiles import assume_profile_creds, client_session
 
 
 # The client_session function explicitly define the profile_name,
