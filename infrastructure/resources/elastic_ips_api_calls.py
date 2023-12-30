@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 
+from resources.visibility import *
+
+
 # This function returns the allocation id
 def get_allocation_id(name, ec2):
     try:
@@ -19,7 +22,7 @@ def get_allocation_id(name, ec2):
             print(f'Allocation id: {item["AllocationId"]}')
             return item["AllocationId"]
     except Exception as err:
-        print(f'Error found in "get_allocation_id": {err}...')
+        logger.error(f'Error found in "get_allocation_id": {err}...')
 
 
 # This function returns the allocation id
@@ -40,7 +43,7 @@ def get_address_name(name, ec2):
             print(f'Allocation id: {item["Value"]}')
             return item["Value"]
     except Exception as err:
-        print(f'Error found in "get_address_name": {err}...')
+        logger.error(f'Error found in "get_address_name": {err}...')
 
 
 # This function returns the NetworkBorderGroup
@@ -61,7 +64,7 @@ def get_networkborder_group(name, ec2):
             print(f'Allocation id: {item["NetworkBorderGroup"]}')
             return item["NetworkBorderGroup"]
     except Exception as err:
-        print(f'Error found in "get_networkborder_group": {err}...')
+        logger.error(f'Error found in "get_networkborder_group": {err}...')
 
 
 # This function returns the association id
@@ -82,7 +85,7 @@ def get_association_id(name, ec2):
             print(f'Association id: {item["AssociationId"]}')
             return item["AssociationId"]
     except Exception as err:
-        print(f'Error found in "get_association_id": {err}...')
+        logger.error(f'Error found in "get_association_id": {err}...')
 
 
 # This function allocates a public ip address
@@ -114,7 +117,7 @@ def allocate_public_ipv4(name, ec2):
             )
             print(f'Allocated public ip: {resources["PublicIp"]}')
     except Exception as err:
-        print(f'Error found in "allocate_public_ipv4": {err}...')
+        logger.error(f'resource does not exist to "allocate_public_ipv4": {err}...')
 
 
 # This function disassociates the public ip from
@@ -127,7 +130,7 @@ def detach_public_ipv4(name, ec2):
         )
         print(f'Detaching address: {name}')
     except Exception as err:
-        print(f'Error found in "detach_public_ipv4": {err}...')
+        logger.error(f'Error found in "detach_public_ipv4": {err}...')
 
 
 # This function releases the public ip
@@ -140,4 +143,4 @@ def release_public_ipv4_address(name, ec2):
         )
         print(f'Releasing allocation address: {name}')
     except Exception as err:
-        print(f'Error found in "release_public_ipv4_address": {err}...')
+        logger.error(f'Error found in "release_public_ipv4_address": {err}...')

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+from resources.visibility import *
 
 # This returns the route table tag key "Name"
 def describe_vpc_route_table(table_name, ec2):
@@ -18,7 +18,7 @@ def describe_vpc_route_table(table_name, ec2):
         for item in resources['RouteTables'][0]['Tags']:
             return item['Value']
     except Exception as err:
-        print(f'Error found in "describe_vpc_route_table": {err}...')
+        logger.error(f'Error found in "describe_vpc_route_table": {err}...')
 
 
 # This returns the route table associations state
@@ -40,7 +40,7 @@ def get_route_table_association_state(table_name, ec2):
                 f'Route table: {table_name} is {item["AssociationSate"]["State"]}')
             return item['AssociationSate']['State']
     except Exception as err:
-        print(f'Error found in "get_route_table_association_state": {err}...')
+        logger.error(f'Error found in "get_route_table_association_state": {err}...')
 
 
 # This returns the route table id
@@ -61,7 +61,7 @@ def get_vpc_route_table_id(table_name, ec2):
             f'Updated route table: {resources["RouteTables"][0]["RouteTableId"]}')
         return resources['RouteTables'][0]['RouteTableId']
     except Exception as err:
-        print(f'Error found in "get_vpc_route_table_id": {err}...')
+        logger.error(f'Error found in "get_vpc_route_table_id": {err}...')
 
 
 # This creates a vpc route table
@@ -89,7 +89,7 @@ def create_vpc_route_table(vpc_id, table_name, ec2):
                 ]
             )
     except Exception as err:
-        print(f'Found error in "create_vpc_route_table": {err}...')
+        logger.error(f'Found error in "create_vpc_route_table": {err}...')
 
 
 # This creates a subnet association to a route table
@@ -105,7 +105,7 @@ def create_subnet_association_to_route_table(table_id, subnet_id, ec2):
             )
             print(f'{subnet_id} is associated to {table_id}...')
     except Exception as err:
-        print(f'Error found in "create_subnet_association_to_route_table": {err}...')
+        logger.error(f'Error found in "create_subnet_association_to_route_table": {err}...')
 
 
 # This creates a gateway route table association
@@ -121,7 +121,7 @@ def create_gateway_association_to_route_table(table_id, gateway_id, ec2):
             )
             print(f'{gateway_id} is associated to {table_id}...')
     except Exception as err:
-        print(f'Error found in "create_gateway_association_to_route_table": {err}...')
+        logger.error(f'Error found in "create_gateway_association_to_route_table": {err}...')
 
 
 # This function creates a vpc route table entry for
@@ -137,7 +137,7 @@ def vpc_route_entry_to_gateway(route_table_id, dst_ipv4cidr, gateway_id, ec2):
         )
         print(resources)
     except Exception as err:
-        print(f'Error found in "vpc_route_entry_to_gateway": {err}...')
+        logger.error(f'Error found in "vpc_route_entry_to_gateway": {err}...')
 
 
 # This function creates a vpc route table entry using prefixlist
@@ -152,7 +152,7 @@ def vpc_route_entry_for_prefixlist(route_table_id, dst_ipv4cidr, prefixlist_id, 
         )
         print(resources)
     except Exception as err:
-        print(f'Error found in "vpc_route_entry_for_prefixlist": {err}...')
+        logger.error(f'Error found in "vpc_route_entry_for_prefixlist": {err}...')
 
 
 # This function creates a vpc route table entry for vpc endpoint
@@ -167,7 +167,7 @@ def vpc_route_entry_for_endpoint(route_table_id, dst_ipv4cidr, endpoint_id, ec2)
         )
         print(resources)
     except Exception as err:
-        print(f'Error found in "vpc_route_entry_for_endpoint": {err}...')
+        logger.error(f'Error found in "vpc_route_entry_for_endpoint": {err}...')
 
 
 # This function creates a vpc route table entry to nat gateway
@@ -182,7 +182,7 @@ def vpc_route_entry_to_nat_id(route_table_id, dst_ipv4cidr, nat_id, ec2):
         )
         print(resources)
     except Exception as err:
-        print(f'Error found in "vpc_route_entry_to_nat_id": {err}...')
+        logger.error(f'Error found in "vpc_route_entry_to_nat_id": {err}...')
 
 
 # This function creates a vpc route table entry to transit gateway
@@ -197,7 +197,7 @@ def vpc_route_entry_to_tgw(route_table_id, dst_ipv4cidr, tgw_id, ec2):
         )
         print(resources)
     except Exception as err:
-        print(f'Error found in "vpc_route_entry_to_tgw": {err}...')
+        logger.error(f'Error found in "vpc_route_entry_to_tgw": {err}...')
 
 
 # This function creates a vpc route table entry to network interface
@@ -212,7 +212,7 @@ def vpc_route_entry_to_interface(route_table_id, dst_ipv4cidr, interface_id, ec2
         )
         print(resources)
     except Exception as err:
-        print(f'Error found in "vpc_route_entry_to_interface": {err}...')
+        logger.error(f'Error found in "vpc_route_entry_to_interface": {err}...')
 
 
 # This function creates a vpc route table entry for vpc peering
@@ -230,7 +230,7 @@ def vpc_route_entry_for_vpc_peering(route_table_id,
         )
         print(resources)
     except Exception as err:
-        print(f'Error found in "vpc_route_entry_for_vpc_peering": {err}...')
+        logger.error(f'Error found in "vpc_route_entry_for_vpc_peering": {err}...')
 
 
 # This function creates a vpc route table entry to core network (cloudwan)
@@ -251,7 +251,7 @@ def vpc_route_entry_to_core_network(route_table_id,
         )
         print(resources)
     except Exception as err:
-        print(f'Error found in "vpc_route_entry_to_core_network": {err}...')
+        logger.error(f'Error found in "vpc_route_entry_to_core_network": {err}...')
 
 
 def delete_vpc_route_entry(cidr_entry, route_table_name, ec2):
@@ -264,7 +264,7 @@ def delete_vpc_route_entry(cidr_entry, route_table_name, ec2):
 				RouteTableId=get_vpc_route_table_id(route_table_name, ec2)
 		)
 	except Exception as err:
-		print(f'Error found in "delete_vpc_route_entry": {err}...')
+		logger.error(f'Error found in "delete_vpc_route_entry": {err}...')
 
 
 # This deletes the route table
@@ -279,4 +279,4 @@ def delete_vpc_route_table(table_id, ec2):
                 RouteTableId=table_id
             )
     except Exception as err:
-        print(f'Error found in "delete_vpc_route_table": {err}...')
+        logger.error(f'Error found in "delete_vpc_route_table": {err}...')

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from time import sleep
+from resources.visibility import *
 
 
 def get_connect_endpoint_state(endpoint_name, ec2):
@@ -19,7 +20,7 @@ def get_connect_endpoint_state(endpoint_name, ec2):
 		)
 		return resources["InstanceConnectEndpoints"][0]["State"]
 	except Exception as err:
-		print(f'Error found in "get_connect_endpoint_state": {err}...')
+		logger.error(f'Error found in "get_connect_endpoint_state": {err}...')
 
 
 def get_connect_endpoint_id(endpoint_name, ec2):
@@ -39,7 +40,7 @@ def get_connect_endpoint_id(endpoint_name, ec2):
 		)
 		return resources["InstanceConnectEndpoints"][0]["InstanceConnectEndpointId"]
 	except Exception as err:
-		print(f'Error found in "get_connect_endpoint_id": {err}...')
+		logger.error(f'Error found in "get_connect_endpoint_id": {err}...')
 
 
 def create_connect_endpoint(endpoint_name, 
@@ -77,7 +78,7 @@ def create_connect_endpoint(endpoint_name,
 				break
 			print(get_connect_endpoint_state(endpoint_name, ec2))
 	except Exception as err:
-		print(f'Error found in "create_connect_endpoint": {err}...')
+		logger.error(f'Error found in "create_connect_endpoint": {err}...')
 
 
 def delete_connect_endpoint(endpoint_name, ec2):
@@ -93,6 +94,6 @@ def delete_connect_endpoint(endpoint_name, ec2):
 				break
 			get_connect_endpoint_state(endpoint_name, ec2)
 	except Exception as err:
-		print(f'Error found in "delete_connect_endpoint": {err}...')
+		logger.error(f'Error found in "delete_connect_endpoint": {err}...')
 
 

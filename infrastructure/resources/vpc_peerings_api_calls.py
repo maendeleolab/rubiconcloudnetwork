@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
+
 from time import sleep
+from resources.visibility import *
+
 
 # This function returns the connection id
-
-
 def get_vpc_peering_connection_id(name, ec2):
     try:
         resources = ec2.describe_vpc_peering_connections(
@@ -23,7 +24,7 @@ def get_vpc_peering_connection_id(name, ec2):
 		{resources["VpcPeeringConnections"][0]["VpcPeeringConnectionId"]}')
         return resources["VpcPeeringConnections"][0]["VpcPeeringConnectionId"]
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
 
 
 # This function returns the connection name
@@ -46,7 +47,7 @@ def get_vpc_peering_connection_name(name, ec2):
             print(f'Vpc peering: {item["Value"]}')
             return item["Value"]
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
 
 
 # This function returns the connection status
@@ -69,7 +70,7 @@ def get_vpc_peering_connection_status(name, ec2):
             f' Status: {resources["VpcPeeringConnections"][0]["Status"]["Code"]}')
         return resources['VpcPeeringConnections'][0]['Status']['Code']
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
 
 
 # This function creates the vpc peering request
@@ -103,7 +104,7 @@ def create_vpc_peering(
         print(f'Connection: {connection_name} initiated...')
         print(f'Status: {resources["VpcPeeringConnection"]["Status"]}')
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
 
 
 # This function accepts the vpc peering connection
@@ -128,7 +129,7 @@ def accept_vpc_peering(name, ec2):
                     f'Status: {get_vpc_peering_connection_status(name, ec2)}...')
             get_vpc_peering_connection_status(name, ec2)
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
 
 
 # This function deletes the vpc peering connection
@@ -142,7 +143,7 @@ def delete_vpc_peering(vpc_peering_name, ec2):
         print(f'Deleting Vpc peering connection: {name}...')
         print(f'Status: {get_vpc_peering_connection_status(name, ec2)}')
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
 
 
 # This function modifies the vpc peering connection
@@ -160,4 +161,4 @@ def modify_vpc_peering(ec2, vpc_peering_name, accepter_dns=False, requester_dns=
                 vpc_peering_name, ec2)
         )
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')

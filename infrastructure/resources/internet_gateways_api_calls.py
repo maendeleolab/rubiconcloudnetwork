@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from resources.visibility import *
 
 
 # This function returns the internet gateway tag "Name" key
@@ -22,7 +23,7 @@ def get_igw_name(igw_name, ec2):
                 print(f'Resource name: {item["Value"]}...')
                 return item['Value']
     except Exception as err:
-        print(f'Error found in "get_igw_name": {err}...')
+        logger.error(f'Error found in "get_igw_name": {err}...')
 
 
 # This function returns the internet gateway id
@@ -46,7 +47,7 @@ def get_igw_id(igw_name, ec2):
                 print(f'{igw_name}: {item["InternetGatewayId"]}...')
                 return item['InternetGatewayId']
     except Exception as err:
-        print(f'Error found in "get_igw_id": {err}...')
+        logger.error(f'Error found in "get_igw_id": {err}...')
 
 
 # This function returns the state of the internet gateway attachment
@@ -66,7 +67,7 @@ def get_igw_attachment_state(igw_name, ec2):
                     f'Internet gateway: {igw_name}, state: {item["State"]}...')
                 return item['State']
     except Exception as err:
-        print(f'Error found in "get_igw_attachment_state": {err}...')
+        logger.error(f'Error found in "get_igw_attachment_state": {err}...')
 
 
 # This function creates the internet gateway
@@ -93,7 +94,7 @@ def create_igw(igw, ec2):
             print(
                 f'{igw}: {resources["InternetGateway"]["InternetGatewayId"]}...')
     except Exception as err:
-        print(f'Error found in "create_igw": {err}...')
+        logger.error(f'Error found in "create_igw": {err}...')
 
 
 # This function attaches the internet gateway to a vpc
@@ -106,7 +107,7 @@ def create_igw_attachment(igw_name, vpc_id, ec2):
         )
         print(f'Attaching igw: {igw_name} to vpc id: {vpc_id}...')
     except Exception as err:
-        print(f'Error found in "create_igw_attachment": {err}...')
+        logger.error(f'Error found in "create_igw_attachment": {err}...')
 
 
 # This function detaches the internet gateway to a vpc
@@ -119,7 +120,7 @@ def detach_igw(igw_name, vpc_id, ec2):
         )
         print(f'Detaching igw: {igw_name} from vpc id: {vpc_id}...')
     except Exception as err:
-        print(f'Error found in "detach_igw": {err}...')
+        logger.error(f'Error found in "detach_igw": {err}...')
 
 
 # This function deletes the internet gateway
@@ -134,4 +135,4 @@ def delete_igw(igw_id, ec2):
                 InternetGatewayId=igw_id
             )
     except Exception as err:
-        print(f'Error found in "delete_igw": {err}...')
+        logger.error(f'Error found in "delete_igw": {err}...')

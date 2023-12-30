@@ -4,6 +4,7 @@
 # from network_resources.elastic_ips_api_calls import *
 # from network_resources.subnets_api_calls import *
 from time import sleep
+from resources.visibility import *
 
 
 # This function returns the name
@@ -24,7 +25,7 @@ def get_nat_name(name, ec2):
             print(f'Nat: {item["Value"]}')
             return item["Value"]
     except Exception as err:
-        print(f'Error found in "get_nat_name": {err}...')
+        logger.error(f'Error found in "get_nat_name": {err}...')
 
 
 # This function returns the state
@@ -44,7 +45,7 @@ def get_nat_state(name, ec2):
         for item in resources['NatGateways']:
             return item["State"]
     except Exception as err:
-        print(f'Error found in "get_nat_state": {err}...')
+        logger.error(f'Error found in "get_nat_state": {err}...')
 
 
 # This function returns the id
@@ -65,7 +66,7 @@ def get_nat_id(name, ec2):
             print(f'Nat id: {item["NatGatewayId"]}')
             return item["NatGatewayId"]
     except Exception as err:
-        print(f'Error found in "get_nat_id": {err}...')
+        logger.error(f'Error found in "get_nat_id": {err}...')
 
 
 # This function creates a public nat gateway
@@ -113,7 +114,7 @@ def create_public_nat(name, subnet, eip, ec2):
             print(
                 f'Created nat gateway: {resources["NatGateway"]["NatGatewayId"]}')
     except Exception as err:
-        print(f' Error found in "create_public_nat": {err}...')
+        logger.error(f' Error found in "create_public_nat": {err}...')
 
 
 # This function creates a private nat gateway
@@ -158,7 +159,7 @@ def create_private_nat(name, subnet, number_of_secondary_ips, ec2):
             print(
                 f'Creating private nat: {name}, number of secondary ips: {number_of_secondary_ips}')
     except Exception as err:
-        print(f'Error found in "create_private_nat": {err}...')
+        logger.error(f'Error found in "create_private_nat": {err}...')
 
 
 # This function deletes the nat gateway
@@ -178,4 +179,4 @@ def delete_nat(name, ec2):
             print(f'{name} state is {state}...')
         state = get_nat_state(name, ec2)
     except Exception as err:
-        print(f'Error found in "delete_nat": {err}...')
+        logger.error(f'Error found in "delete_nat": {err}...')

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+from resources.visibility import *
 
 # This function gets the security-group id
 def get_sg_id(sg_name, ec2):
@@ -22,7 +22,7 @@ def get_sg_id(sg_name, ec2):
             return item["GroupId"]
 
     except Exception as err:
-        print(f'Error found in "get_sg_id": {err}...')
+        logger.error(f'Error found in "get_sg_id": {err}...')
 
 
 # This function gets the name of the security-group
@@ -46,7 +46,7 @@ def get_sg_name(sg_name, ec2):
         return resources["SecurityGroups"]["GroupName"]
 
     except Exception as err:
-        print(f'Error found in "get_sg_name": {err}...')
+        logger.error(f'Error found in "get_sg_name": {err}...')
 
 
 # This function creates a security-group
@@ -71,7 +71,7 @@ def create_sg(sg_name, vpc_id, ec2):
         )
         print(f'Creating security-group: {sg_name}...')
     except Exception as err:
-        print(f'Error found in "create_sg": {err}...')
+        logger.error(f'Error found in "create_sg": {err}...')
 
 
 # This function adds egress entries to a security-group
@@ -105,7 +105,7 @@ def add_egress_sg(sg_group_id,
         print(
             f'Protocol:{protocol_number} -> to dst {prefixlist_id}:{to_port}')
     except Exception as err:
-        print(f'Error found in "add_egress_sg": {err}...')
+        logger.error(f'Error found in "add_egress_sg": {err}...')
 
 
 # This function adds ingress entries to a security-group
@@ -139,7 +139,7 @@ def add_ingress_sg(sg_group_id,
         print(
             f'from src {prefixlist_id} -> protocol:{protocol_number}:{to_port}')
     except Exception as err:
-        print(f'Error found in "add_ingress_sg": {err}...')
+        logger.error(f'Error found in "add_ingress_sg": {err}...')
 
 
 # This function revokes the egress security-group
@@ -171,7 +171,7 @@ def remove_egress_sg(sg_group_id,
         )
         print(f'Removing egress rule to security-group: {sg_group_id}...')
     except Exception as err:
-        print(f'Error found in "remove_egress_sg": {err}...')
+        logger.error(f'Error found in "remove_egress_sg": {err}...')
 
 
 # This function deletes a security group
@@ -203,7 +203,7 @@ def remove_ingress_sg(sg_group_id,
         )
         print(f'Removing ingress rule to security-group: {sg_group_id}...')
     except Exception as err:
-        print(f'Error found in "remove_ingress_sg": {err}...')
+        logger.error(f'Error found in "remove_ingress_sg": {err}...')
 
 
 # This funcion deletes security-groups
@@ -216,4 +216,4 @@ def delete_sg(sg_id, ec2):
         )
         print(f'Deleting {sg_id}...')
     except Exception as err:
-        print(f'Error found in "delete_sg": {err}...')
+        logger.error(f'Error found in "delete_sg": {err}...')

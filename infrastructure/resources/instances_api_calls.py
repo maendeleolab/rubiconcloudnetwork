@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from time import sleep
+from resources.visibility import *
 
 
 def get_instance_id(name, ec2):
@@ -21,7 +22,7 @@ def get_instance_id(name, ec2):
 				print(f'Id: {resources["Reservations"][0]["Instances"][0]["InstanceId"]}')
 				return resources["Reservations"][0]["Instances"][0]["InstanceId"]
 	except Exception as err:
-		print(f'Error found in "get_instance_id": {err}...')
+		logger.error(f'Error found in "get_instance_id": {err}...')
 
 
 def get_instance_state(name, ec2):
@@ -42,7 +43,7 @@ def get_instance_state(name, ec2):
 		print(f'State:{resources["Reservations"][0]["Instances"][0]["State"]["Name"]}')
 		return resources["Reservations"][0]["Instances"][0]["State"]["Name"]
 	except Exception as err:
-		print(f'Error found in "get_instance_state": {err}...')
+		logger.error(f'Error found in "get_instance_state": {err}...')
 
 
 def get_instance_name(name, ec2):
@@ -73,7 +74,7 @@ def get_instance_name(name, ec2):
 				print('='*80)
 				return tag['Value']
 	except Exception as err:
-		print(f'Error found in "get_instance_name": {err}...')
+		logger.error(f'Error found in "get_instance_name": {err}...')
 
 
 def deploy_instances(
@@ -154,7 +155,7 @@ def deploy_instances(
 					break
 				get_instance_state(instance_name, ec2)
 	except Exception as err:
-		print(f'Error found in "deploy_instances": {err}...')
+		logger.error(f'Error found in "deploy_instances": {err}...')
 
 
 def delete_instance(instance_name, ec2):
@@ -167,5 +168,5 @@ def delete_instance(instance_name, ec2):
 		)
 		print(resources)
 	except Exception as err:
-		print(f'Error found in "delete_instance": {err}...')
+		logger.error(f'Error found in "delete_instance": {err}...')
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from time import sleep
-
+from resources.visibility import *
 
 # This function returns the prefix list name
 def get_prefixlist_name(prefixlist, ec2):
@@ -20,7 +20,7 @@ def get_prefixlist_name(prefixlist, ec2):
             f'Prefix-list name: {resources["PrefixLists"][0]["PrefixListName"]}')
         return resources['PrefixLists'][0]['PrefixListName']
     except Exception as err:
-        print(f'prefix-list "{prefixlist}" not found...')
+        logger.error(f'prefix-list "{prefixlist}" not found...')
 
 
 # This function checks if cidr entry already exists in prefix-list
@@ -35,7 +35,7 @@ def verify_if_cidr_entry_exists(prefixlist_id, cidr_entry, ec2):
                 print(f'Cidr : {entry["Cidr"]}')
                 return entry['Cidr']
     except Exception as err:
-        print(f'Error found in "verify_if_cidr_entry_exists": {err}...')
+        logger.error(f'Error found in "verify_if_cidr_entry_exists": {err}...')
 
 
 # This function returns the prefix list id
@@ -60,7 +60,7 @@ def get_prefixlist_id(prefixlist_id, ec2):
                 print(f'Prefix-list name: {item["PrefixListId"]}')
                 return item['PrefixListId']
     except Exception as err:
-        print(f'Error found in "get_prefixlist_id": {err}...')
+        logger.error(f'Error found in "get_prefixlist_id": {err}...')
 
 
 # This function returns the prefix-list version
@@ -86,7 +86,7 @@ def get_prefixlist_version(prefixlist_id, ec2):
                 print(f'Prefix-list version: {item["Version"]}')
                 return item['Version']
     except Exception as err:
-        print(f'Error found in "get_prefixlist_version": {err}...')
+        logger.error(f'Error found in "get_prefixlist_version": {err}...')
 
 
 # This function returns the prefix-list state
@@ -113,7 +113,7 @@ def get_prefixlist_state(prefixlist_id, ec2):
                 print(f'Prefix-list version: {item["State"]}')
                 return item['State']
     except Exception as err:
-        print(f'Error found in "get_prefixlist_state": {err}...')
+        logger.error(f'Error found in "get_prefixlist_state": {err}...')
 
 
 # This function creates a prefix list for ipv4 addresses
@@ -148,7 +148,7 @@ def create_prefixlist(name, cidr_entry, max_entries, ec2):
                 AddressFamily='IPv4',
             )
     except Exception as err:
-        print(f'Error found in "create_prefixlist": {err}...')
+        logger.error(f'Error found in "create_prefixlist": {err}...')
 
 
 # This function adds new entries to the prefix list
@@ -186,7 +186,7 @@ def add_entries_to_prefixlist(
             state = get_prefixlist_state(prefixlist_name, ec2)
             print(f'Prefix-list {prefixlist_name} state {state}...')
     except Exception as err:
-        print(f'Error found in "add_entries_to_prefixlist": {err}...')
+        logger.error(f'Error found in "add_entries_to_prefixlist": {err}...')
 
 
 # This function removes entries from the prefix list
@@ -204,7 +204,7 @@ def remove_entries_from_prefixlist(prefixlist_name, prefixlist_id, cidr_entry, e
             ],
         )
     except Exception as err:
-        print(f'Error found in "remove_entries_from_prefixlist": {err}...')
+        logger.error(f'Error found in "remove_entries_from_prefixlist": {err}...')
 
 
 # This function removes entries from the prefix list
@@ -226,7 +226,7 @@ def update_max_entries_of_prefixlist(prefixlist_name, prefixlist_id, state, max_
             state = get_prefixlist_state(prefixlist_name, ec2)
             print(f'Prefix-list {prefixlist_name} state {state}...')
     except Exception as err:
-        print(f'Error found in "update_max_entries_of_prefixlist": {err}...')
+        logger.error(f'Error found in "update_max_entries_of_prefixlist": {err}...')
 
 
 # This function deletes prefix lists
@@ -241,4 +241,4 @@ def delete_prefixlist(prefixlist_id, ec2):
             )
             print(f'Delete {prefixlist_id}...')
     except Exception as err:
-        print(f'Error found in "delete_prefixlist": {err}...')
+        logger.error(f'Error found in "delete_prefixlist": {err}...')

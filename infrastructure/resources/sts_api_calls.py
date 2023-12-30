@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from resources.visibility import *
 
 # This function is used to get the user account id
 # to use for creating resources that require to reference
@@ -9,4 +10,4 @@ def get_user_identity(sts):
         print(f'Account id: {resources["Account"]}')
         return resources["Account"]
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')

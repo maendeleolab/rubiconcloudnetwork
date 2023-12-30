@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import boto3
 
+import boto3
+from resources.visibility import *
 
 # This function returns the subnet name
 def describe_subnet_resources(subnet_name, ec2):
@@ -20,11 +21,10 @@ def describe_subnet_resources(subnet_name, ec2):
         for item in resources['Subnets'][0]['Tags']:
             return item['Value']
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
+
 
 # This function returns the subnet id
-
-
 def get_subnet_id(subnet_name, ec2):
     try:
         resources = ec2.describe_subnets(
@@ -41,11 +41,10 @@ def get_subnet_id(subnet_name, ec2):
         for item in resources['Subnets']:
             return item['SubnetId']
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
+
 
 # This function creates subnets in availability zones
-
-
 def deploy_subnet(resource, az_id, cidr, vpc_id, ec2):
     try:
         resources = ec2.create_subnet(
@@ -72,11 +71,10 @@ def deploy_subnet(resource, az_id, cidr, vpc_id, ec2):
         print(
             f'{resources["Subnet"]["SubnetId"]}:{resources["Subnet"]["CidrBlock"]} in {resources["Subnet"]["AvailabilityZone"]}...')
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
+
 
 # This function deletes subnets ids
-
-
 def delete_subnet_resources(subnet_id, ec2):
     try:
         if subnet_id == None:
@@ -88,4 +86,4 @@ def delete_subnet_resources(subnet_id, ec2):
                 # DryRun=True|False
             )
     except Exception as err:
-        print(f'Error found: {err}...')
+        logger.error(f'Error found: {err}...')
