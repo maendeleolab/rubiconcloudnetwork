@@ -3,7 +3,7 @@
 ## [Description](#Description)
 
 The objective of this project is to develop simple modular functions to deploy resources in AWS using Python Boto3.<br>
-The main focus is on networking hands-on experience.<br>
+The main focus is on network development, monitoring and security hands-on experience.<br>
 Check out my project board [here](https://github.com/users/maendeleolab/projects/3/views/1?pane=info)
 
 ## [Prerequisites](#Prerequisites)
