@@ -12,7 +12,7 @@ Check out my project board [here](https://github.com/users/maendeleolab/projects
 **Linux environment is a must. Please consider using Windows Subsystem for Linux, if your system is a Windows machine.**<br>
 **Must have AWS CLI installed and configured on your system.**<br>
 [Follow this link to install awscli v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) <br>
-Create a folder, access the folder then create your virtual environment and activate it.
+Create a folder, access it, then create your virtual environment and activate it.
 ```
 # Create folder
 mkdir project
