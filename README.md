@@ -2,12 +2,15 @@
 
 ## [Description](#Description)
 
-The objective of this project is to develop modular network labs in AWS that we can monitor and manage using python Boto3.<br>
+The objective of this project is to develop simple modular functions to deploy resources in AWS using Python Boto3.<br>
+The main focus is on networking.<br>
 Check out my project board [here](https://github.com/users/maendeleolab/projects/3/views/1?pane=info)
 
 ## [Prerequisites](#Prerequisites)
 
-**Note: Must have AWS CLI installed and configured on your system.**<br>
+**Note:**
+**Linux environment is a must. Please consider using Windows Subsystem for Linux, if your system is a Windows machine.**<br>
+**Must have AWS CLI installed and configured on your system.**<br>
 [Follow this link to install awscli v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) <br>
 Create a folder, access the folder then create your virtual environment and activate it.
 ```
