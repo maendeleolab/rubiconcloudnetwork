@@ -8,7 +8,7 @@ Check out my project board [here](https://github.com/users/maendeleolab/projects
 
 ## [Prerequisites](#Prerequisites)
 
-**Note:**
+**Note:**<br>
 **Linux environment is a must. Please consider using Windows Subsystem for Linux, if your system is a Windows machine.**<br>
 **Must have AWS CLI installed and configured on your system.**<br>
 [Follow this link to install awscli v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) <br>
