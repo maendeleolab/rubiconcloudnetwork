@@ -7,6 +7,7 @@ from resources.nat_gateway_template import deploy_public_nat_gateways
 from resources.elastic_ip_template import assign_public_ipv4
 from resources.endpoint_template import connect_endpoint
 from resources.instance_template import lab_instance
+from resources.iam_template import create_ssm_role
 from resources.vpcs_api_calls import *
 from resources.subnets_api_calls import *
 from resources.route_tables_api_calls import *
@@ -31,8 +32,8 @@ from resources.visibility import *
 # sts = client_session('default', 'sts', 'us-east-1')
 
 ec2=client_session('default', 'ec2', 'us-east-1')
+iam=client_session('default', 'iam', 'us-east-1')
 
-logger.debug('vpc section')
 # vpc1
 deploy_vpc(
     'boto3_vpc1',  # vpc_name,
@@ -50,8 +51,6 @@ deploy_vpc(
     '10.11.9.0/24',  # az2_sec_cidr_private_subnet,
     ec2
 )
-
-
 # vpc2
 deploy_vpc(
     'boto3_vpc2',  # vpc_name,
@@ -70,7 +69,7 @@ deploy_vpc(
     ec2
 )
 
-logger.debug('vpc peering section')
+
 # This function is only vpc peering connections created
 # from inside the same account.
 # It creates the connection, it accepts it and modifies the dns.
@@ -89,7 +88,6 @@ same_account_vpc_peering('boto3_vpc1_and_vpc2_peering',
                          )
 
 
-logger.debug('vpc eip assignment')
 # Adding NAT gateways 
 # Deploys ipv4 elastic ips
 # 2 elastic ips are created in each vpc
@@ -100,6 +98,7 @@ assign_public_ipv4('boto3_vpc2',
                    ec2
                    )
 
+
 # Deploys 2 public nat gateways in two AZs in the public subnets
 deploy_public_nat_gateways('boto3_vpc1',
                     ec2
@@ -109,8 +108,10 @@ deploy_public_nat_gateways('boto3_vpc2',
                     )
 
 
+# create instance profile
+create_ssm_role('ssm-instance-profile', iam)
 
-logger.debug('connect endpoint section')
+
 # Add instance connect endpoint
 # This is allow users to access instance from the browser in the console
 connect_endpoint(
@@ -129,13 +130,12 @@ connect_endpoint(
 )
 
 
-logger.debug('deploy instances section')
 # Create instances
 lab_instance(
 		'boto3_vpc1', #name,
 		'ami-0fc5d935ebf8bc3bc', #ami,
 		't3.medium', #instance_type,
-		'test-KeyPair', #key_pair,
+		'maendeleolabKey', #key_pair,
 		'boto3_vpc1_private', #security-group,
 		'boto3_vpc1_private_1b_pri', #subnet,
 		False, #public_ip,
@@ -145,7 +145,7 @@ lab_instance(
 		'boto3_vpc2', #name,
 		'ami-0fc5d935ebf8bc3bc', #ami,
 		't3.medium', #instance_type,
-		'test-KeyPair', #key_pair,
+		'maendeleolabKey', #key_pair,
 		'boto3_vpc2_private', #security-group,
 		'boto3_vpc2_private_1a_pri', #subnet,
 		False, #public_ip,

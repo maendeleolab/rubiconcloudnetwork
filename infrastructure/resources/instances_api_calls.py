@@ -148,6 +148,7 @@ def deploy_instances(
 							'AutoRecovery': 'default'
 					},
 			)
+			print(resources)
 			while True:
 				if get_instance_state(instance_name, ec2) != 'running':
 					sleep(2)
