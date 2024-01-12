@@ -168,6 +168,12 @@ def delete_instance(instance_name, ec2):
 				#DryRun=True|False
 		)
 		print(resources)
+		while True:
+			if get_instance_state(instance_name, ec2) != 'terminated':
+				sleep(2)
+			elif get_instance_state(instance_name, ec2) == 'terminated':
+				break
+			get_instance_state(instance_name, ec2)
 	except Exception as err:
 		logger.error(f'Error found in "delete_instance": {err}...')
 

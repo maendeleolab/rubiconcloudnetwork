@@ -7,7 +7,8 @@ from resources.nat_gateway_template import deploy_public_nat_gateways
 from resources.elastic_ip_template import assign_public_ipv4
 from resources.endpoint_template import connect_endpoint
 from resources.instance_template import lab_instance
-from resources.iam_template import create_ssm_role
+from resources.iam_template import create_ssm_role, flowlogs_functions
+from resources.monitoring_template import deploy_monitoring
 from resources.vpcs_api_calls import *
 from resources.subnets_api_calls import *
 from resources.route_tables_api_calls import *
@@ -33,6 +34,7 @@ from resources.visibility import *
 
 ec2=client_session('default', 'ec2', 'us-east-1')
 iam=client_session('default', 'iam', 'us-east-1')
+cw_logs = client_session('default', 'logs', 'us-east-1')
 
 # vpc1
 deploy_vpc(
@@ -152,4 +154,22 @@ lab_instance(
 		ec2
 )
 
-
+# create iam role for flow logs
+#flowlogs_functions(iam)
+#
+## create cloudwatch log groups 
+#deploy_monitoring(
+#						'boto3_vpc1', #log group name
+#						30, #policy retention
+#						cw_logs, #api session cloudwatchlogs
+#						'boto3_vpc1', #vpc id
+#						ec2 #api session ec2
+#						)
+#deploy_monitoring(
+#						'boto3_vpc2', #log group name
+#						30, #policy retention
+#						cw_logs, #api session cloudwatchlogs
+#						'boto3_vpc1', #vpc id
+#						ec2 #api session ec2
+#						)
+#

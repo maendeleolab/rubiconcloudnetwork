@@ -11,6 +11,7 @@ from resources.elastic_ips_api_calls import *
 from resources.nat_gateways_api_calls import *
 from resources.vpc_peerings_api_calls import *
 from resources.endpoints_api_calls import *
+from resources.instances_api_calls import *
 from resources.iam_api_calls import *
 from resources.account_profiles import assume_profile_creds, client_session
 
@@ -22,12 +23,13 @@ from resources.account_profiles import assume_profile_creds, client_session
 
 AmazonSSMManagedInstanceCore = 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore'
 
-
 def delete_all(
     vpc_name,
     ec2=client_session('default', 'ec2', 'us-east-1'),
     iam=client_session('default', 'iam', 'us-east-1')
 		):
+		delete_instance('boto3_vpc1', ec2)
+		delete_instance('boto3_vpc2', ec2)
 		delete_connect_endpoint(
                     vpc_name+'_connect_endpoint',
 										ec2
@@ -40,9 +42,15 @@ def delete_all(
 		delete_profile('ssm-instance-profile', iam)
 		detach_policy_from_role(
                     'ssm_role_for_connect',
-                    AmazonSSMManagedInstanceCore,
+                    'AmazonSSMManagedInstanceCore',
                     iam
     )
+		detach_policy_from_role(
+										'boto3_flowlogs_role', #role_name, 
+										'boto3_flowlogs_policy', #policy_name, 
+										iam
+		)
+		remove_role('boto3_flowlogs_role', iam)
 		remove_role('ssm_role_for_connect', iam)
 		delete_vpc_peering('boto3_vpc1_and_vpc2_peering', ec2)
 		delete_nat(vpc_name+'_public_nat1', ec2)
