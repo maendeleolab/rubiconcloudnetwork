@@ -122,4 +122,6 @@ def delete_all(
                   get_vpc_route_table_id(vpc_name+'_public_rt_sec', ec2), 
                   ec2
     )
+		delete_flowlogs(get_flowlogs_id(vpc_name, ec2), ec2)
+		delete_log_bucket(vpc_name, cw_logs)
 		delete_vpc_resources(get_vpc_id(vpc_name, ec2), ec2)

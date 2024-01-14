@@ -62,7 +62,6 @@ def create_role(
         return role
 
 
-
 def attach_policy(
 							role_name, 
 							policy_arn,
@@ -76,7 +75,6 @@ def attach_policy(
 		print(resources)
 	except Exception as err:
 		logger.error(f'Error found in "attach_policy": {err}...')
-
 
 
 # This function attaches a policy to a role
@@ -126,7 +124,6 @@ def create_policy_document(role_name, policy_name, policy_doc, iam):
 		logger.error(f'Error found in "create_policy_document": {err}..')
 
 
-
 def create_profile(profile_name, iam):
 	try:
 		resources = iam.create_instance_profile(
@@ -174,9 +171,10 @@ def get_role_arn(role_name, iam):
 				RoleName=role_name
 		)
 		print(f'role arn: {resources["Role"]["Arn"]}')
-		return {resources["Role"]["Arn"]}
+		return resources["Role"]["Arn"]
 	except Exception as err:
 		logger.error(f'Error found in "get_role_arn": {err}...')
+
 
 def get_profile_data(profile_name, iam):
 	try:

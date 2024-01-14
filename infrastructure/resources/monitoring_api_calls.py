@@ -48,14 +48,15 @@ def create_flowlogs(
 							log_destination_type,
 							#log_destination,
 							aggregation_time,
-							ec2
+							ec2,
+							iam
 	):
 	try:
 		resources = ec2.create_flow_logs(
 				#DryRun=True|False,
 				#ClientToken='string',
-				DeliverLogsPermissionArn=get_role_arn(role_name, iam),
-				DeliverCrossAccountRole=get_role_arn(role_name, iam),
+				DeliverLogsPermissionArn=role_name,
+				#DeliverCrossAccountRole=get_role_arn(role_name, iam),
 				LogGroupName=log_group_name,
 				ResourceIds=[
 						resource_ids,
@@ -92,4 +93,44 @@ def create_flowlogs(
 		logger.error(f'Error found in "create_flowlogs": {err}...')
 
 
+def get_flowlogs_id(flowlogs_name, ec2):
+	try:
+		resources = ec2.describe_flow_logs(
+				#DryRun=True|False,
+				Filters=[
+						{
+								'Name': 'tag:Name',
+								'Values': [
+										flowlogs_name,
+								]
+						},
+				],
+				#MaxResults=123,
+				#NextToken='string'
+		)
+		print(f'Flow Log Id: {resources["FlowLogs"][0]["FlowLogId"]}...')
+		return resources["FlowLogs"][0]["FlowLogId"]
+	except Exception as err:
+		logger.error(f'Error found in "get_flowlogs_id": {err}...')
 
+
+def delete_flowlogs(flowlogs_name, ec2):
+	try:
+		resources = ec2.delete_flow_logs(
+				#DryRun=True|False,
+				FlowLogIds=[
+						flowlogs_name,
+				]
+		)
+		print(resources)
+	except Exception as err:
+		logger.error(f'Error found in "delete_flowlogs": {err}...')
+
+
+def delete_log_bucket(log_group_name, cw_logs):
+	try:
+		resources = cw_logs.delete_log_group(
+				logGroupName=log_group_name
+		)
+	except Exception as err:
+		logger.error(f'Error found in "delete_log_bucket": {err}...')
