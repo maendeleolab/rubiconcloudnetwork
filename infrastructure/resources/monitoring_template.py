@@ -44,5 +44,5 @@ def deploy_monitoring(
 						iam
 		)
 
-def test(log_group_name, cw_logs):
-	delete_log_bucket(log_group_name, cw_logs)
+def test(policy_name, iam):
+	remove_policy(policy_name, iam)

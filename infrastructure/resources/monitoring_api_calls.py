@@ -68,9 +68,9 @@ def create_flowlogs(
 				#LogDestinationType='cloud-watch-logs'|'s3'|'kinesis-data-firehose',
 				LogDestinationType=log_destination_type,
 				#LogDestination=log_destination, # arn or log group name
-				LogFormat='${az-id} ${protocol} ${tcp-flags} ${srcaddr} ${srcport} \
-						${dstaddr} ${dstport} ${packets} ${bytes} ${flow-direction} \
-						${interface-id} ${log-status} ${action}',
+				LogFormat='${version} ${account-id} ${interface-id} ${srcaddr} \
+				${dstaddr} ${srcport} ${dstport} ${protocol} ${packets} ${bytes} \
+				${start} ${end} ${action} ${log-status}',
 				TagSpecifications=[
 						{
 								'ResourceType':'vpc-flow-log',

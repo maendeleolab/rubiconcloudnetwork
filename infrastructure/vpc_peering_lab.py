@@ -37,127 +37,128 @@ iam=client_session('default', 'iam', 'us-east-1')
 cw_logs = client_session('default', 'logs', 'us-east-1')
 
 # vpc1
-#deploy_vpc(
-#    'boto3_vpc1',  # vpc_name,
-#    '10.10.0.0/20',  # primary_vpc_cidr,
-#    '10.11.0.0/20',  # secondary_cidr,
-#    'us-east-1a',  # az1,
-#    'us-east-1b',  # az2,
-#    '10.10.1.0/24',  # az1_pri_cidr_public_subnet,
-#    '10.10.2.0/24',  # az2_pri_cidr_public_subnet,
-#    '10.11.1.0/24',  # az1_sec_cidr_public_subnet,
-#    '10.11.2.0/24',  # az2_sec_cidr_public_subnet,
-#    '10.10.8.0/24',  # az1_pri_cidr_private_subnet,
-#    '10.10.9.0/24',  # az2_pri_cidr_private_subnet,
-#    '10.11.8.0/24',  # az1_sec_cidr_private_subnet,
-#    '10.11.9.0/24',  # az2_sec_cidr_private_subnet,
-#    ec2
-#)
-## vpc2
-#deploy_vpc(
-#    'boto3_vpc2',  # vpc_name,
-#    '10.20.0.0/20',  # primary_vpc_cidr,
-#    '10.21.0.0/20',  # secondary_cidr,
-#    'us-east-1a',  # az1,
-#    'us-east-1b',  # az2,
-#    '10.20.1.0/24',  # az1_pri_cidr_public_subnet,
-#    '10.20.2.0/24',  # az2_pri_cidr_public_subnet,
-#    '10.21.1.0/24',  # az1_sec_cidr_public_subnet,
-#    '10.21.2.0/24',  # az2_sec_cidr_public_subnet,
-#    '10.20.8.0/24',  # az1_pri_cidr_private_subnet,
-#    '10.20.9.0/24',  # az2_pri_cidr_private_subnet,
-#    '10.21.8.0/24',  # az1_sec_cidr_private_subnet,
-#    '10.21.9.0/24',  # az2_sec_cidr_private_subnet,
-#    ec2
-#)
-#
-#
-## This function is only vpc peering connections created
-## from inside the same account.
-## It creates the connection, it accepts it and modifies the dns.
-## It creates routes for the requester and requester vpc route table
-#same_account_vpc_peering('boto3_vpc1_and_vpc2_peering',
-#                         'boto3_vpc1',  # requester_vpc
-#                         '10.20.0.0/20',  # requester_dst_ipv4cidr
-#                                        'boto3_vpc2',  # accepter_vpc,
-#                         '10.10.0.0/20',  # accepter_dst_ipv4cidr
-#                                        'us-east-1',  # accepter_region
-#                                        # client session
-#                                        ec2,
-#                                        # accepter account
-#                                        sts=client_session(
-#                                            'default', 'sts', 'us-east-1')
-#                         )
-#
-#
-## Adding NAT gateways 
-## Deploys ipv4 elastic ips
-## 2 elastic ips are created in each vpc
-#assign_public_ipv4('boto3_vpc1',
-#                   ec2
-#                   )
-#assign_public_ipv4('boto3_vpc2',
-#                   ec2
-#                   )
-#
-#
-## Deploys 2 public nat gateways in two AZs in the public subnets
-#deploy_public_nat_gateways('boto3_vpc1',
-#                    ec2
-#                    )
-#deploy_public_nat_gateways('boto3_vpc2',
-#                    ec2
-#                    )
-#
-#
-## create instance profile
-#create_ssm_role('ssm-instance-profile', iam)
-#
-#
-## Add instance connect endpoint
-## This is allow users to access instance from the browser in the console
-#connect_endpoint(
-#		'boto3_vpc1_connect_endpoint', #name,
-#		'boto3_vpc1_private_1b_pri', #subnet,
-#		'boto3_vpc1_private', #sg,
-#		False, #preserve_client_ip,
-#		ec2
-#)
-#connect_endpoint(
-#		'boto3_vpc2_connect_endpoint', #name,
-#		'boto3_vpc2_private_1a_pri', #subnet,
-#		'boto3_vpc2_private', #sg,
-#		False, #preserve_client_ip,
-#		ec2
-#)
-#
-#
-## Create instances
-#lab_instance(
-#		'boto3_vpc1', #name,
-#		'ami-0fc5d935ebf8bc3bc', #ami,
-#		't3.medium', #instance_type,
-#		'maendeleolabKey', #key_pair,
-#		'boto3_vpc1_private', #security-group,
-#		'boto3_vpc1_private_1b_pri', #subnet,
-#		False, #public_ip,
-#		ec2
-#)
-#lab_instance(
-#		'boto3_vpc2', #name,
-#		'ami-0fc5d935ebf8bc3bc', #ami,
-#		't3.medium', #instance_type,
-#		'maendeleolabKey', #key_pair,
-#		'boto3_vpc2_private', #security-group,
-#		'boto3_vpc2_private_1a_pri', #subnet,
-#		False, #public_ip,
-#		ec2
-#)
+deploy_vpc(
+    'boto3_vpc1',  # vpc_name,
+    '10.10.0.0/20',  # primary_vpc_cidr,
+    '10.11.0.0/20',  # secondary_cidr,
+    'us-east-1a',  # az1,
+    'us-east-1b',  # az2,
+    '10.10.1.0/24',  # az1_pri_cidr_public_subnet,
+    '10.10.2.0/24',  # az2_pri_cidr_public_subnet,
+    '10.11.1.0/24',  # az1_sec_cidr_public_subnet,
+    '10.11.2.0/24',  # az2_sec_cidr_public_subnet,
+    '10.10.8.0/24',  # az1_pri_cidr_private_subnet,
+    '10.10.9.0/24',  # az2_pri_cidr_private_subnet,
+    '10.11.8.0/24',  # az1_sec_cidr_private_subnet,
+    '10.11.9.0/24',  # az2_sec_cidr_private_subnet,
+    ec2
+)
+# vpc2
+deploy_vpc(
+    'boto3_vpc2',  # vpc_name,
+    '10.20.0.0/20',  # primary_vpc_cidr,
+    '10.21.0.0/20',  # secondary_cidr,
+    'us-east-1a',  # az1,
+    'us-east-1b',  # az2,
+    '10.20.1.0/24',  # az1_pri_cidr_public_subnet,
+    '10.20.2.0/24',  # az2_pri_cidr_public_subnet,
+    '10.21.1.0/24',  # az1_sec_cidr_public_subnet,
+    '10.21.2.0/24',  # az2_sec_cidr_public_subnet,
+    '10.20.8.0/24',  # az1_pri_cidr_private_subnet,
+    '10.20.9.0/24',  # az2_pri_cidr_private_subnet,
+    '10.21.8.0/24',  # az1_sec_cidr_private_subnet,
+    '10.21.9.0/24',  # az2_sec_cidr_private_subnet,
+    ec2
+)
+
+
+# This function is only vpc peering connections created
+# from inside the same account.
+# It creates the connection, it accepts it and modifies the dns.
+# It creates routes for the requester and requester vpc route table
+same_account_vpc_peering('boto3_vpc1_and_vpc2_peering',
+                         'boto3_vpc1',  # requester_vpc
+                         '10.20.0.0/20',  # requester_dst_ipv4cidr
+                                        'boto3_vpc2',  # accepter_vpc,
+                         '10.10.0.0/20',  # accepter_dst_ipv4cidr
+                                        'us-east-1',  # accepter_region
+                                        # client session
+                                        ec2,
+                                        # accepter account
+                                        sts=client_session(
+                                            'default', 'sts', 'us-east-1')
+                         )
+
+
+# Adding NAT gateways 
+# Deploys ipv4 elastic ips
+# 2 elastic ips are created in each vpc
+assign_public_ipv4('boto3_vpc1',
+                   ec2
+                   )
+assign_public_ipv4('boto3_vpc2',
+                   ec2
+                   )
+
+
+# Deploys 2 public nat gateways in two AZs in the public subnets
+deploy_public_nat_gateways('boto3_vpc1',
+                    ec2
+                    )
+deploy_public_nat_gateways('boto3_vpc2',
+                    ec2
+                    )
+
+
+# create instance profile
+create_ssm_role('ssm-instance-profile', iam)
+
+
+# Add instance connect endpoint
+# This is allow users to access instance from the browser in the console
+connect_endpoint(
+		'boto3_vpc1_connect_endpoint', #name,
+		'boto3_vpc1_private_1b_pri', #subnet,
+		'boto3_vpc1_private', #sg,
+		False, #preserve_client_ip,
+		ec2
+)
+connect_endpoint(
+		'boto3_vpc2_connect_endpoint', #name,
+		'boto3_vpc2_private_1a_pri', #subnet,
+		'boto3_vpc2_private', #sg,
+		False, #preserve_client_ip,
+		ec2
+)
+
+
+# Create instances
+lab_instance(
+		'boto3_vpc1', #name,
+		'ami-0fc5d935ebf8bc3bc', #ami,
+		't3.medium', #instance_type,
+		'maendeleolabKey', #key_pair,
+		'boto3_vpc1_private', #security-group,
+		'boto3_vpc1_private_1b_pri', #subnet,
+		False, #public_ip,
+		ec2
+)
+lab_instance(
+		'boto3_vpc2', #name,
+		'ami-0fc5d935ebf8bc3bc', #ami,
+		't3.medium', #instance_type,
+		'maendeleolabKey', #key_pair,
+		'boto3_vpc2_private', #security-group,
+		'boto3_vpc2_private_1a_pri', #subnet,
+		False, #public_ip,
+		ec2
+)
 
 # create iam role for flow logs
 #flowlogs_iam_functions(iam)
 #
-## create cloudwatch log groups 
+## create cloudwatch log groups and vpc flow logs
+## sent to cloudwatch logs
 #deploy_monitoring(
 #						'boto3_vpc1', #log group name
 #						30, #policy retention
@@ -174,7 +175,6 @@ cw_logs = client_session('default', 'logs', 'us-east-1')
 #						ec2, #api session ec2
 #						iam #api session iam
 #						)
-#
 
-test('boto3_vpc1', cw_logs)
-test('boto3_vpc2', cw_logs)
+
+#test('boto3_flowlogs_policy', iam)

@@ -145,7 +145,7 @@ def get_policy_arn(policy_name, iam):
 	try:
 		resources = iam.list_policies(
 				Scope='Local',
-				OnlyAttached=True,
+				OnlyAttached=False,
 				#MaxItems=123
 		)
 		if resources["Policies"][0]["PolicyName"] == policy_name:
@@ -238,4 +238,11 @@ def remove_role(role_name, iam):
 	except Exception as err:
 		logger.error(f'Error found in "remove_role": {err}...')
 
-
+def remove_policy(policy_name, iam):
+	try:
+		resources = iam.delete_policy(
+				PolicyArn=get_policy_arn(policy_name, iam)
+		)
+		print(resources)
+	except Exception as err:
+		logger.error(f'Error found in "remove_policy": {err}...')
