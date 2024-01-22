@@ -133,6 +133,16 @@ connect_endpoint(
 
 
 # Create instances
+data = '''
+#!/bin/bash
+apt update
+apt install traceroute -y
+apt install mtr -y
+apt install iperf -y
+apt install hping3 -y
+apt install fping -y  
+'''
+
 lab_instance(
 		'boto3_vpc1', #name,
 		'ami-0fc5d935ebf8bc3bc', #ami,
@@ -141,6 +151,7 @@ lab_instance(
 		'boto3_vpc1_private', #security-group,
 		'boto3_vpc1_private_1b_pri', #subnet,
 		False, #public_ip,
+		data,
 		ec2
 )
 lab_instance(
@@ -151,30 +162,31 @@ lab_instance(
 		'boto3_vpc2_private', #security-group,
 		'boto3_vpc2_private_1a_pri', #subnet,
 		False, #public_ip,
+		data,
 		ec2
 )
 
 # create iam role for flow logs
-#flowlogs_iam_functions(iam)
-#
-## create cloudwatch log groups and vpc flow logs
-## sent to cloudwatch logs
-#deploy_monitoring(
-#						'boto3_vpc1', #log group name
-#						30, #policy retention
-#						cw_logs, #api session cloudwatchlogs
-#						'boto3_vpc1', #vpc id
-#						ec2, #api session ec2
-#						iam #api session iam
-#						)
-#deploy_monitoring(
-#						'boto3_vpc2', #log group name
-#						30, #policy retention
-#						cw_logs, #api session cloudwatchlogs
-#						'boto3_vpc2', #vpc id
-#						ec2, #api session ec2
-#						iam #api session iam
-#						)
+flowlogs_iam_functions(iam)
+
+# create cloudwatch log groups and vpc flow logs
+# sent to cloudwatch logs
+deploy_monitoring(
+						'boto3_vpc1', #log group name
+						30, #policy retention
+						cw_logs, #api session cloudwatchlogs
+						'boto3_vpc1', #vpc id
+						ec2, #api session ec2
+						iam #api session iam
+						)
+deploy_monitoring(
+						'boto3_vpc2', #log group name
+						30, #policy retention
+						cw_logs, #api session cloudwatchlogs
+						'boto3_vpc2', #vpc id
+						ec2, #api session ec2
+						iam #api session iam
+						)
 
 
 #test('boto3_flowlogs_policy', iam)

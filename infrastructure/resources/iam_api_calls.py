@@ -148,9 +148,10 @@ def get_policy_arn(policy_name, iam):
 				OnlyAttached=False,
 				#MaxItems=123
 		)
-		if resources["Policies"][0]["PolicyName"] == policy_name:
-			print(f'Policy Arn: {resources["Policies"][0]["Arn"]}...')
-			return resources["Policies"][0]["Arn"]
+		for item in resources["Policies"]:
+			if item["PolicyName"] == policy_name:
+				print(f'Policy Arn: {item["Arn"]}...')
+				return item["Arn"]
 	except Exception as err:
 		logger.error(f'Error found in "get_policy_arn": {err}...')
 

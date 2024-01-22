@@ -65,7 +65,9 @@ def delete_all(
 		release_public_ipv4_address(vpc_name+'_public_nat1', ec2)
 		release_public_ipv4_address(vpc_name+'_public_nat2', ec2)
 		delete_sg(get_sg_id(vpc_name+'_private', ec2), ec2)
+		delete_sg(get_sg_id('rubiconcloud_elb', ec2), ec2)
 		delete_prefixlist(get_prefixlist_id('privaterfc1918', ec2), ec2)
+		delete_prefixlist(get_prefixlist_id('rubiconcloud_elb', ec2), ec2)
 		detach_igw(vpc_name, get_vpc_id(vpc_name, ec2), ec2)
 		delete_igw(get_igw_id(vpc_name, ec2), ec2)
 		delete_subnet_resources(
@@ -128,3 +130,24 @@ def delete_all(
 		delete_flowlogs(get_flowlogs_id(vpc_name, ec2), ec2)
 		delete_log_bucket(vpc_name, cw_logs)
 		delete_vpc_resources(get_vpc_id(vpc_name, ec2), ec2)
+
+
+def delete_flowlogs_config(
+	vpc_name,
+	ec2,
+	iam,
+	cw_logs
+	):
+		detach_policy_from_role(
+												'boto3_flowlogs_role', #role_name,
+												'boto3_flowlogs_policy', #policy_name,
+												iam
+		)
+		remove_role('boto3_flowlogs_role', iam)
+		remove_policy('boto3_flowlogs_policy', iam)
+		delete_flowlogs(get_flowlogs_id(vpc_name, ec2), ec2)
+		delete_log_bucket(vpc_name, cw_logs)
+
+
+def test(policy_name, iam):
+	get_policy_arn(policy_name, iam)

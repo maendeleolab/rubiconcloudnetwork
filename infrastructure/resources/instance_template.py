@@ -24,10 +24,11 @@ ec2 = client_session('default', 'ec2', 'us-east-1')
 iam = client_session('default', 'iam', 'us-east-1')
 
 
-user_data = '''#!/usr/bin/bash
-git clone https://github.com/maendeleolab/toolbox.git
-&& cd toolbox && ./networkingTools/prerequisites.sh
-'''
+#user_data = '''
+##!/bin/bash
+#git clone https://github.com/maendeleolab/toolbox.git
+#&& cd toolbox && ./networkingTools/prerequisites.sh
+#'''
 
 
 def lab_instance(
@@ -38,6 +39,7 @@ def lab_instance(
 	sg,
 	subnet,
 	public_ip,
+	user_data,
 	ec2
 	):
 	create_ssm_role('ssm_role_for_connect', iam)

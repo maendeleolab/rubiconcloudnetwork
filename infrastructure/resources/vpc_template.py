@@ -8,6 +8,7 @@ from resources.internet_gateways_api_calls import *
 from resources.prefixlists_api_calls import *
 from resources.prefixlist_template import deploy_prefixlist
 from resources.security_group_template import deploy_privaterfc1918_sg
+from resources.security_group_template import deploy_rubiconcloud_elb_sg
 from resources.account_profiles import assume_profile_creds, client_session
 
 
@@ -19,6 +20,7 @@ from resources.account_profiles import assume_profile_creds, client_session
 
 # prefixlist entries
 privaterfc1918 = ['172.16.0.0/12', '192.168.0.0/16']
+rubiconcloud_elb = ['1.1.1.1', '2.2.2.2'] # just place holders
 
 
 def deploy_vpc(
@@ -213,8 +215,16 @@ def deploy_vpc(
                       privaterfc1918,
                       ec2
                       )
-    # Create privaterfc1918 security group
+    deploy_prefixlist('rubiconcloud_elb',  # prefixlist_name,
+                      '0.0.0.0/0',  # first_cidr,
+                      '50',  # max_entries,
+                      # list(cidrs_list),
+                      rubiconcloud_elb,
+                      ec2
+                      )
+    # Create security groups
     deploy_privaterfc1918_sg(vpc_name+'_private', vpc_name, ec2)
+    deploy_rubiconcloud_elb_sg('rubiconcloud_elb', vpc_name, ec2)
     # Create internet gateway for the vpc
     create_igw(vpc_name, ec2)
     create_igw_attachment(vpc_name, get_vpc_id(vpc_name, ec2), ec2)

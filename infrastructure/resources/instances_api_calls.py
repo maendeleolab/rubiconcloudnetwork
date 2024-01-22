@@ -126,7 +126,7 @@ def deploy_instances(
 					#						}
 													}
 					],
-					#UserData=user_data,
+					UserData=user_data,
 					#AdditionalInfo='string',
 					#DryRun=True|False,
 					IamInstanceProfile={
