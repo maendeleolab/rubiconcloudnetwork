@@ -13,12 +13,14 @@ from resources.account_profiles import assume_profile_creds, client_session
 
 # Create managed prefix-lists
 def deploy_prefixlist(prefixlist_name,
-                      first_cidr, max_entries,
+                      first_cidr, 
+											max_entries,
                       cidrs_list,
+											address_family,
                       ec2=client_session('default', 'ec2', 'us-east-1')
                       ):
     # create_prefixlist(name, cidr_entry, max_entries, ec2):
-    create_prefixlist(prefixlist_name, first_cidr, max_entries, ec2)
+    create_prefixlist(prefixlist_name, first_cidr, max_entries, address_family, ec2)
     # Let's add entries
     for entry in cidrs_list:
         add_entries_to_prefixlist(prefixlist_name,  # prefixlist_name

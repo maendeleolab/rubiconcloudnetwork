@@ -117,7 +117,7 @@ def get_prefixlist_state(prefixlist_id, ec2):
 
 
 # This function creates a prefix list for ipv4 addresses
-def create_prefixlist(name, cidr_entry, max_entries, ec2):
+def create_prefixlist(name, cidr_entry, max_entries, address_family, ec2):
     try:
         if name == get_prefixlist_name(name, ec2):
             print(f"Prefix-list {name} exists...")
@@ -145,7 +145,7 @@ def create_prefixlist(name, cidr_entry, max_entries, ec2):
                         ]
                     },
                 ],
-                AddressFamily='IPv4',
+                AddressFamily=address_family, #'IPv4' or 'IPv6',
             )
     except Exception as err:
         logger.error(f'Error found in "create_prefixlist": {err}...')

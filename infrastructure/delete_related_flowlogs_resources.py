@@ -24,5 +24,10 @@ delete_flowlogs_config(
 	iam,
 	cw_logs
 	)
+delete_flowlogs_config(
+	'boto3_vpc3', #vpc name
+	ec2=client_session('default', 'ec2', 'us-west-2'),
+	iam,
+	cw_logs=client_session('default', 'ec2', 'us-west-2')
+	)
 
-#test('boto3_flowlogs_policy', iam)

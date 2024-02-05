@@ -20,8 +20,8 @@ from resources.account_profiles import assume_profile_creds, client_session
 # The client_session function explicitly define the profile_name,
 # the service and region to use. This permits us to be granular.
 # client_session(profile_name, service, region)
-ec2 = client_session('default', 'ec2', 'us-east-1')
-iam = client_session('default', 'iam', 'us-east-1')
+#ec2 = client_session('default', 'ec2', 'us-east-1')
+#iam = client_session('default', 'iam', 'us-east-1')
 
 
 #user_data = '''
@@ -40,9 +40,10 @@ def lab_instance(
 	subnet,
 	public_ip,
 	user_data,
+  enable_ipv6, # assign ipv6 to interface
 	ec2
 	):
-	create_ssm_role('ssm_role_for_connect', iam)
+	#create_ssm_role('ssm_role_for_connect', iam)
 	deploy_instances(
 		name, #instance_name,
 		ami, #image,
@@ -54,9 +55,9 @@ def lab_instance(
 		get_sg_id(sg, ec2), # security_group_ids,
 		get_subnet_id(subnet, ec2), # subnet_id,
 		public_ip, # associate public ip is boolean True or False
-		#get_profile_arn('ssm-instance-profile', iam), # profile arn
 		'ssm-instance-profile', # profile name
-		user_data,
+		instance_scripts(user_data),
+		enable_ipv6, # assign ipv6 to interface
 		ec2
 		)
 

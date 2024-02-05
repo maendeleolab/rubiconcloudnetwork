@@ -11,10 +11,14 @@ from resources.account_profiles import assume_profile_creds, \
 # client_session(profile_name, service, region)
 ec2 = client_session('default', 'ec2', 'us-east-1')
 
-
+# delete instances
 delete_instance('boto3_vpc1', ec2)
 delete_instance('boto3_vpc2', ec2)
+delete_instance('boto3_vpc3', ec2=client_session('default', 'ec2','us-west-2'))
+delete_instance('vpc2_rubiconcloud_target_1', ec2)
+delete_instance('vpc2_rubiconcloud_target_2', ec2)
 
+# delete connect endpoints
 delete_connect_endpoint(
                 'boto3_vpc1_connect_endpoint',
                 ec2
@@ -22,4 +26,8 @@ delete_connect_endpoint(
 delete_connect_endpoint(
                 'boto3_vpc2_connect_endpoint',
                 ec2
+)
+delete_connect_endpoint(
+                'boto3_vpc3_connect_endpoint',
+                ec2=client_session('default', 'ec2', 'us-west-2')
 )

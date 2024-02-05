@@ -233,6 +233,23 @@ def vpc_route_entry_for_vpc_peering(route_table_id,
         logger.error(f'Error found in "vpc_route_entry_for_vpc_peering": {err}...')
 
 
+# This function creates a vpc route table entry for vpc peering
+def ipv6_route_entry_for_vpc_peering(route_table_id,
+                                    dst_cidr,
+                                    vpc_peering_id,
+                                    ec2):
+    try:
+        resources = ec2.create_route(
+            DestinationIpv6CidrBlock=dst_cidr,
+            # DryRun=True|False,
+            RouteTableId=route_table_id,
+            VpcPeeringConnectionId=vpc_peering_id,
+        )
+        print(resources)
+    except Exception as err:
+        logger.error(f'Error found in "ipv6_route_entry_for_vpc_peering": {err}...')
+
+
 # This function creates a vpc route table entry to core network (cloudwan)
 def vpc_route_entry_to_core_network(route_table_id,
                                     dst_ipv4cidr,

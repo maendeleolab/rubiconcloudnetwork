@@ -2,7 +2,6 @@
 from time import sleep
 from resources.visibility import *
 
-
 def get_instance_id(name, ec2):
 	try:
 		resources = ec2.describe_instances(
@@ -77,6 +76,15 @@ def get_instance_name(name, ec2):
 		logger.error(f'Error found in "get_instance_name": {err}...')
 
 
+def instance_scripts(file_name):
+	try:
+		with open(file_name) as f:
+			data = f.read()
+			print(data)
+			return data
+	except Exception as err:
+		logger.error(f'Error found in "instance_scripts": {err}...')
+
 def deploy_instances(
 	instance_name,
 	image,
@@ -91,6 +99,7 @@ def deploy_instances(
 	#profile_arn,
 	profile_name,
 	user_data,
+  enable_ipv6,
 	ec2
 	):
 	try:
@@ -118,7 +127,9 @@ def deploy_instances(
 					'Groups': [
 													security_group_ids,
 											],
+					'Ipv6AddressCount': 1,
 					'SubnetId': subnet_id,
+					'PrimaryIpv6': enable_ipv6, # True|False,
 					#'ConnectionTrackingSpecification': {
 					#								'TcpEstablishedTimeout': 300, # in: 60 seconds. Max: 432000
 					#								'UdpStreamTimeout': 60, # Min: 60 seconds. Max: 180 seconds

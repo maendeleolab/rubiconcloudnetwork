@@ -34,11 +34,48 @@ def describe_vpc_resources(name, ec2):
         logger.error(f'Resource {name} does not exist. Error found: {err}...')
 
 
-# This is a function to describe all the resources
-def describe_some(ec2):
-    resources = ec2.describe_vpcs(
-    )
-    return resources
+# This functions returns the vpc ipv6 block minus the last 6 characters
+# e.g: 2600:1f18:4ac5:ed00::/56
+# returns 2600:1f18:4ac5:ed0 to give us the ability to create /64 ipv6 subnets
+def get_ipv6_cidr(resource_name, ec2):
+    try:
+        resources = ec2.describe_vpcs(
+            Filters=[
+                {
+                    'Name': 'tag:Name',
+                    'Values': [
+                        resource_name,
+                    ]
+                },
+            ]
+        )
+        for item in resources['Vpcs']:
+            ipv6_block = item['Ipv6CidrBlockAssociationSet'][0]['Ipv6CidrBlock']
+            print(ipv6_block[:-6])
+            return ipv6_block[:-6]
+    except Exception as err:
+        logger.error(f'Error found in "get_ipv6_cidr" {err}...')
+
+
+# This is to use for creating route in route tables
+def get_ipv6_block(resource_name, ec2):
+    try:
+        resources = ec2.describe_vpcs(
+            Filters=[
+                {
+                    'Name': 'tag:Name',
+                    'Values': [
+                        resource_name,
+                    ]
+                },
+            ]
+        )
+        for item in resources['Vpcs']:
+            ipv6_block = item['Ipv6CidrBlockAssociationSet'][0]['Ipv6CidrBlock']
+            print(f'Ipv6 Cidr: {ipv6_block}...')
+            return ipv6_block
+    except Exception as err:
+        logger.error(f'Error found in "get_ipv6_block": {err}...')
 
 
 # This is a function to describe the resources ids
@@ -61,7 +98,7 @@ def get_vpc_id(resource_name, ec2):
 
 
 # This is a function to create resources
-def create_vpc_resources(name, cidr, ec2):
+def create_vpc_resources(name, cidr, ipv6_cidr, ec2):
     try:
         results = describe_vpc_resources(name, ec2)
         if results == name:
@@ -71,7 +108,7 @@ def create_vpc_resources(name, cidr, ec2):
             print(f'Creating {name}...')
             resources = ec2.create_vpc(
                 CidrBlock=cidr,
-                # AmazonProvidedIpv6CidrBlock=True|False,
+                AmazonProvidedIpv6CidrBlock=bool(ipv6_cidr), #True|False,
                 # Ipv6Pool='string',
                 # Ipv6CidrBlock='string',
                 # Ipv4IpamPoolId='string',
@@ -100,13 +137,13 @@ def create_vpc_resources(name, cidr, ec2):
 
 
 # The function adds an additional cidr to the vpc
-def add_vpc_cidr_block(resource_id, cidr, ec2):
+def add_vpc_cidr_block(resource_id, cidr, ipv6_cidr, ec2):
     try:
         if cidr == None:
             pass
         else:
             resources = ec2.associate_vpc_cidr_block(
-                # AmazonProvidedIpv6CidrBlock=True|False,
+                AmazonProvidedIpv6CidrBlock=bool(ipv6_cidr), #True|False,
                 CidrBlock=cidr,
                 VpcId=resource_id
             )
