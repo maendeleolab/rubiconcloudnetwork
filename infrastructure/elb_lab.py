@@ -4,7 +4,6 @@ from resources.instance_template import lab_instance, get_instance_id
 from resources.iam_template import create_ssm_role, flowlogs_iam_functions
 from resources.elb_template import deploy_elb, register_elb_targets
 from resources.endpoint_template import dualstack_endpoint_service, vpce
-from vpcs import vpc1, vpc2, vpc3
 from resources.vpcs_api_calls import *
 from resources.subnets_api_calls import *
 from resources.security_groups_api_calls import *
@@ -31,74 +30,6 @@ from resources.visibility import *
 ec2=client_session('default', 'ec2', 'us-east-1')
 iam=client_session('default', 'iam', 'us-east-1')
 elbv2 = client_session('default', 'elbv2', 'us-east-1')
-
-
-# Create dualstack ipv6 subnets in vpc1 (consumer vpc)
-#vpc_ipv6_block = get_ipv6_cidr('boto3_vpc1', ec2)
-#deploy_ipv6_subnet(
-#	ec2,
-#	'boto3_vpc1_private_1a_ipv6', # resource name
-#	'us-east-1a', # az_id,
-#	vpc_ipv6_block+'1::/64', # ipv6 subnet
-#	False, # ipv6_only (True or False)
-#	get_vpc_id('boto3_vpc1', ec2), # vpc_id, 
-#	'10.10.10.0/24' # ipv4 cidr is must when using load balancers
-#	)
-#deploy_ipv6_subnet(
-#	ec2,
-#	'boto3_vpc1_private_1b_ipv6', # resource name
-#	'us-east-1b', # az_id, 
-#	vpc_ipv6_block+'2::/64', # ipv6 subnet
-#	False, # ipv6_only (True or False)
-#	get_vpc_id('boto3_vpc1', ec2), # vpc_id, 
-#	'10.10.11.0/24' # ipv4 cidr is must when using load balancers
-#	)
-#
-#
-## Create dualstack ipv6 subnets in vpc2 (provider vpc)
-## Note: As of 1/29/24. Dualstack elb requires your subnet
-## to have both ipv4 and ipv6 cidr assigned to the subnet
-#vpc_ipv6_block = get_ipv6_cidr('boto3_vpc2', ec2)
-#deploy_ipv6_subnet(
-#	ec2,
-#	'boto3_vpc2_private_1a_ipv6', # resource name
-#	'us-east-1a', # az_id,
-#	vpc_ipv6_block+'1::/64', # ipv6 subnet
-#	False, # ipv6_only (True or False)
-#	get_vpc_id('boto3_vpc2', ec2), # vpc_id, 
-#	'10.20.10.0/24' # ipv4 cidr is must when using load balancers
-#	)
-#deploy_ipv6_subnet(
-#	ec2,
-#	'boto3_vpc2_private_1b_ipv6', # resource name
-#	'us-east-1b', # az_id, 
-#	vpc_ipv6_block+'2::/64', # ipv6 subnet
-#	False, # ipv6_only (True or False)
-#	get_vpc_id('boto3_vpc2', ec2), # vpc_id, 
-#	'10.20.11.0/24' # ipv4 cidr is must when using load balancers
-#	)
-#
-#ec2_uswest2=client_session('default', 'ec2', 'us-west-2')
-## Create dualstack ipv6 subnets in vpc3 (consumer vpc)
-#vpc_ipv6_block = get_ipv6_cidr('boto3_vpc3', ec2_uswest2)
-#deploy_ipv6_subnet(
-#	ec2_uswest2,
-#	'boto3_vpc3_private_1a_ipv6', # resource name
-#	'us-west-2a', # az_id,
-#	vpc_ipv6_block+'1::/64', # ipv6 subnet
-#	False, # ipv6_only (True or False)
-#	get_vpc_id('boto3_vpc3', ec2_uswest2), # vpc_id,
-#	'10.30.10.0/24' # ipv4 cidr is must when using load balancers
-#)
-#deploy_ipv6_subnet(
-#	ec2_uswest2,
-#	'boto3_vpc3_private_1b_ipv6', # resource name
-#	'us-west-2b', # az_id, 
-#	vpc_ipv6_block+'2::/64', # ipv6 subnet
-#	False, # ipv6_only (True or False)
-#	get_vpc_id('boto3_vpc3', ec2_uswest2), # vpc_id, 
-#	'10.30.11.0/24', # ipv4 cidr is must when using load balancers
-#)
 
 
 # Deploy target group and elb in vpc2 (provider vpc)
