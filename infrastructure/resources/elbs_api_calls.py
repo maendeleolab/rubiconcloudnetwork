@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from time import sleep
 from resources.visibility import *
 
 
@@ -53,6 +54,32 @@ def create_targets(
 		logger.error(f'Error found in "create_targets": {err}...')
 
 
+def get_elb_arn(elb_name, elbv2):
+	try:
+		resources = elbv2.describe_load_balancers(
+				Names=[
+						elb_name,
+				]
+		)
+		print(f'Elb arn: {resources["LoadBalancers"][0]["LoadBalancerArn"]}...')
+		return resources["LoadBalancers"][0]["LoadBalancerArn"]
+	except Exception as err: 
+		logger.error(f'Error found in "get_elb_arn": {err}...')
+
+
+def get_elb_state(elb_name, elbv2):
+	try:
+		resources = elbv2.describe_load_balancers(
+				Names=[
+						elb_name,
+				]
+		)
+		print(f'Elb arn: {resources["LoadBalancers"][0]["State"]["Code"]}...')
+		return resources["LoadBalancers"][0]["State"]["Code"]
+	except Exception as err: 
+		logger.error(f'Error found in "get_elb_state": {err}...')
+
+
 def create_elb(
 					elb_name,
 					subnet1,
@@ -88,21 +115,18 @@ def create_elb(
 				#CustomerOwnedIpv4Pool='string'
 		)
 		print(resources)
+		while True:
+			if get_elb_state(elb_name, elbv2) == 'active':
+				get_elb_state(elb_name, elbv2)
+				break
+			elif get_elb_state(elb_name, elbv2) == 'failed':
+				get_elb_state(elb_name, elbv2)
+				break
+			else:
+				sleep(2)
+			get_elb_state(elb_name, elbv2)
 	except Exception as err:
 		logger.error(f'Error found in "create_elb": {err}...')
-
-
-def get_elb_arn(elb_name, elbv2):
-	try:
-		resources = elbv2.describe_load_balancers(
-				Names=[
-						elb_name,
-				]
-		)
-		print(f'Elb arn: {resources["LoadBalancers"][0]["LoadBalancerArn"]}...')
-		return resources["LoadBalancers"][0]["LoadBalancerArn"]
-	except Exception as err: 
-		logger.error(f'Error found in "get_elb_arn": {err}...')
 
 
 def get_targets_arn(target_name, elbv2):
