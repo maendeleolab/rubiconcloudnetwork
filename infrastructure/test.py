@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from vpcs import vpc3
+from resources.ipv6_route_to_egress_only_igw import ipv6_egress_only_out
 from resources.instance_template import lab_instance
 from resources.iam_template import create_ssm_role, flowlogs_iam_functions
 from resources.elb_template import deploy_elb
@@ -13,6 +14,7 @@ from resources.iam_api_calls import *
 from resources.endpoints_api_calls import *
 from resources.elbs_api_calls import *
 from resources.instances_api_calls import *
+from resources.internet_gateways_api_calls import *
 from resources.account_profiles import assume_profile_creds, \
     client_session
 
@@ -34,6 +36,4 @@ ec2 = client_session('default', 'ec2', 'us-east-1')
 iam = client_session('default', 'iam', 'us-east-1')
 elbv2 = client_session('default', 'elbv2', 'us-east-1')
 
-
-get_ipv6_block('boto3_vpc3', ec2=client_session('default','ec2', 'us-west-2'))
-
+delete_ipv6_eigw('boto3_vpc3', ec2=client_session('default','ec2', 'us-west-2'))

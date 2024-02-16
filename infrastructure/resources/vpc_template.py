@@ -21,16 +21,16 @@ from resources.account_profiles import assume_profile_creds, client_session
 
 # prefixlist entries
 privaterfc1918 = ['172.16.0.0/12', '192.168.0.0/16']
-rubiconcloud_elb = ['1.1.1.1/32', '2.2.2.2/32'] # just place holders
-allipv6 = [''] # just a place holder
+rubiconcloud_elb = ['1.1.1.1/32', '2.2.2.2/32']  # just place holders
+allipv6 = ['']  # just a place holder
 
 
 def deploy_vpc(
     vpc_name,
     pri_vpc_cidr,
     sec_cidr,
-		pri_ipv6_cidr,
-		sec_ipv6_cidr,
+    pri_ipv6_cidr,
+    sec_ipv6_cidr,
     az1,
     az2,
     az1_pri_cidr_public_subnet,
@@ -47,7 +47,7 @@ def deploy_vpc(
     create_vpc_resources(
         vpc_name,
         pri_vpc_cidr,
-				pri_ipv6_cidr, #Amazon provided ipv6 - set to True or False
+        pri_ipv6_cidr,  # Amazon provided ipv6 - set to True or False
         ec2
     )
     # Modify dns attributes
@@ -71,7 +71,7 @@ def deploy_vpc(
     add_vpc_cidr_block(
         get_vpc_id(vpc_name, ec2),
         sec_cidr,
-				sec_ipv6_cidr, #Amazon provided ipv6 - set to True or False
+        sec_ipv6_cidr,  # Amazon provided ipv6 - set to True or False
         ec2
     )
     # Create public subnet in AZ
@@ -225,23 +225,23 @@ def deploy_vpc(
         ec2
     )
     # Create subnet association to ipv6 route table
-    #create_subnet_association_to_route_table(
+    # create_subnet_association_to_route_table(
     #    get_vpc_route_table_id(vpc_name+'_protected_ipv6_rt_az1', ec2),
     #    get_subnet_id(vpc_name+'_private_1a_ipv6', ec2),
     #    ec2
-    #)
-    #create_subnet_association_to_route_table(
+    # )
+    # create_subnet_association_to_route_table(
     #    get_vpc_route_table_id(vpc_name+'_protected_ipv6_rt_az2', ec2),
     #    get_subnet_id(vpc_name+'_private_1b_ipv6', ec2),
     #    ec2
-    #)
+    # )
     # Create prefixlist
     deploy_prefixlist('privaterfc1918',  # prefixlist_name,
                       '10.0.0.0/8',  # first_cidr,
                       '50',  # max_entries,
                       # list(cidrs_list),
                       privaterfc1918,
-											'IPv4',
+                      'IPv4',
                       ec2
                       )
     deploy_prefixlist('allipv6',  # prefixlist_name,
@@ -249,7 +249,7 @@ def deploy_vpc(
                       '50',  # max_entries,
                       # list(cidrs_list),
                       allipv6,
-											'IPv6',
+                      'IPv6',
                       ec2
                       )
     deploy_prefixlist('rubiconcloud_elb',  # prefixlist_name,
@@ -257,7 +257,7 @@ def deploy_vpc(
                       '50',  # max_entries,
                       # list(cidrs_list),
                       rubiconcloud_elb,
-											'IPv4',
+                      'IPv4',
                       ec2
                       )
     # Create security groups
@@ -268,6 +268,8 @@ def deploy_vpc(
     create_igw(vpc_name, ec2)
     create_igw_attachment(vpc_name, get_vpc_id(vpc_name, ec2), ec2)
     get_igw_attachment_state(get_igw_id(vpc_name, ec2), ec2)
+    # Create egress only internet gateway
+    create_ipv6_eigw(vpc_name, get_vpc_id(vpc_name, ec2), ec2)
     # create route entries to the internet gateway in public route tables
     vpc_route_entry_to_gateway(
         get_vpc_route_table_id(vpc_name+'_public_rt_pri', ec2),

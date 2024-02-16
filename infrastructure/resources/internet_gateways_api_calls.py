@@ -123,6 +123,105 @@ def detach_igw(igw_name, vpc_id, ec2):
         logger.error(f'Error found in "detach_igw": {err}...')
 
 
+def get_ipv6_eigw_id(name, ec2):
+	try:
+		resources = ec2.describe_egress_only_internet_gateways(
+				#DryRun=True|False,
+				#MaxResults=123,
+				#NextToken='string',
+				Filters=[
+						{
+								'Name': 'tag:Name',
+								'Values': [
+										name,
+								]
+						},
+				]
+		)
+		print(f'{resources["EgressOnlyInternetGateways"][0]["EgressOnlyInternetGatewayId"]}...')
+		return resources["EgressOnlyInternetGateways"][0]["EgressOnlyInternetGatewayId"]
+	except Exception as err:
+		logger.error(f'Error found in "get_ipv6_eigw_id": {err}...')
+
+
+def get_ipv6_eigw_state(name, ec2):
+	try:
+		resources = ec2.describe_egress_only_internet_gateways(
+				#DryRun=True|False,
+				#MaxResults=123,
+				#NextToken='string',
+				Filters=[
+						{
+								'Name': 'tag:Name',
+								'Values': [
+										name,
+								]
+						},
+				]
+		)
+		print(f'{resources["EgressOnlyInternetGateways"][0]["Attachments"][0]["State"]}...')
+		return resources["EgressOnlyInternetGateways"][0]["Attachments"][0]["State"]
+	except Exception as err:
+		logger.error(f'Error found in "get_ipv6_eigw_id": {err}...')
+
+
+def get_ipv6_eigw_name(name, ec2):
+	try:
+		resources = ec2.describe_egress_only_internet_gateways(
+				#DryRun=True|False,
+				#MaxResults=123,
+				#NextToken='string',
+				Filters=[
+						{
+								'Name': 'tag:Name',
+								'Values': [
+										name,
+								]
+						},
+				]
+		)
+		for item in resources["EgressOnlyInternetGateways"][0]["Tags"]:
+			if item['key'] == 'Name':
+				print(f'Name: {item["value"]}...')
+				return item['value']
+	except Exception as err:
+		logger.error(f'Error found in "get_ipv6_eigw_id": {err}...')
+
+
+def create_ipv6_eigw(name, vpc_id, ec2):
+	try:
+		if get_ipv6_eigw_name(name, ec2) == name:
+			print(f'{name} already exists...')
+			pass
+		else:
+			resources = ec2.create_egress_only_internet_gateway(
+					#ClientToken='string',
+					#DryRun=True|False,
+					VpcId=vpc_id,
+					TagSpecifications=[
+							{
+									'ResourceType':'egress-only-internet-gateway',
+									'Tags': [
+											{
+													'Key': 'Name',
+													'Value': name
+											},
+									]
+							},
+					]
+			)
+			print(resources)
+			while True:
+				if get_ipv6_eigw_state(name, ec2) == 'attached':
+					get_ipv6_eigw_state(name, ec2)
+					break
+				else:
+					sleep(2)
+				get_ipv6_eigw_state(name, ec2)
+	except Exception as err:
+		logger.error(f'Error found in "create_ipv6_eigw": {err}...')
+
+
 # This function deletes the internet gateway
 def delete_igw(igw_id, ec2):
     try:
@@ -136,3 +235,15 @@ def delete_igw(igw_id, ec2):
             )
     except Exception as err:
         logger.error(f'Error found in "delete_igw": {err}...')
+
+
+def delete_ipv6_eigw(resource_id, ec2):
+	try:
+		resources = ec2.delete_egress_only_internet_gateway(
+				#DryRun=True|False,
+				EgressOnlyInternetGatewayId=get_ipv6_eigw_id(resource_id, ec2)
+		)
+	except Exception as err:
+		logger.error(f'Error found in "delete_ipv6_eigw": {err}...')
+
+

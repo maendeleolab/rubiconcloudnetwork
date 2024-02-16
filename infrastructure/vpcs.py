@@ -2,6 +2,7 @@
 
 # from resources import vpcs_api_calls
 from resources.vpc_template import deploy_vpc
+from resources.ipv6_route_to_egress_only_igw import ipv6_egress_only_out
 #from resources.vpc_peering_template import same_account_vpc_peering
 #from resources.nat_gateway_template import deploy_public_nat_gateways
 #from resources.elastic_ip_template import assign_public_ipv4
@@ -95,6 +96,18 @@ def vpc3(ec2):
 			'10.31.8.0/24',  # az1_sec_cidr_private_subnet,
 			'10.31.9.0/24',  # az2_sec_cidr_private_subnet,
 			ec2
+	)
+	ipv6_egress_only_out(
+		'boto3_vpc3_protected_ipv6_rt_az1', #route_table_id,
+		'::/0', #dst_ipv6cidr,
+		'boto3_vpc3', #eigw_name,
+		ec2
+	)
+	ipv6_egress_only_out(
+		'boto3_vpc3_protected_ipv6_rt_az2', #route_table_id,
+		'::/0', #dst_ipv6cidr,
+		'boto3_vpc3', #eigw_name,
+		ec2
 	)
 
 

@@ -140,6 +140,21 @@ def vpc_route_entry_to_gateway(route_table_id, dst_ipv4cidr, gateway_id, ec2):
         logger.error(f'Error found in "vpc_route_entry_to_gateway": {err}...')
 
 
+# This function creates a vpc route table entry for
+# internet gateway or virtual private gateway
+def vpc_route_entry_to_egress_only_igw(route_table_id, dst_ipv6cidr, eigw_id, ec2):
+    try:
+        resources = ec2.create_route(
+            DestinationIpv6CidrBlock=dst_ipv6cidr,
+            #DryRun=True|False,
+            EgressOnlyInternetGatewayId=eigw_id,
+            RouteTableId=route_table_id,
+        )
+        print(resources)
+    except Exception as err:
+        logger.error(f'Error found in "vpc_route_entry_to_egress_only_igw": {err}...')
+
+
 # This function creates a vpc route table entry using prefixlist
 def vpc_route_entry_for_prefixlist(route_table_id, dst_ipv4cidr, prefixlist_id, ec2):
     try:
