@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 # from resources import vpcs_api_calls
 #from resources.vpc_template import deploy_vpc
 #from resources.vpc_peering_template import same_account_vpc_peering
@@ -38,26 +39,51 @@ ec2=client_session('default', 'ec2', 'us-east-1')
 
 # Add instance connect endpoint
 # This is allow users to access instance from the browser in the console
-connect_endpoint(
-		'boto3_vpc1_connect_endpoint', #name,
-		'boto3_vpc1_private_1b_pri', #subnet,
-		'boto3_vpc1_private', #sg,
-		False, #preserve_client_ip,
-		ec2
-)
-connect_endpoint(
-		'boto3_vpc2_connect_endpoint', #name,
-		'boto3_vpc2_private_1a_pri', #subnet,
-		'boto3_vpc2_private', #sg,
-		False, #preserve_client_ip,
-		ec2
-)
-connect_endpoint(
-		'boto3_vpc3_connect_endpoint', #name,
-		'boto3_vpc3_private_1a_ipv6', #subnet,
-		'boto3_vpc3_private', #sg,
-		False, #preserve_client_ip,
-		ec2=client_session('default', 'ec2', 'us-west-2')
-)
+def vpc1_connect_endpoint():
+	connect_endpoint(
+			'boto3_vpc1_connect_endpoint', #name,
+			'boto3_vpc1_private_1b_pri', #subnet,
+			'boto3_vpc1_private', #sg,
+			False, #preserve_client_ip,
+			ec2
+	)
+def vpc2_connect_endpoint():
+	connect_endpoint(
+			'boto3_vpc2_connect_endpoint', #name,
+			'boto3_vpc2_private_1a_pri', #subnet,
+			'boto3_vpc2_private', #sg,
+			False, #preserve_client_ip,
+			ec2
+	)
+def vpc3_connect_endpoint():
+	connect_endpoint(
+			'boto3_vpc3_connect_endpoint', #name,
+			'boto3_vpc3_private_1a_ipv6', #subnet,
+			'boto3_vpc3_private', #sg,
+			False, #preserve_client_ip,
+			ec2=client_session('default', 'ec2', 'us-west-2')
+	)
 
+# sys.argv is the argument on the command line
+# e.g: ./connect_endpoints.py  <argument: vpc1 or vpc2 or etc...> 
+argument = sys.argv[1]
 
+# We are adding granularity to this script to deploy
+# an endpoint in a specific vpc or on all vpcs..
+if argument == None:
+	# create endpoint in all vpcs
+	vpc1_connect_endpoint()
+	vpc2_connect_endpoint()
+	vpc3_connect_endpoint()
+
+elif argument == 'vpc1':
+	# create endpoint in vpc1
+	vpc1_connect_endpoint()
+
+elif argument == 'vpc2':
+	# create endpoint in vpc2
+	vpc2_connect_endpoint()
+
+elif argument == 'vpc3':
+	# create endpoint in vpc3
+	vpc3_connect_endpoint()

@@ -87,7 +87,7 @@ def delete_all(
 		delete_prefixlist(get_prefixlist_id('allipv6', ec2), ec2)
 		detach_igw(vpc_name, get_vpc_id(vpc_name, ec2), ec2)
 		delete_igw(get_igw_id(vpc_name, ec2), ec2)
-		delete_ipv6_eigw((vpc_name, ec2)
+		delete_ipv6_eigw((vpc_name, ec2), ec2)
 		delete_subnet_resources(
 										 get_subnet_id(vpc_name+'_public_1a_pri', ec2), 
 										 ec2

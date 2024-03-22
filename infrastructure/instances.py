@@ -48,7 +48,7 @@ lab_instance(
 		'maendeleolabKey', #key_pair,
 		'boto3_vpc1_private', #security-group,
 		'boto3_vpc1_private_1b_ipv6', #subnet,
-		False, #public_ip,
+		True, #public_ip,
 		'resources/basic_script.sh', #user_data script
 		True, # assign ipv6 to interface
 		ec2
@@ -60,7 +60,7 @@ lab_instance(
 		'maendeleolabKey', #key_pair,
 		'boto3_vpc2_private', #security-group,
 		'boto3_vpc2_private_1a_ipv6', #subnet,
-		False, #public_ip,
+		True, #public_ip,
 		'resources/basic_script.sh', #user_data script
 		True, # assign ipv6 to interface
 		ec2
@@ -72,7 +72,7 @@ lab_instance(
   'maendeleolabKey', #key_pair,
   'boto3_vpc3_private', #security-group,
   'boto3_vpc3_private_1a_ipv6', #subnet,
-  False, #public_ip,
+  True, #public_ip,
   'resources/basic_script.sh', #user_data script
 	True, # assign ipv6 to interface
   ec2=client_session('default', 'ec2', 'us-west-2')
