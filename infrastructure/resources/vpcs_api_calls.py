@@ -3,7 +3,7 @@
 import boto3
 import sys
 from resources.visibility import *
-
+from time import sleep
 
 # client_session(profile_name, service, region)
 # ec2 = client_session('default', 'ec2', 'us-east-1')
@@ -13,6 +13,96 @@ from resources.visibility import *
 
 # This is a function to describe resources tag names
 # The main objective is to access the vlaue of the tag key "Name"
+
+
+def get_virtual_private_gateway_state(name, ec2):
+	try:
+		resources = ec2.describe_vpn_gateways(
+				Filters=[
+						{
+								'Name': 'tag:Name',
+								'Values': [
+										name,
+								]
+						},
+				],
+				#DryRun=True|False
+		)
+		print(f'virtual_private_gateway_state: {resources["VpnGateways"][0]["State"]}')
+		return resources["VpnGateways"][0]["State"]
+	except Exception as err:
+		logging.error(f'Error found in "get_virtual_private_gateway_state": {err}...')
+
+
+def get_virtual_private_gateway_id(name, ec2):
+	try:
+		resources = ec2.describe_vpn_gateways(
+				Filters=[
+						{
+								'Name': 'tag:Name',
+								'Values': [
+										name,
+								]
+						},
+				],
+				#DryRun=True|False
+		)
+		print(f'virtual_private_gateway_id: {resources["VpnGateways"][0]["VpnGatewayId"]}')
+		return resources["VpnGateways"][0]["VpnGatewayId"]
+	except Exception as err:
+		logging.error(f'Error found in "get_virtual_private_gateway_id": {err}...')
+
+
+def virtual_private_gateway(name, aws_bgp_asn, ec2):
+	try:
+		resources = ec2.create_vpn_gateway(
+				#AvailabilityZone='string',
+				Type='ipsec.1',
+				TagSpecifications=[
+						{
+								'ResourceType':'vpn-gateway',
+								'Tags': [
+										{
+												'Key': 'Name',
+												'Value': name
+										},
+								]
+						},
+				],
+				AmazonSideAsn=aws_bgp_asn,
+				#DryRun=True|False
+		)
+		print(f'Vpn Gateway Id: {resources["VpnGateway"]["VpnGatewayId"]}')
+		while True:
+			state = resources["VpnGateway"]["State"]
+			if state == "available":
+				break
+			else:
+				sleep(5)
+				print(state)
+			state
+	except Exception as err:
+		logging.error(f'Error found in "virtual_private_gateway": {err}...')
+
+
+def attach_virtual_private_gateway(vpc_id, vpn_gateway_id, ec2):
+	try:
+		resources = ec2.attach_vpn_gateway(
+				VpcId=vpc_id,
+				VpnGatewayId=vpn_gateway_id,
+				#DryRun=True|False
+		)
+		while True:
+			state = resources["VpcAttachment"]["State"]
+			if state == "attached":
+				print(f'Virtual Private Gateway {state}...')
+				break
+			else:
+				sleep(5)
+				print(state)
+			state
+	except Exception as err:
+		logging.error(f'Error found in attach_"virtual_private_gateway": {err}...')
 
 
 def describe_vpc_resources(name, ec2):
