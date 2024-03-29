@@ -15,6 +15,7 @@ from resources.elbs_api_calls import *
 from resources.instances_api_calls import *
 from resources.iam_api_calls import *
 from resources.monitoring_api_calls import *
+from resources.vpn_api_calls import *
 from resources.account_profiles import assume_profile_creds, client_session
 
 
@@ -32,6 +33,11 @@ def delete_all(
     cw_logs=client_session('default', 'logs', 'us-east-1'),
     elbv2=client_session('default', 'elbv2', 'us-east-1')
 		):
+		detach_virtual_private_gateway(
+			get_vpc_id(vpc_name, ec2),
+			get_virtual_private_gateway_id(vpc_name,ec2), 
+			ec2
+			)
 		delete_vpce('rubiconcloud_vpce', ec2)
 		delete_vpc_endpoint_service('rubiconcloud_service', ec2)
 		delete_elb('vpc2-rubiconcloud-elb', elbv2)
@@ -163,6 +169,7 @@ def delete_all(
     )
 		delete_flowlogs(get_flowlogs_id(vpc_name, ec2), ec2)
 		delete_log_bucket(vpc_name, cw_logs)
+		delete_virtual_private_gateways(ec2)
 		delete_vpc_resources(get_vpc_id(vpc_name, ec2), ec2)
 
 

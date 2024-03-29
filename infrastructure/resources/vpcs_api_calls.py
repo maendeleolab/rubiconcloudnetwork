@@ -55,32 +55,38 @@ def get_virtual_private_gateway_id(name, ec2):
 
 def virtual_private_gateway(name, aws_bgp_asn, ec2):
 	try:
-		resources = ec2.create_vpn_gateway(
-				#AvailabilityZone='string',
-				Type='ipsec.1',
-				TagSpecifications=[
-						{
-								'ResourceType':'vpn-gateway',
-								'Tags': [
-										{
-												'Key': 'Name',
-												'Value': name
-										},
-								]
-						},
-				],
-				AmazonSideAsn=aws_bgp_asn,
-				#DryRun=True|False
-		)
-		print(f'Vpn Gateway Id: {resources["VpnGateway"]["VpnGatewayId"]}')
-		while True:
-			state = resources["VpnGateway"]["State"]
-			if state == "available":
-				break
+		response = ec2.describe_vpn_gateways()
+		for item in response['VpnGateways']:
+			if item['Tags'][0]['Value'] == name:
+				print(f'{name} already exists...')
+				pass
 			else:
-				sleep(5)
-				print(state)
-			state
+				resources = ec2.create_vpn_gateway(
+						#AvailabilityZone='string',
+						Type='ipsec.1',
+						TagSpecifications=[
+								{
+										'ResourceType':'vpn-gateway',
+										'Tags': [
+												{
+														'Key': 'Name',
+														'Value': name
+												},
+										]
+								},
+						],
+						AmazonSideAsn=aws_bgp_asn,
+						#DryRun=True|False
+				)
+				print(f'Vpn Gateway Id: {resources["VpnGateway"]["VpnGatewayId"]}')
+				while True:
+					state = resources["VpnGateway"]["State"]
+					if state == "available":
+						break
+					else:
+						sleep(5)
+						print(state)
+					state
 	except Exception as err:
 		logging.error(f'Error found in "virtual_private_gateway": {err}...')
 
@@ -299,3 +305,29 @@ def delete_vpc_resources(resource, ec2):
     except Exception as err:
         logger.error(f'Error found in "delete_vpc_resources": {err}...')
 
+def delete_virtual_private_gateways(ec2):
+	try:
+		response = ec2.describe_vpn_gateways()
+		for item in response['VpnGateways']:
+			for vpg_status in item['VpcAttachments']:
+				if vpg_status['State'] == 'detached':
+					resources = ec2.delete_vpn_gateway(
+							VpnGatewayId=item['VpnGatewayId'],
+							#DryRun=True|False
+					)
+				else:
+					print(f'{item['VpnGatewayId']} is not detached...')
+					quit()
+			print(f'Delete Virtual Private Gateway Id: {item["VpnGatewayId"]}')
+	except Exception as err:
+		logger.error(f'Error found in "delete_virtual_private_gateways": {err}...')
+
+def detach_virtual_private_gateway(vpc_id, vpn_gateway_id, ec2):
+	try:
+		resources = ec2.detach_vpn_gateway(
+				VpcId=vpc_id,
+				VpnGatewayId=vpn_gateway_id,
+				#DryRun=True|False
+		)
+	except Exception as err:
+		logger.error(f'Error found in "detach_virtual_private_gateway": {err}')

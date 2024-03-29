@@ -3,7 +3,14 @@ import boto3
 import sys
 from resources.visibility import *
 
-def create_ipsec_vpn(
+
+def get_vpn_id(ec2):
+
+
+def get_vpn_state(ec2):
+
+
+def create_vgw_ipsec_vpn(
 	customer_gateway,
 	vpn_gateway,
 	transit_gateway,
@@ -20,8 +27,8 @@ def create_ipsec_vpn(
 		resources = ec2.create_vpn_connection(
 				CustomerGatewayId=customer_gateway,
 				Type='ipsec.1',
-				VpnGatewayId=vpn_gateway,
 				TransitGatewayId=transit_gateway,
+				VpnGatewayId=vpn_gateway,
 				#DryRun=True|False,
 				Options={
 						#'EnableAcceleration': True|False,
@@ -107,3 +114,4 @@ def create_ipsec_vpn(
 		print(f'Vpn connection id: {resources["VpnConnection"]["VpnConnectionId"]}')
 	except Exception as err:
 		logging.error(f'Found error in "create_ipsec_vpn()": {err}...')
+
